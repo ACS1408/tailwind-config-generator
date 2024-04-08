@@ -175,6 +175,7 @@ const AddColorModal = ({
                                       ? variants[i]?.checked
                                       : false
                                   }
+                                  required
                                   onChange={(e) => handleToggleVariant(e, i)}
                                 />
                               </div>
@@ -193,6 +194,7 @@ const AddColorModal = ({
                                     onChange={(e) =>
                                       handleEditVariant(e, i, "color")
                                     }
+                                    required
                                     disabled={
                                       variants[i]?.checked !== undefined
                                         ? !variants[i]?.checked
@@ -206,6 +208,7 @@ const AddColorModal = ({
                                     onChange={(e) =>
                                       handleEditVariant(e, i, "variant")
                                     }
+                                    required
                                     disabled={
                                       variants[i]?.checked !== undefined
                                         ? !variants[i]?.checked

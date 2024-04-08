@@ -3,9 +3,11 @@ import ColorBlock from "@/components/ColorBlock";
 import Container from "@/components/utils/Container";
 import React, { useState } from "react";
 import AddColorModal from "@/components/AddColorModal";
+import { useRecoilState } from "recoil";
+import { colorState } from "@/atoms/colorState";
 
-const ColorWidget = ({ variablePrefix }) => {
-  const [colorData, setColorData] = useState(colors);
+const ColorWidget = () => {
+  const [colorData, setColorData] = useRecoilState(colorState);
   const [isOpen, setIsOpen] = useState(false);
 
   const closeModal = () => {
@@ -29,7 +31,6 @@ const ColorWidget = ({ variablePrefix }) => {
                     hex={color?.hex}
                     name={color?.name}
                     variants={color?.variants}
-                    variablePrefix={variablePrefix}
                     colorData={colorData}
                     setColorData={setColorData}
                   />
@@ -55,6 +56,46 @@ const ColorWidget = ({ variablePrefix }) => {
               </div>
             </div>
           </div>
+          <div className="mt-8">
+            <span className="ps-16 italic">tailwind.config.js</span>
+            <div className="whitespace-pre-wrap">
+              {`
+              /** @type {import('tailwindcss').Config} */
+              
+              const colors = {
+                ${colorData
+                  .map((item) => {
+                    if (item.variants) {
+                      return `${item.name}: {
+                        DEFAULT: "var(--${item.name})",
+                        ${item?.variants
+                          ?.map((variant) => {
+                            return `${variant.variant}: "var(--${item.name}-${variant.variant})",`;
+                          })
+                          .join("\n\t\t\t\t\t\t")}
+                }`;
+                    } else {
+                      return `${item.name}: "var(--${item.name})",`;
+                    }
+                  })
+                  .join("\n\t\t\t\t")}
+              };
+
+              module.exports = {
+                content: [
+                  "./widgets/**/*.{js,ts,jsx,tsx,mdx}",
+                  "./components/**/*.{js,ts,jsx,tsx,mdx}",
+                  "./app/**/*.{js,ts,jsx,tsx,mdx}",
+                ],
+                theme: {
+                  colors,
+                  extend: {},
+                },
+                plugins: [],
+              };
+              `}
+            </div>
+          </div>
         </Container>
       </section>
       <AddColorModal
@@ -70,39 +111,3 @@ const ColorWidget = ({ variablePrefix }) => {
 };
 
 export default ColorWidget;
-
-const colors = [
-  {
-    name: "primary",
-    hex: "#FF0000",
-  },
-  {
-    name: "secondary",
-    hex: "#00F0FF",
-  },
-  {
-    name: "black",
-    hex: "#000000",
-    variants: [
-      {
-        variant: "900",
-        color: "#313131",
-        checked: true,
-      },
-      {
-        variant: "800",
-        color: "#616161",
-        checked: true,
-      },
-      {
-        variant: "700",
-        color: "#919191",
-        checked: true,
-      },
-    ],
-  },
-  {
-    name: "dark",
-    hex: "#263251",
-  },
-];

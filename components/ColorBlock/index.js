@@ -8,7 +8,6 @@ const ColorBlock = ({
   hex,
   variants,
   type,
-  variablePrefix,
   colorData,
   setColorData,
   ...props
@@ -32,6 +31,10 @@ const ColorBlock = ({
     setIsEditModalOpen(true);
   };
 
+  const handleDeleteColor = () => {
+    setColorData(colorData.filter((item) => item.name !== name));
+  };
+
   return (
     <>
       <div className={`color-block ${className}`} {...props}>
@@ -42,7 +45,7 @@ const ColorBlock = ({
         <div className="color-name mt-3 px-2 h-7 flex items-center justify-center text-center bg-[#E3E3E3] text-sm font-medium text-black">
           {name}
         </div>
-        <div className="flex gap-2">
+        <div className="grid gap-2 grid-cols-2">
           <button
             className="text-center text-sm w-full mt-4 bg-black text-white px-2 py-1"
             onClick={openViewModal}
@@ -55,6 +58,12 @@ const ColorBlock = ({
           >
             Edit
           </button>
+          <button
+            className="col-span-2 text-center text-sm w-full bg-black text-white px-2 py-1"
+            onClick={handleDeleteColor}
+          >
+            Delete
+          </button>
         </div>
       </div>
       <ViewColorModal
@@ -63,7 +72,6 @@ const ColorBlock = ({
         name={name}
         hex={hex}
         variants={variants}
-        variablePrefix={variablePrefix}
       />
       <AddColorModal
         isOpen={isEditModalOpen}

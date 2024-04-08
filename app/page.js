@@ -1,6 +1,11 @@
+"use client";
 import ColorWidget from "@/widgets/ColorWidget";
+import { RecoilRoot } from "recoil";
 
 export default function Home() {
-  const variablePrefix = "wc";
-  return <ColorWidget variablePrefix={variablePrefix} />;
+  return (
+    <RecoilRoot>
+      <ColorWidget />
+    </RecoilRoot>
+  );
 }

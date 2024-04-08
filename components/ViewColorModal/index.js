@@ -1,14 +1,11 @@
+import { variablePrefixState } from "@/atoms/variablePrefixState";
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
+import { useRecoilState } from "recoil";
 
-const ViewColorModal = ({
-  isOpen,
-  closeModal,
-  name,
-  hex,
-  variants,
-  variablePrefix,
-}) => {
+const ViewColorModal = ({ isOpen, closeModal, name, hex, variants }) => {
+  const [variablePrefix, setVariablePrefix] =
+    useRecoilState(variablePrefixState);
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -42,20 +39,23 @@ const ViewColorModal = ({
                 >
                   Main Color
                 </Dialog.Title>
-                <div className="flex gap-4 mb-5">
+                <div className="flex gap-4">
                   <div
                     className="w-32 h-20 rounded-md"
                     style={{ backgroundColor: hex }}
                   />
                   <div className="">
                     <div className="text-base">
-                      <b>name:</b> {name}
+                      <b>name: </b> {name}
                     </div>
                     <div className="text-base">
-                      <b>hex:</b> {hex}
+                      <b>hex: </b> {hex}
                     </div>
                     <div className="text-base">
-                      <b>variable:</b> --{variablePrefix}-{name}
+                      <b>variable: </b>
+                      <span className="whitespace-nowrap">
+                        --{variablePrefix}-{name}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -63,7 +63,7 @@ const ViewColorModal = ({
                   <>
                     <Dialog.Title
                       as="h3"
-                      className="text-xl text-left mb-5 font-medium leading-6 text-gray-900"
+                      className="text-xl text-left mb-5 mt-5 font-medium leading-6 text-gray-900"
                     >
                       Variants
                     </Dialog.Title>
