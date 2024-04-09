@@ -3,7 +3,10 @@
 const colors = {
   primary: "var(--primary)",
   secondary: "var(--secondary)",
-  black: "var(--black)",
+  black: {
+    DEFAULT: "var(--black)",
+    900: "var(--black-900)"
+  },
   white: "var(--white)",
   transparent: "var(--transparent)",
 };

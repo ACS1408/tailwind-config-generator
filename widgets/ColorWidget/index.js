@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import AddColorModal from "@/components/AddColorModal";
 import { useRecoilState } from "recoil";
 import { colorState } from "@/atoms/colorState";
+import { CopyBlock, dracula } from "react-code-blocks";
 
 const ColorWidget = () => {
   const [colorData, setColorData] = useRecoilState(colorState);
@@ -17,6 +18,60 @@ const ColorWidget = () => {
   const openModal = () => {
     setIsOpen(true);
   };
+
+  let tailwindConfig = `/** @type {import('tailwindcss').Config} */
+
+const colors = {
+  ${colorData
+    .map((item) => {
+      if (item.variants) {
+        return `${item.name}: {
+    DEFAULT: "var(--${item.name})", \n    ${item?.variants
+        ?.map((variant) => {
+          return `${variant.variant}: "var(--${item.name}-${variant.variant})",\n\t`;
+        })
+        .join("  ")}}\n`;
+    } else {
+      return `${item.name}: "var(--${item.name})",\n`;
+    }
+    })
+    .join("  ")}};
+
+module.exports = {
+  content: [
+    "./widgets/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    colors,
+    extend: {},
+  },
+  plugins: [],
+};`;
+
+  let mainCSS = `@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  ${colorData
+    .map((item) => {
+      if (item.variants) {
+        return `--${
+          item.name
+        }: ${item?.hex?.toUpperCase()}; \n  ${item?.variants
+          ?.map((variant) => {
+            return `--${item.name}-${
+              variant.variant
+            }: ${variant?.color?.toUpperCase()};\n`;
+          })
+          .join("  ")}`;
+      } else {
+        return `--${item.name}: ${item?.hex?.toUpperCase()};\n`;
+      }
+    })
+    .join("  ")}}`;
 
   return (
     <>
@@ -57,43 +112,29 @@ const ColorWidget = () => {
             </div>
           </div>
           <div className="mt-8">
-            <span className="ps-16 italic">tailwind.config.js</span>
-            <div className="whitespace-pre-wrap">
-              {`
-              /** @type {import('tailwindcss').Config} */
-              
-              const colors = {
-                ${colorData
-                  .map((item) => {
-                    if (item.variants) {
-                      return `${item.name}: {
-                        DEFAULT: "var(--${item.name})",
-                        ${item?.variants
-                          ?.map((variant) => {
-                            return `${variant.variant}: "var(--${item.name}-${variant.variant})",`;
-                          })
-                          .join("\n\t\t\t\t\t\t")}
-                }`;
-                    } else {
-                      return `${item.name}: "var(--${item.name})",`;
-                    }
-                  })
-                  .join("\n\t\t\t\t")}
-              };
-
-              module.exports = {
-                content: [
-                  "./widgets/**/*.{js,ts,jsx,tsx,mdx}",
-                  "./components/**/*.{js,ts,jsx,tsx,mdx}",
-                  "./app/**/*.{js,ts,jsx,tsx,mdx}",
-                ],
-                theme: {
-                  colors,
-                  extend: {},
-                },
-                plugins: [],
-              };
-              `}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="">
+                <span className="ps-4 py-2 inline-block italic">
+                  tailwind.config.js
+                </span>
+                <CopyBlock
+                  text={tailwindConfig}
+                  language={"javascript"}
+                  theme={dracula}
+                  showLineNumbers
+                  wrapLines
+                />
+              </div>
+              <div className="">
+                <span className="ps-4 py-2 inline-block italic">main.scss</span>
+                <CopyBlock
+                  text={mainCSS}
+                  language={"scss"}
+                  theme={dracula}
+                  showLineNumbers
+                  wrapLines
+                />
+              </div>
             </div>
           </div>
         </Container>
