@@ -1,11 +1,17 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
-import style from "./AddColorModal.module.scss";
-import { useFormik } from "formik";
-import { useRecoilState } from "recoil";
+import style from "./EditColorModal.module.scss";
 import { colorState } from "@/atoms/colorState";
+import { useRecoilState } from "recoil";
+import { useFormik } from "formik";
 
-const AddColorModal = ({ isOpen, closeModal }) => {
+const EditColorModal = ({
+  isOpen,
+  closeModal,
+  defaultColor,
+  defaultName,
+  variants,
+}) => {
   const [colorData, setColorData] = useRecoilState(colorState);
 
   const handleRemoveField = (key) => {
@@ -25,9 +31,9 @@ const AddColorModal = ({ isOpen, closeModal }) => {
 
   const formik = useFormik({
     initialValues: {
-      colorHex: "",
-      colorName: "",
-      fields: [],
+      colorHex: defaultColor ?? "",
+      colorName: defaultName ?? "",
+      fields: variants ?? [],
     },
     onSubmit: (values) => {
       const newData = {
@@ -35,7 +41,9 @@ const AddColorModal = ({ isOpen, closeModal }) => {
         hex: values.colorHex,
         variants: values.fields,
       };
-      setColorData((prev) => [...prev, newData]);
+      setColorData((prev) =>
+        prev.map((item) => (item.name === values.colorName ? newData : item))
+      );
       closeModal();
     },
   });
@@ -71,7 +79,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                   as="h3"
                   className="text-2xl text-center mb-5 font-medium leading-6 text-gray-900"
                 >
-                  Add Color
+                  Edit Color
                 </Dialog.Title>
 
                 <form action="" onSubmit={formik.handleSubmit}>
@@ -171,7 +179,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                         className="mt-4 w-full h-9 bg-[#21DF4B] text-white
                         "
                       >
-                        Add color
+                        Update color
                       </button>
                     </div>
                   </div>
@@ -185,4 +193,4 @@ const AddColorModal = ({ isOpen, closeModal }) => {
   );
 };
 
-export default AddColorModal;
+export default EditColorModal;

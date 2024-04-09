@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ViewColorModal from "../ViewColorModal";
 import AddColorModal from "../AddColorModal";
+import EditColorModal from "../EditColorModal";
 
 const ColorBlock = ({
   className,
@@ -73,13 +74,13 @@ const ColorBlock = ({
         hex={hex}
         variants={variants}
       />
-      <AddColorModal
+      <EditColorModal
         isOpen={isEditModalOpen}
         closeModal={closeEditModal}
         setColorData={setColorData}
         defaultColor={hex}
         defaultName={name}
-        colorData={colorData}
+        variants={variants}
       />
     </>
   );

@@ -18,17 +18,14 @@ export const colorState = atom({
         {
           variant: "900",
           color: "#313131",
-          checked: true,
         },
         {
           variant: "800",
           color: "#616161",
-          checked: true,
         },
         {
           variant: "700",
           color: "#919191",
-          checked: true,
         },
       ],
     },
