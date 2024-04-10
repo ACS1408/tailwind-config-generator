@@ -6,9 +6,12 @@ import AddColorModal from "@/components/AddColorModal";
 import { useRecoilState } from "recoil";
 import { colorState } from "@/atoms/colorState";
 import { CopyBlock, dracula } from "react-code-blocks";
+import { variablePrefixState } from "@/atoms/variablePrefixState";
 
 const ColorWidget = () => {
   const [colorData, setColorData] = useRecoilState(colorState);
+  const [variablePrefix, setVariablePrefix] =
+    useRecoilState(variablePrefixState);
   const [isOpen, setIsOpen] = useState(false);
 
   const closeModal = () => {
@@ -26,14 +29,14 @@ const colors = {
     .map((item) => {
       if (item.variants) {
         return `${item.name}: {
-    DEFAULT: "var(--${item.name})", \n    ${item?.variants
-        ?.map((variant) => {
-          return `${variant.variant}: "var(--${item.name}-${variant.variant})",\n\t`;
-        })
-        .join("  ")}}\n`;
-    } else {
-      return `${item.name}: "var(--${item.name})",\n`;
-    }
+    DEFAULT: "var(--${variablePrefix}-${item.name})", \n    ${item?.variants
+          ?.map((variant) => {
+            return `${variant.variant}: "var(--${variablePrefix}-${item.name}-${variant.variant})",\n\t`;
+          })
+          .join("  ")}}\n`;
+      } else {
+        return `${item.name}: "var(--${variablePrefix}-${item.name})",\n`;
+      }
     })
     .join("  ")}};
 
@@ -58,17 +61,19 @@ module.exports = {
   ${colorData
     .map((item) => {
       if (item.variants) {
-        return `--${
+        return `--${variablePrefix}-${
           item.name
         }: ${item?.hex?.toUpperCase()}; \n  ${item?.variants
           ?.map((variant) => {
-            return `--${item.name}-${
+            return `--${variablePrefix}-${item.name}-${
               variant.variant
             }: ${variant?.color?.toUpperCase()};\n`;
           })
           .join("  ")}`;
       } else {
-        return `--${item.name}: ${item?.hex?.toUpperCase()};\n`;
+        return `--${variablePrefix}-${
+          item.name
+        }: ${item?.hex?.toUpperCase()};\n`;
       }
     })
     .join("  ")}}`;
