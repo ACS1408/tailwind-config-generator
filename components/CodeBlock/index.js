@@ -36,7 +36,7 @@ const colors = {
 const spacing = {
   ${spacingData
     .map((item) => {
-      return `${item?.name}: "var(--${variablePrefix}-text-${item?.name})",\n`;
+      return `${item?.name}: "var(--${variablePrefix}-spacing-${item?.name})",\n`;
     })
     .join("  ")}};
 
@@ -82,7 +82,7 @@ module.exports = {
     .join("  ")}
   ${spacingData
     .map((item) => {
-      return `--${variablePrefix}-text-${item.name}: ${pxToRem(
+      return `--${variablePrefix}-spacing-${item.name}: ${pxToRem(
         item?.name
       )}rem;\n`;
     })
