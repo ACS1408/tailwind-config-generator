@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import ViewColorModal from "../ViewColorModal";
-import AddColorModal from "../AddColorModal";
 import EditColorModal from "../EditColorModal";
 
 const ColorBlock = ({

@@ -29,7 +29,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
       colorName: "",
       fields: [],
     },
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       const newData = {
         name: values.colorName,
         hex: values.colorHex,
@@ -37,6 +37,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
       };
       setColorData((prev) => [...prev, newData]);
       closeModal();
+      resetForm();
     },
   });
 
@@ -134,6 +135,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                                     className="w-full"
                                     required
                                     name={`fields[${i}].variant`}
+                                    placeholder="variant-name"
                                     onChange={(e) =>
                                       formik.setFieldValue(
                                         `fields[${i}].variant`,

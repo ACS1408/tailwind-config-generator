@@ -142,6 +142,7 @@ const EditColorModal = ({
                                     className="w-full"
                                     required
                                     name={`fields[${i}].variant`}
+                                    placeholder="variant-name"
                                     onChange={(e) =>
                                       formik.setFieldValue(
                                         `fields[${i}].variant`,

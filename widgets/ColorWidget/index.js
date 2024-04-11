@@ -5,13 +5,13 @@ import React, { useState } from "react";
 import AddColorModal from "@/components/AddColorModal";
 import { useRecoilState } from "recoil";
 import { colorState } from "@/atoms/colorState";
-import { CopyBlock, dracula } from "react-code-blocks";
-import { variablePrefixState } from "@/atoms/variablePrefixState";
+import CodeBlock from "@/components/CodeBlock";
+import { Switch } from "@headlessui/react";
+import { extendState } from "@/atoms/extendState";
 
 const ColorWidget = () => {
   const [colorData, setColorData] = useRecoilState(colorState);
-  const [variablePrefix, setVariablePrefix] =
-    useRecoilState(variablePrefixState);
+  const [isExtend, setIsExtend] = useRecoilState(extendState);
   const [isOpen, setIsOpen] = useState(false);
 
   const closeModal = () => {
@@ -22,67 +22,35 @@ const ColorWidget = () => {
     setIsOpen(true);
   };
 
-  let tailwindConfig = `/** @type {import('tailwindcss').Config} */
-
-const colors = {
-  ${colorData
-    .map((item) => {
-      if (item.variants) {
-        return `${item.name}: {
-    DEFAULT: "var(--${variablePrefix}-${item.name})", \n    ${item?.variants
-          ?.map((variant) => {
-            return `${variant.variant}: "var(--${variablePrefix}-${item.name}-${variant.variant})",\n\t`;
-          })
-          .join("  ")}}\n`;
-      } else {
-        return `${item.name}: "var(--${variablePrefix}-${item.name})",\n`;
-      }
-    })
-    .join("  ")}};
-
-module.exports = {
-  content: [
-    "./widgets/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
-  theme: {
-    colors,
-    extend: {},
-  },
-  plugins: [],
-};`;
-
-  let mainCSS = `@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  ${colorData
-    .map((item) => {
-      if (item.variants) {
-        return `--${variablePrefix}-${
-          item.name
-        }: ${item?.hex?.toUpperCase()}; \n  ${item?.variants
-          ?.map((variant) => {
-            return `--${variablePrefix}-${item.name}-${
-              variant.variant
-            }: ${variant?.color?.toUpperCase()};\n`;
-          })
-          .join("  ")}`;
-      } else {
-        return `--${variablePrefix}-${
-          item.name
-        }: ${item?.hex?.toUpperCase()};\n`;
-      }
-    })
-    .join("  ")}}`;
-
   return (
     <>
-      <section className="color-widget py-16 ">
+      <section className="color-widget py-8">
         <Container>
-          <h2 className="title text-3xl font-semibold mb-6">Colors</h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="title text-3xl font-semibold">Colors</h2>
+            <div className="ms-5 flex items-center gap-3">
+              <span className="text-lg">
+                {isExtend.colors ? "extend" : "theme"}
+              </span>
+              <Switch
+                checked={isExtend.colors}
+                onChange={() =>
+                  setIsExtend((prev) => ({ ...prev, colors: !prev.colors }))
+                }
+                className={`${isExtend.colors ? "bg-[#21DF4B]" : "bg-[#6d7c71]"}
+              relative inline-flex h-[30px] w-[56px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
+              >
+                <span className="sr-only">Use setting</span>
+                <span
+                  aria-hidden="true"
+                  className={`${
+                    isExtend.colors ? "translate-x-[26px]" : "translate-x-0"
+                  }
+                pointer-events-none inline-block h-[26px] w-[26px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                />
+              </Switch>
+            </div>
+          </div>
           <div className="grid gap-7 grid-cols-10">
             {colorData?.map((color, i) => {
               return (
@@ -99,7 +67,7 @@ module.exports = {
             })}
             <div>
               <div
-                className="w-full h-full bg-[#21DF4B] rounded-lg grid place-items-center"
+                className="w-full h-full bg-[#21DF4B] rounded-lg grid place-items-center py-14"
                 onClick={openModal}
               >
                 <svg
@@ -117,30 +85,7 @@ module.exports = {
             </div>
           </div>
           <div className="mt-8">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="">
-                <span className="ps-4 py-2 inline-block italic">
-                  tailwind.config.js
-                </span>
-                <CopyBlock
-                  text={tailwindConfig}
-                  language={"javascript"}
-                  theme={dracula}
-                  showLineNumbers
-                  wrapLines
-                />
-              </div>
-              <div className="">
-                <span className="ps-4 py-2 inline-block italic">main.scss</span>
-                <CopyBlock
-                  text={mainCSS}
-                  language={"scss"}
-                  theme={dracula}
-                  showLineNumbers
-                  wrapLines
-                />
-              </div>
-            </div>
+            <CodeBlock />
           </div>
         </Container>
       </section>
