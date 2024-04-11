@@ -5,13 +5,20 @@ const colors = {
   secondary: "var(--secondary)",
   black: {
     DEFAULT: "var(--black)",
-    900: "var(--black-900)"
+    900: "var(--black-900)",
   },
   white: "var(--white)",
   transparent: "var(--transparent)",
 };
 
-const spacing = {};
+const spacing = {
+  // 1: "8px",
+  // 2: "12px",
+  // 3: "16px",
+  // 4: "24px",
+  // 5: "32px",
+  // 6: "48px",
+};
 
 const fontSize = {
   base: "1rem",

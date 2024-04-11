@@ -25,12 +25,14 @@ const AddColorModal = ({ isOpen, closeModal }) => {
 
   const formik = useFormik({
     initialValues: {
+      id: "",
       colorHex: "",
       colorName: "",
       fields: [],
     },
     onSubmit: (values, { resetForm }) => {
       const newData = {
+        id: Math.floor(Math.random() * 9996 + 4),
         name: values.colorName,
         hex: values.colorHex,
         variants: values.fields,

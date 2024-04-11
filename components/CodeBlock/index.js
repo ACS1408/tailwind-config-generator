@@ -4,9 +4,13 @@ import { variablePrefixState } from "@/atoms/variablePrefixState";
 import React from "react";
 import { CopyBlock, dracula } from "react-code-blocks";
 import { useRecoilState } from "recoil";
+import Container from "../utils/Container";
+import { spacingState } from "@/atoms/spacingState";
+import { pxToRem } from "../utils/pxToRem";
 
 const CodeBlock = () => {
   const [colorData, setColorData] = useRecoilState(colorState);
+  const [spacingData, setSpacingData] = useRecoilState(spacingState);
   const [variablePrefix, setVariablePrefix] =
     useRecoilState(variablePrefixState);
   const [isExtend, setIsExtend] = useRecoilState(extendState);
@@ -29,14 +33,25 @@ const colors = {
     })
     .join("  ")}};
 
+const spacing = {
+  ${spacingData
+    .map((item) => {
+      return `${item?.name}: "var(--${variablePrefix}-text-${item?.name})",\n`;
+    })
+    .join("  ")}};
+
 module.exports = {
   content: [
     "./widgets/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  theme: {${!isExtend.colors ? "\n    colors," : ""}
-    extend: {${isExtend.colors ? "\n      colors,\n    " : ""}},
+  theme: {${!isExtend.colors ? "\n    colors," : ""}${
+    !isExtend.spacing ? "\n    spacing," : ""
+  }
+    extend: {${isExtend.colors ? "\n      colors,    " : ""}${
+    isExtend.spacing ? "\n      spacing,\n    " : ""
+  }},
   },
   plugins: [],
 };`;
@@ -64,34 +79,43 @@ module.exports = {
         }: ${item?.hex?.toUpperCase()};\n`;
       }
     })
+    .join("  ")}
+  ${spacingData
+    .map((item) => {
+      return `--${variablePrefix}-text-${item.name}: ${pxToRem(
+        item?.name
+      )}rem;\n`;
+    })
     .join("  ")}}`;
 
   return (
-    <section className="code-block">
-      <div className="grid grid-cols-2 gap-4">
-        <div className="">
-          <span className="ps-4 py-2 inline-block italic">
-            tailwind.config.js
-          </span>
-          <CopyBlock
-            text={tailwindConfig}
-            language={"javascript"}
-            theme={dracula}
-            showLineNumbers
-            wrapLines
-          />
+    <section className="code-block py-8">
+      <Container>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="">
+            <span className="ps-4 py-2 inline-block italic">
+              tailwind.config.js
+            </span>
+            <CopyBlock
+              text={tailwindConfig}
+              language={"javascript"}
+              theme={dracula}
+              showLineNumbers
+              wrapLines
+            />
+          </div>
+          <div className="">
+            <span className="ps-4 py-2 inline-block italic">main.scss</span>
+            <CopyBlock
+              text={mainCSS}
+              language={"scss"}
+              theme={dracula}
+              showLineNumbers
+              wrapLines
+            />
+          </div>
         </div>
-        <div className="">
-          <span className="ps-4 py-2 inline-block italic">main.scss</span>
-          <CopyBlock
-            text={mainCSS}
-            language={"scss"}
-            theme={dracula}
-            showLineNumbers
-            wrapLines
-          />
-        </div>
-      </div>
+      </Container>
     </section>
   );
 };

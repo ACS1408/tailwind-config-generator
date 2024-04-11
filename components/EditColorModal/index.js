@@ -6,6 +6,7 @@ import { useRecoilState } from "recoil";
 import { useFormik } from "formik";
 
 const EditColorModal = ({
+  id,
   isOpen,
   closeModal,
   defaultColor,
@@ -22,7 +23,7 @@ const EditColorModal = ({
   };
 
   const handleAddField = () => {
-    const newKey = `variant-${Math.floor(Math.random() * 10000) + 1}`;
+    const newKey = `variant-${Math.floor(Math.random() * 9996 + 4)}`;
     formik.setFieldValue(
       "fields",
       formik.values.fields.concat({ key: newKey, color: "", variant: "" })
@@ -31,18 +32,20 @@ const EditColorModal = ({
 
   const formik = useFormik({
     initialValues: {
+      id: id,
       colorHex: defaultColor ?? "",
       colorName: defaultName ?? "",
       fields: variants ?? [],
     },
     onSubmit: (values) => {
       const newData = {
+        id: values.id,
         name: values.colorName,
         hex: values.colorHex,
         variants: values.fields,
       };
       setColorData((prev) =>
-        prev.map((item) => (item.name === values.colorName ? newData : item))
+        prev.map((item) => (item.id === values.id ? newData : item))
       );
       closeModal();
     },
@@ -120,7 +123,7 @@ const EditColorModal = ({
                           return (
                             <div
                               className="flex items-center gap-2 mt-4"
-                              key={field.key}
+                              key={i}
                             >
                               <div className="flex items-center flex-[0_0_70%] max-w-[70%]">
                                 <div className="border border-[#dedede] h-9 p-1 flex gap-2">

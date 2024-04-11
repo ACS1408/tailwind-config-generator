@@ -4,6 +4,7 @@ import EditColorModal from "../EditColorModal";
 
 const ColorBlock = ({
   className,
+  id,
   name,
   hex,
   variants,
@@ -31,8 +32,8 @@ const ColorBlock = ({
     setIsEditModalOpen(true);
   };
 
-  const handleDeleteColor = () => {
-    setColorData(colorData.filter((item) => item.name !== name));
+  const handleDeleteColor = (id) => {
+    setColorData(colorData.filter((item) => item.id !== id));
   };
 
   return (
@@ -60,7 +61,7 @@ const ColorBlock = ({
           </button>
           <button
             className="col-span-2 text-center text-sm w-full bg-black text-white px-2 py-1"
-            onClick={handleDeleteColor}
+            onClick={() => handleDeleteColor(id)}
           >
             Delete
           </button>
@@ -77,6 +78,7 @@ const ColorBlock = ({
         isOpen={isEditModalOpen}
         closeModal={closeEditModal}
         setColorData={setColorData}
+        id={id}
         defaultColor={hex}
         defaultName={name}
         variants={variants}
