@@ -5,5 +5,7 @@ export const extendState = atom({
   default: {
     colors: false,
     spacing: true,
+    font_weight: false,
+    font_size: true,
   },
 });

@@ -1,31 +1,29 @@
-import { spacingState } from "@/atoms/spacingState";
+import { fontWeightState } from "@/atoms/fontWeightState";
 import { Dialog, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
 import React, { Fragment } from "react";
 import { useRecoilState } from "recoil";
 
-const EditSpacingModal = ({ isOpen, closeModal, id, name, size }) => {
-  const [spacingData, setSpacingData] = useRecoilState(spacingState);
+const AddFontWeightModal = ({ isOpen, closeModal }) => {
+  const [fontWeightData, setFontWeightData] = useRecoilState(fontWeightState);
 
   const formik = useFormik({
     initialValues: {
-      id: id,
-      spacingName: name,
-      spacingSize: size,
+      id: "",
+      weightName: "",
+      weightValue: "",
     },
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       const newData = {
-        id: values.id,
-        name: values.spacingName,
-        size: values.spacingSize,
+        id: Math.floor(Math.random() * 9996 + 5),
+        name: values.weightName,
+        value: values.weightValue,
       };
-      setSpacingData((prev) =>
-        prev.map((item) => (item.id === values.id ? newData : item))
-      );
+      setFontWeightData((prev) => [...prev, newData]);
       closeModal();
+      resetForm();
     },
   });
-
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -57,33 +55,33 @@ const EditSpacingModal = ({ isOpen, closeModal, id, name, size }) => {
                   as="h3"
                   className="text-2xl text-center mb-5 font-medium leading-6 text-gray-900"
                 >
-                  Edit Spacing
+                  Add Font Weight
                 </Dialog.Title>
                 <form action="" onSubmit={formik.handleSubmit}>
                   <input
                     type="text"
                     className="mb-3 border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
                     required
-                    name="spacingName"
+                    name="weightName"
                     placeholder="Name"
                     onChange={formik.handleChange}
-                    value={formik.values.spacingName}
+                    value={formik.values.weightName}
                   />
                   <input
                     type="text"
                     className="mb-2 border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
                     required
-                    name="spacingSize"
-                    placeholder="Size"
+                    name="weightValue"
+                    placeholder="Value"
                     onChange={formik.handleChange}
-                    value={formik.values.spacingSize}
+                    value={formik.values.weightValue}
                   />
                   <button
                     type="submit"
                     className="mt-4 w-full h-9 bg-[#21DF4B] text-white
                   "
                   >
-                    Update Spacing
+                    Add Font Weight
                   </button>
                 </form>
               </Dialog.Panel>
@@ -95,4 +93,4 @@ const EditSpacingModal = ({ isOpen, closeModal, id, name, size }) => {
   );
 };
 
-export default EditSpacingModal;
+export default AddFontWeightModal;

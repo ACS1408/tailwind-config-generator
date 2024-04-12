@@ -7,10 +7,14 @@ import { useRecoilState } from "recoil";
 import Container from "../utils/Container";
 import { spacingState } from "@/atoms/spacingState";
 import { pxToRem } from "../utils/pxToRem";
+import { fontWeightState } from "@/atoms/fontWeightState";
+import { fontSizeState } from "@/atoms/fontSizeState";
 
 const CodeBlock = () => {
   const [colorData, setColorData] = useRecoilState(colorState);
   const [spacingData, setSpacingData] = useRecoilState(spacingState);
+  const [fontWeightData, setFontWeightData] = useRecoilState(fontWeightState);
+  const [fontSizeData, setFontSizeData] = useRecoilState(fontSizeState);
   const [variablePrefix, setVariablePrefix] =
     useRecoilState(variablePrefixState);
   const [isExtend, setIsExtend] = useRecoilState(extendState);
@@ -39,6 +43,20 @@ const spacing = {
       return `${item?.name}: "var(--${variablePrefix}-spacing-${item?.name})",\n`;
     })
     .join("  ")}};
+    
+const fontWeight = {
+  ${fontWeightData
+    .map((item) => {
+      return `${item?.name}: "var(--${variablePrefix}-font-${item?.name})",\n`;
+    })
+    .join("  ")}
+
+const fontSize = {
+  ${fontSizeData
+    .map((item) => {
+      return `${item?.name}: "var(--${variablePrefix}-text-${item?.name})",\n`;
+    })
+    .join("  ")}};
 
 module.exports = {
   content: [
@@ -48,10 +66,14 @@ module.exports = {
   ],
   theme: {${!isExtend.colors ? "\n    colors," : ""}${
     !isExtend.spacing ? "\n    spacing," : ""
+  }${!isExtend.font_weight ? "\n    fonWeight," : ""}${
+    !isExtend.font_size ? "\n    fonSize," : ""
   }
     extend: {${isExtend.colors ? "\n      colors,    " : ""}${
-    isExtend.spacing ? "\n      spacing,\n    " : ""
-  }},
+    isExtend.spacing ? "\n      spacing,    " : ""
+  }${isExtend.font_weight ? "\n      fontWeight,    " : ""}${
+    isExtend.font_size ? "\n      fontSize,    " : ""
+  }\n    },
   },
   plugins: [],
 };`;
@@ -83,7 +105,19 @@ module.exports = {
   ${spacingData
     .map((item) => {
       return `--${variablePrefix}-spacing-${item.name}: ${pxToRem(
-        item?.name
+        item?.size
+      )}rem;\n`;
+    })
+    .join("  ")}
+  ${fontWeightData
+    .map((item) => {
+      return `--${variablePrefix}-font-${item.name}: ${item.value};\n`;
+    })
+    .join("  ")}
+  ${fontSizeData
+    .map((item) => {
+      return `--${variablePrefix}-text-${item.name}: ${pxToRem(
+        item?.size
       )}rem;\n`;
     })
     .join("  ")}}`;

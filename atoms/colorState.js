@@ -6,7 +6,7 @@ export const colorState = atom({
     {
       id: 0,
       name: "primary",
-      hex: "#FF0000",
+      hex: "#7300FF",
     },
     {
       id: 1,
@@ -39,6 +39,21 @@ export const colorState = atom({
       id: 3,
       name: "dark",
       hex: "#263251",
+    },
+    {
+      id: 4,
+      name: "error",
+      hex: "#FF0000",
+    },
+    {
+      id: 5,
+      name: "warning",
+      hex: "#FFD500",
+    },
+    {
+      id: 6,
+      name: "success",
+      hex: "#00FF00",
     },
   ],
 });

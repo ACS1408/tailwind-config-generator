@@ -15,7 +15,7 @@ const AddSpacingModal = ({ isOpen, closeModal }) => {
     },
     onSubmit: (values, { resetForm }) => {
       const newData = {
-        id: Math.floor(Math.random() * 9996 + 4),
+        id: Math.floor(Math.random() * 9997 + 4),
         name: values.spacingName,
         size: values.spacingSize,
       };
