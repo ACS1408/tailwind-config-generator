@@ -38,6 +38,7 @@ const fontSize = {
   h4: "var(--wac-text-h4)",
   h5: "var(--wac-text-h5)",
   h6: "var(--wac-text-h6)",
+  p: "var(--wac-text-p)",
 };
 
 const boxShadow = {
