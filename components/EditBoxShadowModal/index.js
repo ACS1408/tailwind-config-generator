@@ -235,7 +235,7 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
                     className="mt-4 w-full h-9 bg-[#21DF4B] text-white
                   "
                   >
-                    Add Box Shadow
+                    Update Box Shadow
                   </button>
                 </form>
               </Dialog.Panel>

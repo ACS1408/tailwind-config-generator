@@ -72,7 +72,9 @@ const fontSize = {
 const boxShadow = {
   ${boxShadowData
     .map((item) => {
-      return `${item?.name}: "var(--${variablePrefix}-shadow-${item?.name})",\n`;
+      return `${
+        item?.name
+      }: "var(--${variablePrefix}-shadow-${item?.name.replace(".", "pt")})",\n`;
     })
     .join("  ")}};
     
@@ -159,7 +161,10 @@ module.exports = {
     .join("  ")}
   ${boxShadowData
     .map((item) => {
-      return `--${variablePrefix}-text-${item.name}: ${item.value
+      return `--${variablePrefix}-text-${item.name.replace(
+        ".",
+        "pt"
+      )}: ${item.value
         .map((item) => {
           return `${item?.horizontal}px ${item?.vertical}px ${item?.blur}px ${
             item?.spread
