@@ -1,5 +1,6 @@
 "use client";
 import CodeBlock from "@/components/CodeBlock";
+import BoxShadowWidget from "@/widgets/BoxShadowWidget";
 import ColorWidget from "@/widgets/ColorWidget";
 import FontSizeWidget from "@/widgets/FontSizeWidget";
 import FontWeightWidget from "@/widgets/FontWeightWidget";
@@ -15,6 +16,7 @@ export default function Home() {
       <SpacingWidget />
       <FontWeightWidget />
       <FontSizeWidget />
+      <BoxShadowWidget />
       <CodeBlock />
     </RecoilRoot>
   );

@@ -7,5 +7,6 @@ export const extendState = atom({
     spacing: true,
     font_weight: false,
     font_size: true,
+    box_shadow: true,
   },
 });

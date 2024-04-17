@@ -1,8 +1,5 @@
-import { spacingState } from "@/atoms/spacingState";
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
-import { pxToRem } from "../utils/pxToRem";
-import EditSpacingModal from "../EditSpacingModal";
 import { fontWeightState } from "@/atoms/fontWeightState";
 import EditFontWeightModal from "../EditFontWeightModal";
 
