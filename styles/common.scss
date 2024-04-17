@@ -3,58 +3,93 @@
 @tailwind utilities;
 
 :root {
-  --primary: #a91e2d;
-  --primary-500: #a91e2d70;
-  --secondary: #1a1a1a;
-  --black: #000000;
-  --white: #ffffff;
-  --transparent: #00000000;
+  --wac-primary: #7300FF;
+  --wac-secondary: #00F0FF;
+  --wac-black: #000000; 
+  --wac-black-900: #313131;
+  --wac-black-800: #616161;
+  --wac-black-700: #919191;
+  --wac-dark: #263251;
+  --wac-error: #FF0000;
+  --wac-warning: #FFD500;
+  --wac-success: #00FF00;
+  --wac-white: #FFFFFF;
+
+  --wac-spacing-4pt5: 1.125rem;
+  --wac-spacing-5pt5: 1.375rem;
+  --wac-spacing-6pt5: 1.625rem;
+  --wac-spacing-7pt5: 1.875rem;
+
+  --wac-font-light: 300;
+  --wac-font-regular: 400;
+  --wac-font-medium: 500;
+  --wac-font-semibold: 600;
+  --wac-font-bold: 700;
+
+  --wac-text-h1: 3rem;
+  --wac-text-h2: 2.25rem;
+  --wac-text-h3: 1.75rem;
+  --wac-text-h4: 1.5rem;
+  --wac-text-h5: 1.25rem;
+  --wac-text-h6: 1.125rem;
+
+  --wac-text-sm: 0px 0px 2px 2px rgba(0, 0, 0, 0.1)
+  --wac-text-md: 0px 0px 4px 5px rgba(0, 0, 0, 0.06)
+  --wac-text-lg: 0px 0px 6px 3px rgba(0, 0, 0, 0.15)
+
   --gutter-x: 24px;
 }
 
-// @layer base {
-//   h1,
-//   .h1 {
-//     &:not(.ttl) {
-//       @apply text-h1;
-//     }
-//   }
+@layer base {
+  h1,
+  .h1 {
+    &:not(.ttl) {
+      @apply text-h1;
+    }
+  }
 
-//   h2,
-//   .h2 {
-//     &:not(.ttl) {
-//       @apply text-h2;
-//     }
-//   }
+  h2,
+  .h2 {
+    &:not(.ttl) {
+      @apply text-h2;
+    }
+  }
 
-//   h3,
-//   .h3 {
-//     &:not(.ttl) {
-//       @apply text-h3;
-//     }
-//   }
+  h3,
+  .h3 {
+    &:not(.ttl) {
+      @apply text-h3;
+    }
+  }
 
-//   h4,
-//   .h4 {
-//     &:not(.ttl) {
-//       @apply text-h4;
-//     }
-//   }
+  h4,
+  .h4 {
+    &:not(.ttl) {
+      @apply text-h4;
+    }
+  }
 
-//   h5,
-//   .h5 {
-//     &:not(.ttl) {
-//       @apply text-h5;
-//     }
-//   }
+  h5,
+  .h5 {
+    &:not(.ttl) {
+      @apply text-h5;
+    }
+  }
 
-//   h6,
-//   .h6 {
-//     &:not(.ttl) {
-//       @apply text-h6;
-//     }
-//   }
-// }
+  h6,
+  .h6 {
+    &:not(.ttl) {
+      @apply text-h6;
+    }
+  }
+
+  p,
+  .p {
+    &:not(.para) {
+      @apply text-p;
+    }
+  }
+}
 
 @layer utilities {
 }

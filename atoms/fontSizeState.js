@@ -33,5 +33,10 @@ export const fontSizeState = atom({
       name: "h6",
       size: "18",
     },
+    {
+      id: 6,
+      name: "p",
+      size: "16",
+    },
   ],
 });

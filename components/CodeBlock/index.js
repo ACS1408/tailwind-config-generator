@@ -172,7 +172,60 @@ module.exports = {
         })
         .join(", \n")}\n`;
     })
-    .join("  ")}}`;
+    .join("  ")}
+  --gutter-x: 24px;
+}
+
+@layer base {
+  h1,
+  .h1 {
+    &:not(.ttl) {
+      @apply text-h1;
+    }
+  }
+
+  h2,
+  .h2 {
+    &:not(.ttl) {
+      @apply text-h2;
+    }
+  }
+
+  h3,
+  .h3 {
+    &:not(.ttl) {
+      @apply text-h3;
+    }
+  }
+
+  h4,
+  .h4 {
+    &:not(.ttl) {
+      @apply text-h4;
+    }
+  }
+
+  h5,
+  .h5 {
+    &:not(.ttl) {
+      @apply text-h5;
+    }
+  }
+
+  h6,
+  .h6 {
+    &:not(.ttl) {
+      @apply text-h6;
+    }
+  }
+
+  p,
+  .p {
+    &:not(.para) {
+      @apply text-p;
+    }
+  }
+}`;
 
   return (
     <section className="code-block py-8">

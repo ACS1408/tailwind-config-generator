@@ -15,7 +15,7 @@ const AddFontSizeModal = ({ isOpen, closeModal }) => {
     },
     onSubmit: (values, { resetForm }) => {
       const newData = {
-        id: Math.floor(Math.random() * 9995 + 6),
+        id: Math.floor(Math.random() * 9994 + 7),
         name: values.fontName,
         size: values.fontSize,
       };

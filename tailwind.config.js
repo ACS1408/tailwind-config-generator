@@ -1,44 +1,49 @@
 /** @type {import('tailwindcss').Config} */
 
 const colors = {
-  primary: "var(--primary)",
-  secondary: "var(--secondary)",
+  primary: "var(--wac-primary)",
+  secondary: "var(--wac-secondary)",
   black: {
-    DEFAULT: "var(--black)",
-    900: "var(--black-900)",
+    DEFAULT: "var(--wac-black)",
+    900: "var(--wac-black-900)",
+    800: "var(--wac-black-800)",
+    700: "var(--wac-black-700)",
   },
-  white: "var(--white)",
-  transparent: "var(--transparent)",
+  dark: "var(--wac-dark)",
+  error: "var(--wac-error)",
+  warning: "var(--wac-warning)",
+  success: "var(--wac-success)",
+  white: "var(--wac-white)",
 };
 
 const spacing = {
-  // 1: "8px",
-  // 2: "12px",
-  // 3: "16px",
-  // 4: "24px",
-  // 5: "32px",
-  // 6: "48px",
-};
-
-const fontSize = {
-  base: "1rem",
-  // sm: "var(--text-sm)",
-  // md: "var(--text-md)",
-  // lg: "var(--text-lg)",
-  // xl: "var(--text-xl)",
-  // h1: "var(--text-h1)",
-  // h2: "var(--text-h2)",
-  // h3: "var(--text-h3)",
-  // h4: "var(--text-h4)",
-  // h5: "var(--text-h5)",
-  // h6: "var(--text-h6)",
+  4.5: "var(--wac-spacing-4pt5)",
+  5.5: "var(--wac-spacing-5pt5)",
+  6.5: "var(--wac-spacing-6pt5)",
+  7.5: "var(--wac-spacing-7pt5)",
 };
 
 const fontWeight = {
-  regular: "400",
-  medium: "500",
-  semibold: "600",
-  bold: "700",
+  light: "var(--wac-font-light)",
+  regular: "var(--wac-font-regular)",
+  medium: "var(--wac-font-medium)",
+  semibold: "var(--wac-font-semibold)",
+  bold: "var(--wac-font-bold)",
+};
+
+const fontSize = {
+  h1: "var(--wac-text-h1)",
+  h2: "var(--wac-text-h2)",
+  h3: "var(--wac-text-h3)",
+  h4: "var(--wac-text-h4)",
+  h5: "var(--wac-text-h5)",
+  h6: "var(--wac-text-h6)",
+};
+
+const boxShadow = {
+  sm: "var(--wac-shadow-sm)",
+  md: "var(--wac-shadow-md)",
+  lg: "var(--wac-shadow-lg)",
 };
 
 const container = {
@@ -55,20 +60,21 @@ module.exports = {
   theme: {
     colors,
     fontWeight,
+    boxShadow,
     container,
+    screens: {
+      xs: { max: "576px" },
+      sm: "576px",
+      md: "768px",
+      lg: "992px",
+      xl: "1200px",
+      xxl: "1420px",
+      xxxl: "1600px",
+      laptop: { min: "1200px", max: "1450px" },
+    },
     extend: {
-      fontSize,
       spacing,
-      screens: {
-        xs: { max: "576px" },
-        sm: "576px",
-        md: "768px",
-        lg: "992px",
-        xl: "1200px",
-        xxl: "1420px",
-        xxxl: "1600px",
-        laptop: { min: "1200px", max: "1450px" },
-      },
+      fontSize,
     },
   },
   plugins: [],
