@@ -22,8 +22,8 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
       "shadowValue",
       formik.values.shadowValue.concat({
         key: newKey,
-        color: "",
-        alpha: "",
+        color: "#000000",
+        alpha: "0.1",
         horizontal: "",
         vertical: "",
         blur: "",
@@ -93,7 +93,7 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
                           item?.blur
                         }px ${item?.spread}px ${hexToRGBA(
                           item?.color,
-                          item.alpha
+                          item?.alpha
                         )}`;
                       })
                       .join(", "),

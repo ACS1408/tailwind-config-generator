@@ -5,9 +5,10 @@ export const boxShadowState = atom({
   default: [
     {
       id: 0,
-      name: "xs",
+      name: "sm",
       value: [
         {
+          key: "layer-0",
           color: "#000000",
           alpha: 0.1,
           horizontal: 0,
@@ -19,9 +20,10 @@ export const boxShadowState = atom({
     },
     {
       id: 1,
-      name: "3xl",
+      name: "md",
       value: [
         {
+          key: "layer-0",
           color: "#000000",
           alpha: 0.06,
           horizontal: 0,
@@ -33,9 +35,10 @@ export const boxShadowState = atom({
     },
     {
       id: 2,
-      name: "4xl",
+      name: "lg",
       value: [
         {
+          key: "layer-0",
           color: "#000000",
           alpha: 0.15,
           horizontal: 0,

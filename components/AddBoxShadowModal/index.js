@@ -40,7 +40,7 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
         {
           key: "layer-0",
           color: "#000000",
-          alpha: "",
+          alpha: "0.1",
           horizontal: "",
           vertical: "",
           blur: "",

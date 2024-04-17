@@ -9,12 +9,15 @@ import { spacingState } from "@/atoms/spacingState";
 import { pxToRem } from "../utils/pxToRem";
 import { fontWeightState } from "@/atoms/fontWeightState";
 import { fontSizeState } from "@/atoms/fontSizeState";
+import { boxShadowState } from "@/atoms/boxShadowState";
+import { hexToRGBA } from "../utils/hexToRgba";
 
 const CodeBlock = () => {
   const [colorData, setColorData] = useRecoilState(colorState);
   const [spacingData, setSpacingData] = useRecoilState(spacingState);
   const [fontWeightData, setFontWeightData] = useRecoilState(fontWeightState);
   const [fontSizeData, setFontSizeData] = useRecoilState(fontSizeState);
+  const [boxShadowData, setBoxShadowData] = useRecoilState(boxShadowState);
   const [variablePrefix, setVariablePrefix] =
     useRecoilState(variablePrefixState);
   const [isExtend, setIsExtend] = useRecoilState(extendState);
@@ -58,6 +61,13 @@ const fontSize = {
     })
     .join("  ")}};
 
+const boxShadow = {
+  ${boxShadowData
+    .map((item) => {
+      return `${item?.name}: "var(--${variablePrefix}-shadow-${item?.name})",\n`;
+    })
+    .join("  ")}};
+
 module.exports = {
   content: [
     "./widgets/**/*.{js,ts,jsx,tsx,mdx}",
@@ -68,12 +78,12 @@ module.exports = {
     !isExtend.spacing ? "\n    spacing," : ""
   }${!isExtend.font_weight ? "\n    fonWeight," : ""}${
     !isExtend.font_size ? "\n    fonSize," : ""
-  }
+  }${!isExtend.box_shadow ? "\n    boxShadow," : ""}
     extend: {${isExtend.colors ? "\n      colors,    " : ""}${
     isExtend.spacing ? "\n      spacing,    " : ""
   }${isExtend.font_weight ? "\n      fontWeight,    " : ""}${
     isExtend.font_size ? "\n      fontSize,    " : ""
-  }\n    },
+  }${isExtend.box_shadow ? "\n      boxShadow,    " : ""}\n    },
   },
   plugins: [],
 };`;
@@ -119,6 +129,17 @@ module.exports = {
       return `--${variablePrefix}-text-${item.name}: ${pxToRem(
         item?.size
       )}rem;\n`;
+    })
+    .join("  ")}
+  ${boxShadowData
+    .map((item) => {
+      return `--${variablePrefix}-text-${item.name}: ${item.value
+        .map((item) => {
+          return ` ${item?.horizontal}px ${item?.vertical}px ${item?.blur}px ${
+            item?.spread
+          }px ${hexToRGBA(item?.color, item.alpha)}`;
+        })
+        .join(", \n")}\n`;
     })
     .join("  ")}}`;
 
