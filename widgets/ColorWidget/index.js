@@ -40,7 +40,7 @@ const ColorWidget = () => {
                   className={`${
                     isExtend.colors ? "bg-[#21DF4B]" : "bg-[#6d7c71]"
                   }
-                  relative inline-flex h-[30px] w-[56px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
+                  relative inline-flex h-[30px] w-[56px] shrink-0 cursor-pointer rounded-full border-2 border-[transparent] transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
                 >
                   <span className="sr-only">Use setting</span>
                   <span

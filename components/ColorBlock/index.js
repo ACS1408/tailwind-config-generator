@@ -40,7 +40,7 @@ const ColorBlock = ({
     <>
       <div className={`color-block ${className}`} {...props}>
         <div
-          className="color-box w-full h-16 rounded-md"
+          className="color-box w-full h-16 rounded-md border border-[#ededed]"
           style={{ backgroundColor: hex }}
         />
         <div className="color-name mt-3 px-2 h-7 flex items-center justify-center text-center bg-[#E3E3E3] text-sm font-medium text-black">

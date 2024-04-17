@@ -41,7 +41,7 @@ const ViewColorModal = ({ isOpen, closeModal, name, hex, variants }) => {
                 </Dialog.Title>
                 <div className="flex gap-4">
                   <div
-                    className="w-32 h-20 rounded-md"
+                    className="w-32 h-20 rounded-md border border-[#ededed]"
                     style={{ backgroundColor: hex }}
                   />
                   <div className="">

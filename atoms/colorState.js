@@ -55,5 +55,10 @@ export const colorState = atom({
       name: "success",
       hex: "#00FF00",
     },
+    {
+      id: 7,
+      name: "white",
+      hex: "#FFFFFF",
+    },
   ],
 });

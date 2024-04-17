@@ -32,7 +32,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
     },
     onSubmit: (values, { resetForm }) => {
       const newData = {
-        id: Math.floor(Math.random() * 9994 + 7),
+        id: Math.floor(Math.random() * 9994 + 8),
         name: values.colorName,
         hex: values.colorHex,
         variants: values.fields,

@@ -33,7 +33,7 @@ const colors = {
           ?.map((variant) => {
             return `${variant.variant}: "var(--${variablePrefix}-${item.name}-${variant.variant})",\n\t`;
           })
-          .join("  ")}}\n`;
+          .join("  ")}},\n`;
       } else {
         return `${item.name}: "var(--${variablePrefix}-${item.name})",\n`;
       }
@@ -43,7 +43,12 @@ const colors = {
 const spacing = {
   ${spacingData
     .map((item) => {
-      return `${item?.name}: "var(--${variablePrefix}-spacing-${item?.name})",\n`;
+      return `${
+        item?.name
+      }: "var(--${variablePrefix}-spacing-${item?.name.replace(
+        ".",
+        "pt"
+      )})",\n`;
     })
     .join("  ")}};
     
@@ -52,12 +57,15 @@ const fontWeight = {
     .map((item) => {
       return `${item?.name}: "var(--${variablePrefix}-font-${item?.name})",\n`;
     })
-    .join("  ")}
+    .join("  ")}};
 
 const fontSize = {
   ${fontSizeData
     .map((item) => {
-      return `${item?.name}: "var(--${variablePrefix}-text-${item?.name})",\n`;
+      return `${item?.name}: "var(--${variablePrefix}-text-${item?.name.replace(
+        ".",
+        "pt"
+      )})",\n`;
     })
     .join("  ")}};
 
@@ -67,6 +75,11 @@ const boxShadow = {
       return `${item?.name}: "var(--${variablePrefix}-shadow-${item?.name})",\n`;
     })
     .join("  ")}};
+    
+const container = {
+  center: true,
+  padding: "calc(var(--gutter-x) / 2)",
+};
 
 module.exports = {
   content: [
@@ -76,9 +89,20 @@ module.exports = {
   ],
   theme: {${!isExtend.colors ? "\n    colors," : ""}${
     !isExtend.spacing ? "\n    spacing," : ""
-  }${!isExtend.font_weight ? "\n    fonWeight," : ""}${
-    !isExtend.font_size ? "\n    fonSize," : ""
+  }${!isExtend.font_weight ? "\n    fontWeight," : ""}${
+    !isExtend.font_size ? "\n    fontSize," : ""
   }${!isExtend.box_shadow ? "\n    boxShadow," : ""}
+    container,
+    screens: {
+      xs: { max: "576px" },
+      sm: "576px",
+      md: "768px",
+      lg: "992px",
+      xl: "1200px",
+      xxl: "1420px",
+      xxxl: "1600px",
+      laptop: { min: "1200px", max: "1450px" },
+    },
     extend: {${isExtend.colors ? "\n      colors,    " : ""}${
     isExtend.spacing ? "\n      spacing,    " : ""
   }${isExtend.font_weight ? "\n      fontWeight,    " : ""}${
@@ -114,9 +138,10 @@ module.exports = {
     .join("  ")}
   ${spacingData
     .map((item) => {
-      return `--${variablePrefix}-spacing-${item.name}: ${pxToRem(
-        item?.size
-      )}rem;\n`;
+      return `--${variablePrefix}-spacing-${item.name.replace(
+        ".",
+        "pt"
+      )}: ${pxToRem(item?.size)}rem;\n`;
     })
     .join("  ")}
   ${fontWeightData
@@ -126,16 +151,17 @@ module.exports = {
     .join("  ")}
   ${fontSizeData
     .map((item) => {
-      return `--${variablePrefix}-text-${item.name}: ${pxToRem(
-        item?.size
-      )}rem;\n`;
+      return `--${variablePrefix}-text-${item.name.replace(
+        ".",
+        "pt"
+      )}: ${pxToRem(item?.size)}rem;\n`;
     })
     .join("  ")}
   ${boxShadowData
     .map((item) => {
       return `--${variablePrefix}-text-${item.name}: ${item.value
         .map((item) => {
-          return ` ${item?.horizontal}px ${item?.vertical}px ${item?.blur}px ${
+          return `${item?.horizontal}px ${item?.vertical}px ${item?.blur}px ${
             item?.spread
           }px ${hexToRGBA(item?.color, item.alpha)}`;
         })
