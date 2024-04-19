@@ -98,6 +98,14 @@
     lg:max-w-[960px] xl:max-w-[1080px] 
     xxl:max-w-[1260px] xxxl:max-w-[1403px];
   }
+
+  .btn {
+    @apply h-max;
+    &.btn-primary {
+    }
+    &.btn-secondary {
+    }
+  }
 }
 
 @layer utilities {
