@@ -161,7 +161,7 @@ module.exports = {
     .join("  ")}
   ${boxShadowData
     .map((item) => {
-      return `--${variablePrefix}-text-${item.name.replace(
+      return `--${variablePrefix}-shadow-${item.name.replace(
         ".",
         "pt"
       )}: ${item.value
@@ -225,6 +225,17 @@ module.exports = {
       @apply text-p;
     }
   }
+}
+
+@layer components {
+  .container {
+    @apply sm:max-w-[540px] md:max-w-[720px] 
+    lg:max-w-[960px] xl:max-w-[1080px] 
+    xxl:max-w-[1260px] xxxl:max-w-[1403px];
+  }
+}
+
+@layer utilities {
 }`;
 
   return (
