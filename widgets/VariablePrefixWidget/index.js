@@ -14,7 +14,7 @@ const VariablePrefixWidget = () => {
   return (
     <section className="variable-prefix-widget pt-16 pb-8">
       <Container>
-        <h2 className="text-3xl font-semibold mb-6">Variable Prefix</h2>
+        <h2 className="ttl text-3xl font-semibold mb-6">Variable Prefix</h2>
         <input
           type="text"
           placeholder="Enter name"

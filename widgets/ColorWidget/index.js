@@ -26,7 +26,7 @@ const ColorWidget = () => {
       <section className="color-widget py-8">
         <Container>
           <div className="flex items-center justify-between mb-6">
-            <h2 className="title text-3xl font-semibold">Colors</h2>
+            <h2 className="ttl text-3xl font-semibold">Colors</h2>
             <div className="flex gap-5">
               <div className="ms-5 flex items-center gap-3">
                 <span className="text-lg">
@@ -60,7 +60,7 @@ const ColorWidget = () => {
               </button>
             </div>
           </div>
-          <div className="grid gap-7 grid-cols-10">
+          <div className="grid gap-4 grid-cols-7">
             {colorData?.map((color, i) => {
               return (
                 <ColorBlock

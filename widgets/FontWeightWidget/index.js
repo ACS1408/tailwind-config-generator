@@ -24,7 +24,7 @@ const FontWeightWidget = () => {
     <section className="spacing-widget py-8">
       <Container>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="title text-3xl font-semibold">Font Weight</h2>
+          <h2 className="ttl text-3xl font-semibold">Font Weight</h2>
           <div className="flex gap-5">
             <div className="ms-5 flex items-center gap-3">
               <span className="text-lg">

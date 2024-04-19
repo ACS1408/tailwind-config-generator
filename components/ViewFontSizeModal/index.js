@@ -29,12 +29,12 @@ const ViewFontSizeModal = ({ isOpen, closeModal, name, size }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-xs transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-xs transform rounded-2xl bg-white p-6 text-left align-middle shadow-lg transition-all">
                 <Dialog.Title
                   as="h3"
-                  className="text-xl text-center mb-4 font-medium leading-6 text-gray-900"
+                  className="ttl text-xl text-center mb-4 font-medium leading-6 text-gray-900"
                 >
-                  .text-{name}
+                  text-{name}
                 </Dialog.Title>
                 <div className="flex justify-center items-center">
                   <span
@@ -45,7 +45,7 @@ const ViewFontSizeModal = ({ isOpen, closeModal, name, size }) => {
                   </span>
                 </div>
                 <div className="text-center mt-4">
-                  Font Size: {pxToRem(size)}rem ({size}px)
+                  font-size: {pxToRem(size)}rem ({size}px)
                 </div>
               </Dialog.Panel>
             </Transition.Child>

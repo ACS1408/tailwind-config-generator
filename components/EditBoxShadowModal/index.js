@@ -77,10 +77,10 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-sm transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-sm transform rounded-2xl bg-white p-6 text-left align-middle shadow-lg transition-all">
                 <Dialog.Title
                   as="h3"
-                  className="text-2xl text-center mb-5 font-medium leading-6 text-gray-900"
+                  className="ttl text-2xl text-center mb-5 font-medium leading-6 text-gray-900"
                 >
                   Add Box Shadow
                 </Dialog.Title>

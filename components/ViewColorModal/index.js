@@ -32,10 +32,10 @@ const ViewColorModal = ({ isOpen, closeModal, name, hex, variants }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle shadow-lg transition-all">
                 <Dialog.Title
                   as="h3"
-                  className="text-xl text-left mb-5 font-medium leading-6 text-gray-900"
+                  className="ttl text-2xl text-left mb-5 font-medium leading-6 text-gray-900"
                 >
                   Main Color
                 </Dialog.Title>
@@ -54,7 +54,8 @@ const ViewColorModal = ({ isOpen, closeModal, name, hex, variants }) => {
                     <div className="text-base">
                       <b>variable: </b>
                       <span className="whitespace-nowrap">
-                        --{variablePrefix}-{name}
+                        --{variablePrefix}
+                        {name}
                       </span>
                     </div>
                   </div>
