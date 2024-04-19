@@ -81,7 +81,7 @@ const AddFontWeightModal = ({ isOpen, closeModal }) => {
                     className="mt-4 w-full h-9 bg-[#21DF4B] text-white
                   "
                   >
-                    Add Font Weight
+                    Add font weight
                   </button>
                 </form>
               </Dialog.Panel>

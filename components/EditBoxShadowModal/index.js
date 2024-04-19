@@ -227,7 +227,7 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
                       className="mt-2 text-[#21DF4B] text-sm underline"
                       onClick={handleAddField}
                     >
-                      New Layer
+                      New layer
                     </button>
                   </div>
                   <button
@@ -235,7 +235,7 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
                     className="mt-4 w-full h-9 bg-[#21DF4B] text-white
                   "
                   >
-                    Update Box Shadow
+                    Update box shadow
                   </button>
                 </form>
               </Dialog.Panel>

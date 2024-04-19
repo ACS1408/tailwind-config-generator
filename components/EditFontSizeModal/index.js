@@ -84,7 +84,7 @@ const EditFontSizeModal = ({ isOpen, closeModal, id, name, size }) => {
                     className="mt-4 w-full h-9 bg-[#21DF4B] text-white
                   "
                   >
-                    Update Font Size
+                    Update font size
                   </button>
                 </form>
               </Dialog.Panel>

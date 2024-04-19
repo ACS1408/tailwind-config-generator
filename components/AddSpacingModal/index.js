@@ -81,7 +81,7 @@ const AddSpacingModal = ({ isOpen, closeModal }) => {
                     className="mt-4 w-full h-9 bg-[#21DF4B] text-white
                   "
                   >
-                    Add Spacing
+                    Add spacing
                   </button>
                 </form>
               </Dialog.Panel>

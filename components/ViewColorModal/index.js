@@ -64,7 +64,7 @@ const ViewColorModal = ({ isOpen, closeModal, name, hex, variants }) => {
                   <>
                     <Dialog.Title
                       as="h3"
-                      className="text-xl text-left mb-5 mt-5 font-medium leading-6 text-gray-900"
+                      className="ttl text-2xl text-left mb-5 mt-5 font-medium leading-6 text-gray-900"
                     >
                       Variants
                     </Dialog.Title>

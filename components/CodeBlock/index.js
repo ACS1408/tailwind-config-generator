@@ -1,7 +1,7 @@
 import { colorState } from "@/atoms/colorState";
 import { extendState } from "@/atoms/extendState";
 import { variablePrefixState } from "@/atoms/variablePrefixState";
-import React, { useState } from "react";
+import React from "react";
 import { CopyBlock, dracula } from "react-code-blocks";
 import { useRecoilState } from "recoil";
 import Container from "../utils/Container";
@@ -236,7 +236,7 @@ module.exports = {
 @layer utilities {
 }`;
 
-  let [categories] = useState({
+  let categories = {
     "tailwind.config.js": {
       text: tailwindConfig,
       language: "javascript",
@@ -245,7 +245,7 @@ module.exports = {
       text: mainCSS,
       language: "scss",
     },
-  });
+  };
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");

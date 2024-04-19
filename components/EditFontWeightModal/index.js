@@ -83,7 +83,7 @@ const EditFontWeightModal = ({ isOpen, closeModal, id, name, value }) => {
                     className="mt-4 w-full h-9 bg-[#21DF4B] text-white
                   "
                   >
-                    Update Font Weight
+                    Update font weight
                   </button>
                 </form>
               </Dialog.Panel>

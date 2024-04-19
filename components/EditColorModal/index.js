@@ -115,7 +115,7 @@ const EditColorModal = ({
                           className="mt-4 w-full h-9 bg-[#21DF4B] text-white"
                           onClick={handleAddField}
                         >
-                          Add Variants
+                          Add variants
                         </button>
                       ) : null}
                       <div className={`${style.variant}`}>

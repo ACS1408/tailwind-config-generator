@@ -235,7 +235,7 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
                       className="mt-2 text-[#21DF4B] text-sm underline"
                       onClick={handleAddField}
                     >
-                      New Layer
+                      New layer
                     </button>
                   </div>
                   <button
@@ -243,7 +243,7 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
                     className="mt-4 w-full h-9 bg-[#21DF4B] text-white
                   "
                   >
-                    Add Box Shadow
+                    Add box shadow
                   </button>
                 </form>
               </Dialog.Panel>
