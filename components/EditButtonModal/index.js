@@ -76,6 +76,11 @@ const EditButtonModal = ({
       closeEditButtonModal();
     },
   });
+
+  const handleRemoveButton = (id) => {
+    setButtonData(buttonData.filter((item) => item.id !== id));
+  };
+
   return (
     <Transition appear show={isEditButtonModalOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={closeEditButtonModal}>
@@ -413,6 +418,13 @@ const EditButtonModal = ({
                     className="mt-4 col-span-2 w-full h-9 bg-[#21DF4B] text-white"
                   >
                     Update Button
+                  </button>
+                  <button
+                    type="button"
+                    className="col-span-2 w-full h-9 bg-transparent border border-[#ff0000] text-[#ff0000]"
+                    onClick={() => handleRemoveButton(formik.values.id)}
+                  >
+                    Remove Button
                   </button>
                 </form>
               </Dialog.Panel>

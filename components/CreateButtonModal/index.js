@@ -14,7 +14,7 @@ const CreateButtonModal = ({
   const formik = useFormik({
     initialValues: {
       id: "",
-      buttonName: "Button",
+      buttonName: "sample",
       buttonType: "filled",
       bgHex: "#000000",
       borderHex: "#000000",
@@ -136,6 +136,9 @@ const CreateButtonModal = ({
                   >
                     {formik.values.buttonName}
                   </button>
+                  <div className="text-center mt-4">
+                    .btn-{formik.values.buttonName}
+                  </div>
                 </div>
                 <form
                   action=""
