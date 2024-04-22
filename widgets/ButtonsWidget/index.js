@@ -1,4 +1,5 @@
 import { buttonState } from "@/atoms/buttonState";
+import ButtonBlock from "@/components/ButtonBlock";
 import CreateButtonModal from "@/components/CreateButtonModal";
 import Container from "@/components/utils/Container";
 import React, { useState } from "react";
@@ -6,15 +7,16 @@ import { useRecoilState } from "recoil";
 
 const ButtonsWidget = () => {
   const [buttonData, setButtonData] = useRecoilState(buttonState);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isCreateButtonModalOpen, setIsCreateButtonModalOpen] = useState(false);
 
-  const closeModal = () => {
-    setIsOpen(false);
+  const closeCreateButtonModal = () => {
+    setIsCreateButtonModalOpen(false);
   };
 
-  const openModal = () => {
-    setIsOpen(true);
+  const openCreateButtonModal = () => {
+    setIsCreateButtonModalOpen(true);
   };
+
 
   return (
     <>
@@ -24,7 +26,7 @@ const ButtonsWidget = () => {
             <h2 className="ttl text-3xl font-semibold">Buttons</h2>
             <button
               className="bg-[#21DF4B] px-5 py-2 text-white text-md ms-5"
-              onClick={openModal}
+              onClick={openCreateButtonModal}
             >
               Create new button
             </button>
@@ -32,44 +34,16 @@ const ButtonsWidget = () => {
           <div className="flex gap-4">
             {buttonData?.map((button) => {
               return (
-                <button
-                  key={button?.id}
-                  type="button"
-                  className="btn capitalize"
-                  style={{
-                    backgroundColor: button?.bgColor,
-                    padding: `${button?.padding?.top}px ${button?.padding?.right}px ${button?.padding?.bottom}px ${button?.padding?.left}px`,
-                    color: button?.textColor,
-                    borderTop: `${
-                      button?.buttonType !== "link"
-                        ? `${button?.border.top}px solid ${button?.borderColor}`
-                        : ""
-                    }`,
-                    borderRight: `${
-                      button?.buttonType !== "link"
-                        ? `${button?.border.right}px solid ${button?.borderColor}`
-                        : ""
-                    }`,
-                    borderBottom: `${
-                      button?.buttonType !== "link"
-                        ? `${button?.border.bottom}px solid ${button?.borderColor}`
-                        : ""
-                    }`,
-                    borderLeft: `${
-                      button?.buttonType !== "link"
-                        ? `${button?.border.left}px solid ${button?.borderColor}`
-                        : ""
-                    }`,
-                  }}
-                >
-                  {button?.name}
-                </button>
+                <ButtonBlock key={button?.id} button={button} />
               );
             })}
           </div>
         </Container>
       </section>
-      <CreateButtonModal isOpen={isOpen} closeModal={closeModal} />
+      <CreateButtonModal
+        isCreateButtonModalOpen={isCreateButtonModalOpen}
+        closeCreateButtonModal={closeCreateButtonModal}
+      />
     </>
   );
 };

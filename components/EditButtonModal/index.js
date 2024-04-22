@@ -1,40 +1,54 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
 import React, { Fragment } from "react";
-import style from "./CreateButtonModal.module.scss";
+import style from "./EditButtonModal.module.scss";
 import { useRecoilState } from "recoil";
 import { buttonState } from "@/atoms/buttonState";
 
-const CreateButtonModal = ({
-  isCreateButtonModalOpen,
-  closeCreateButtonModal,
+const EditButtonModal = ({
+  isEditButtonModalOpen,
+  closeEditButtonModal,
+  id,
+  buttonName,
+  buttonType,
+  bgHex,
+  borderHex,
+  textHex,
+  buttonPaddingTop,
+  buttonPaddingBottom,
+  buttonPaddingLeft,
+  buttonPaddingRight,
+  buttonBorderTop,
+  buttonBorderBottom,
+  buttonBorderLeft,
+  buttonBorderRight,
 }) => {
   const [buttonData, setButtonData] = useRecoilState(buttonState);
 
   const formik = useFormik({
     initialValues: {
-      id: "",
-      buttonName: "Button",
-      buttonType: "filled",
-      bgHex: "#000000",
-      borderHex: "#000000",
-      textHex: "#FFFFFF",
+      id: id,
+      buttonName: buttonName,
+      buttonType: buttonType,
+      bgHex: bgHex,
+      borderHex: borderHex,
+      textHex: textHex,
       buttonPadding: {
-        top: 10,
-        bottom: 10,
-        left: 20,
-        right: 20,
+        top: buttonPaddingTop,
+        bottom: buttonPaddingBottom,
+        left: buttonPaddingLeft,
+        right: buttonPaddingRight,
       },
       buttonBorder: {
-        top: 1,
-        bottom: 1,
-        left: 1,
-        right: 1,
+        top: buttonBorderTop,
+        bottom: buttonBorderBottom,
+        left: buttonBorderLeft,
+        right: buttonBorderRight,
       },
     },
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: (values) => {
       const newData = {
-        id: Math.floor(Math.random() * 9999 + 2),
+        id: values.id,
         name: values.buttonName,
         buttonType: values.buttonType,
         bgColor: values.buttonType === "filled" ? values.bgHex : "",
@@ -56,18 +70,15 @@ const CreateButtonModal = ({
               }
             : "",
       };
-      setButtonData((prev) => [...prev, newData]);
-      closeCreateButtonModal();
-      resetForm();
+      setButtonData((prev) =>
+        prev.map((item) => (item.id === values.id ? newData : item))
+      );
+      closeEditButtonModal();
     },
   });
   return (
-    <Transition appear show={isCreateButtonModalOpen} as={Fragment}>
-      <Dialog
-        as="div"
-        className="relative z-10"
-        onClose={closeCreateButtonModal}
-      >
+    <Transition appear show={isEditButtonModalOpen} as={Fragment}>
+      <Dialog as="div" className="relative z-10" onClose={closeEditButtonModal}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -96,7 +107,7 @@ const CreateButtonModal = ({
                   as="h3"
                   className="ttl text-2xl text-center mb-5 font-medium leading-6 text-gray-900"
                 >
-                  Create Button
+                  Edit Button
                 </Dialog.Title>
                 <div className="button-container flex flex-col justify-center items-center my-5">
                   <div className="text-sm text-center font-semibold mb-2">
@@ -401,7 +412,7 @@ const CreateButtonModal = ({
                     type="submit"
                     className="mt-4 col-span-2 w-full h-9 bg-[#21DF4B] text-white"
                   >
-                    Create Button
+                    Update Button
                   </button>
                 </form>
               </Dialog.Panel>
@@ -413,4 +424,4 @@ const CreateButtonModal = ({
   );
 };
 
-export default CreateButtonModal;
+export default EditButtonModal;

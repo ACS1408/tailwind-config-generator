@@ -5,7 +5,7 @@ export const buttonState = atom({
   default: [
     {
       id: 0,
-      name: "button primary",
+      name: "primary",
       buttonType: "filled",
       bgColor: "#7300FF",
       borderColor: "#7300FF",
@@ -25,7 +25,7 @@ export const buttonState = atom({
     },
     {
       id: 1,
-      name: "button secondary",
+      name: "secondary",
       buttonType: "filled",
       bgColor: "#00F0FF",
       borderColor: "#00F0FF",

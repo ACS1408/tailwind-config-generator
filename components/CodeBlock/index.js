@@ -12,6 +12,7 @@ import { fontSizeState } from "@/atoms/fontSizeState";
 import { boxShadowState } from "@/atoms/boxShadowState";
 import { hexToRGBA } from "../utils/hexToRgba";
 import { Tab } from "@headlessui/react";
+import { buttonState } from "@/atoms/buttonState";
 
 const CodeBlock = () => {
   const [colorData, setColorData] = useRecoilState(colorState);
@@ -19,9 +20,57 @@ const CodeBlock = () => {
   const [fontWeightData, setFontWeightData] = useRecoilState(fontWeightState);
   const [fontSizeData, setFontSizeData] = useRecoilState(fontSizeState);
   const [boxShadowData, setBoxShadowData] = useRecoilState(boxShadowState);
+  const [buttonData, setButtonData] = useRecoilState(buttonState);
   const [variablePrefix, setVariablePrefix] =
     useRecoilState(variablePrefixState);
   const [isExtend, setIsExtend] = useRecoilState(extendState);
+
+  const paddingCheck = (padding) => {
+    const { top, bottom, left, right } = padding;
+    if (
+      Object.values(padding).every(
+        (value) => value === Object.values(padding)[0]
+      )
+    ) {
+      return `p-[${pxToRem(Object.values(padding)[0])}rem]`;
+    } else {
+      if (top === bottom && left === right) {
+        return `px-[${pxToRem(left)}rem] py-[${pxToRem(top)}rem]`;
+      } else if (top === bottom && left !== right) {
+        return `py-[${pxToRem(top)}rem] ps-[${pxToRem(left)}rem] pe-[${pxToRem(
+          right
+        )}rem]`;
+      }
+      if (left === right && top !== bottom) {
+        return `px-[${pxToRem(left)}rem] pt-[${pxToRem(top)}rem] pb-[${pxToRem(
+          right
+        )}rem]`;
+      } else {
+        return `ps-[${pxToRem(left)}rem] pe-[${pxToRem(
+          right
+        )}rem] pt-[${pxToRem(top)}rem] pb-[${pxToRem(bottom)}rem]`;
+      }
+    }
+  };
+  const borderCheck = (border) => {
+    const { top, bottom, left, right } = border;
+    if (
+      Object.values(border).every((value) => value === Object.values(border)[0])
+    ) {
+      return `border border-[${Object.values(border)[0]}px]`;
+    } else {
+      if (top === bottom && left === right) {
+        return `border border-x-[${left}px] border-y-[${top}px]`;
+      } else if (top === bottom && left !== right) {
+        return `border border-y-[${top}px] border-s-[${left}px] border-e-[${right}px]`;
+      }
+      if (left === right && top !== bottom) {
+        return `border border-x-[${left}px] border-t-[${top}px] border-b-[${right}px]`;
+      } else {
+        return `border border-s-[${left}px] border-e-[${right}px] border-t-[${top}px] border-b-[${bottom}px]`;
+      }
+    }
+  };
 
   let tailwindConfig = `/** @type {import('tailwindcss').Config} */
 
@@ -231,11 +280,78 @@ module.exports = {
     lg:max-w-[960px] xl:max-w-[1080px] 
     xxl:max-w-[1260px] xxxl:max-w-[1403px];
   }
+  
+  ${buttonData?.length > 0 ? "//Buttons" : ""}
+  ${buttonData
+    ?.map((button) => {
+      return `.btn-${
+        button?.buttonType === "filled"
+          ? button?.name.toLowerCase().split(" ").join("-")
+          : button?.buttonType === "outline"
+          ? "outline-" + button?.name.toLowerCase().split(" ").join("-")
+          : button?.buttonType === "link"
+          ? "link-" + button?.name.toLowerCase().split(" ").join("-")
+          : ""
+      } {
+    @apply ${
+      button?.bgColor
+        ? colorData?.findIndex(
+            (color) =>
+              color.hex?.toLowerCase() === button?.bgColor?.toLowerCase()
+          ) > -1
+          ? `bg-${
+              colorData[
+                colorData?.findIndex(
+                  (color) =>
+                    color.hex?.toLowerCase() === button?.bgColor?.toLowerCase()
+                )
+              ]?.name
+            }`
+          : `bg-[${button?.bgColor}]`
+        : ""
+    } ${button?.border ? borderCheck(button?.border) : ""} ${
+        button?.borderColor
+          ? colorData?.findIndex(
+              (color) =>
+                color.hex?.toLowerCase() === button?.borderColor?.toLowerCase()
+            ) > -1
+            ? `border-${
+                colorData[
+                  colorData?.findIndex(
+                    (color) =>
+                      color.hex?.toLowerCase() ===
+                      button?.borderColor?.toLowerCase()
+                  )
+                ]?.name
+              }`
+            : `border-[${button?.borderColor}]`
+          : ""
+      } ${
+        button?.textColor
+          ? colorData?.findIndex(
+              (color) =>
+                color.hex?.toLowerCase() === button?.textColor?.toLowerCase()
+            ) > -1
+            ? `text-${
+                colorData[
+                  colorData?.findIndex(
+                    (color) =>
+                      color.hex?.toLowerCase() ===
+                      button?.textColor?.toLowerCase()
+                  )
+                ]?.name
+              }`
+            : `text-[${button?.textColor}]`
+          : ""
+      } ${button?.padding ? paddingCheck(button?.padding) : ""};
+  }
+  `;
+    })
+    .join("")}
 }
 
 @layer utilities {
 }`;
-
   let categories = {
     "tailwind.config.js": {
       text: tailwindConfig,
