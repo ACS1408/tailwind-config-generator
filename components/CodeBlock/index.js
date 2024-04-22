@@ -250,11 +250,11 @@ module.exports = {
       return `--${settings?.variable_prefix}shadow-${item.name.replace(
         ".",
         "pt"
-      )}: ${item.dark_variant
+      )}: ${item.value
         .map((item) => {
           return `${item?.horizontal}px ${item?.vertical}px ${item?.blur}px ${
             item?.spread
-          }px ${hexToRGBA(item?.color, item.alpha)};`;
+          }px ${hexToRGBA(item?.dark_color, item.alpha)};`;
         })
         .join(", \n")}\n`;
     })

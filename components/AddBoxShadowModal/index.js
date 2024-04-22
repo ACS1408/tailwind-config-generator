@@ -23,6 +23,7 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
       formik.values.shadowValue.concat({
         key: newKey,
         color: "",
+        dark_color: "",
         alpha: "",
         horizontal: "",
         vertical: "",
@@ -40,6 +41,7 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
         {
           key: "layer-0",
           color: "#000000",
+          dark_color: "#000000",
           alpha: "0.1",
           horizontal: "",
           vertical: "",
@@ -142,6 +144,22 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
                                 value={formik.values.shadowValue[i]?.color}
                               />
                               <span>{field?.color}</span>
+                            </div>
+                            <div className="border border-[#dedede] h-9 p-1 flex gap-2">
+                              <input
+                                type="color"
+                                className={`${style.color_picker} flex-[0_0_3rem] w-12 h-[26px]`}
+                                required
+                                name={`shadowValue[${i}].dark_color`}
+                                onChange={(e) =>
+                                  formik.setFieldValue(
+                                    `shadowValue[${i}].dark_color`,
+                                    e.target.value
+                                  )
+                                }
+                                value={formik.values.shadowValue[i]?.dark_color}
+                              />
+                              <span>{field?.dark_color}</span>
                             </div>
                             <input
                               type="number"
