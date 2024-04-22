@@ -13,6 +13,7 @@ const ColorBlock = ({
   type,
   colorData,
   setColorData,
+  darkThemeHex,
   ...props
 }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
@@ -129,6 +130,7 @@ const ColorBlock = ({
         name={name}
         hex={hex}
         variants={variants}
+        darkThemeHex={darkThemeHex}
       />
       <EditColorModal
         isOpen={isEditModalOpen}

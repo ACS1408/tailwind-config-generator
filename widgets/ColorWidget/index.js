@@ -69,6 +69,7 @@ const ColorWidget = () => {
                   hex={color?.hex}
                   name={color?.name}
                   variants={color?.variants}
+                  darkThemeHex={color?.dark_theme_hex}
                   colorData={colorData}
                   setColorData={setColorData}
                 />

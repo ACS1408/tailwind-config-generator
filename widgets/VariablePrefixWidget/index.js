@@ -1,14 +1,13 @@
-import { variablePrefixState } from "@/atoms/variablePrefixState";
+import { settingState } from "@/atoms/settingState";
 import Container from "@/components/utils/Container";
 import React from "react";
 import { useRecoilState } from "recoil";
 
 const VariablePrefixWidget = () => {
-  const [variablePrefix, setVariablePrefix] =
-    useRecoilState(variablePrefixState);
+  const [settings, setSettings] = useRecoilState(settingState);
 
   const handleChangeVariablePrefix = (e) => {
-    setVariablePrefix(e.target.value);
+    setSettings((prev) => ({ ...prev, variable_prefix: e.target.value }));
   };
 
   return (
@@ -22,7 +21,7 @@ const VariablePrefixWidget = () => {
           id="colorName"
           name="colorName"
           onChange={(e) => handleChangeVariablePrefix(e)}
-          value={variablePrefix}
+          value={settings?.variable_prefix}
         />
       </Container>
     </section>

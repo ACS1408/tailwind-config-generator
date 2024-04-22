@@ -1,6 +1,6 @@
 import { colorState } from "@/atoms/colorState";
 import { extendState } from "@/atoms/extendState";
-import { variablePrefixState } from "@/atoms/variablePrefixState";
+import { settingState } from "@/atoms/settingState";
 import React from "react";
 import { CopyBlock, dracula } from "react-code-blocks";
 import { useRecoilState } from "recoil";
@@ -21,8 +21,7 @@ const CodeBlock = () => {
   const [fontSizeData, setFontSizeData] = useRecoilState(fontSizeState);
   const [boxShadowData, setBoxShadowData] = useRecoilState(boxShadowState);
   const [buttonData, setButtonData] = useRecoilState(buttonState);
-  const [variablePrefix, setVariablePrefix] =
-    useRecoilState(variablePrefixState);
+  const [settings, setSettings] = useRecoilState(settingState);
   const [isExtend, setIsExtend] = useRecoilState(extendState);
 
   const paddingCheck = (padding) => {
@@ -79,13 +78,15 @@ const colors = {
     .map((item) => {
       if (item.variants) {
         return `${item.name}: {
-    DEFAULT: "var(--${variablePrefix}${item.name})", \n    ${item?.variants
+    DEFAULT: "var(--${settings?.variable_prefix}${
+          item.name
+        })", \n    ${item?.variants
           ?.map((variant) => {
-            return `${variant.variant}: "var(--${variablePrefix}${item.name}-${variant.variant})",\n\t`;
+            return `${variant.variant}: "var(--${settings?.variable_prefix}${item.name}-${variant.variant})",\n\t`;
           })
           .join("  ")}},\n`;
       } else {
-        return `${item.name}: "var(--${variablePrefix}${item.name})",\n`;
+        return `${item.name}: "var(--${settings?.variable_prefix}${item.name})",\n`;
       }
     })
     .join("  ")}};
@@ -93,35 +94,34 @@ const colors = {
 const spacing = {
   ${spacingData
     .map((item) => {
-      return `${
-        item?.name
-      }: "var(--${variablePrefix}spacing-${item?.name.replace(".", "pt")})",\n`;
+      return `${item?.name}: "var(--${
+        settings?.variable_prefix
+      }spacing-${item?.name.replace(".", "pt")})",\n`;
     })
     .join("  ")}};
     
 const fontWeight = {
   ${fontWeightData
     .map((item) => {
-      return `${item?.name}: "var(--${variablePrefix}font-${item?.name})",\n`;
+      return `${item?.name}: "var(--${settings?.variable_prefix}font-${item?.name})",\n`;
     })
     .join("  ")}};
 
 const fontSize = {
   ${fontSizeData
     .map((item) => {
-      return `${item?.name}: "var(--${variablePrefix}text-${item?.name.replace(
-        ".",
-        "pt"
-      )})",\n`;
+      return `${item?.name}: "var(--${
+        settings?.variable_prefix
+      }text-${item?.name.replace(".", "pt")})",\n`;
     })
     .join("  ")}};
 
 const boxShadow = {
   ${boxShadowData
     .map((item) => {
-      return `${
-        item?.name
-      }: "var(--${variablePrefix}shadow-${item?.name.replace(".", "pt")})",\n`;
+      return `${item?.name}: "var(--${
+        settings?.variable_prefix
+      }shadow-${item?.name.replace(".", "pt")})",\n`;
     })
     .join("  ")}};
     
@@ -169,17 +169,17 @@ module.exports = {
   ${colorData
     .map((item) => {
       if (item.variants) {
-        return `--${variablePrefix}${
+        return `--${settings?.variable_prefix}${
           item.name
         }: ${item?.hex?.toUpperCase()}; \n  ${item?.variants
           ?.map((variant) => {
-            return `--${variablePrefix}${item.name}-${
+            return `--${settings?.variable_prefix}${item.name}-${
               variant.variant
             }: ${variant?.color?.toUpperCase()};\n`;
           })
           .join("  ")}`;
       } else {
-        return `--${variablePrefix}${
+        return `--${settings?.variable_prefix}${
           item.name
         }: ${item?.hex?.toUpperCase()};\n`;
       }
@@ -187,7 +187,7 @@ module.exports = {
     .join("  ")}
   ${spacingData
     .map((item) => {
-      return `--${variablePrefix}spacing-${item.name.replace(
+      return `--${settings?.variable_prefix}spacing-${item.name.replace(
         ".",
         "pt"
       )}: ${pxToRem(item?.size)}rem;\n`;
@@ -195,12 +195,12 @@ module.exports = {
     .join("  ")}
   ${fontWeightData
     .map((item) => {
-      return `--${variablePrefix}font-${item.name}: ${item.value};\n`;
+      return `--${settings?.variable_prefix}font-${item.name}: ${item.value};\n`;
     })
     .join("  ")}
   ${fontSizeData
     .map((item) => {
-      return `--${variablePrefix}text-${item.name.replace(
+      return `--${settings?.variable_prefix}text-${item.name.replace(
         ".",
         "pt"
       )}: ${pxToRem(item?.size)}rem;\n`;
@@ -208,7 +208,7 @@ module.exports = {
     .join("  ")}
   ${boxShadowData
     .map((item) => {
-      return `--${variablePrefix}shadow-${item.name.replace(
+      return `--${settings?.variable_prefix}shadow-${item.name.replace(
         ".",
         "pt"
       )}: ${item.value
@@ -222,6 +222,43 @@ module.exports = {
     .join("  ")}
   --gutter-x: 24px;
 }
+
+[data-theme='dark'] {
+  ${colorData
+    .map((item) => {
+      if (item?.dark_theme_hex) {
+        if (item.variants) {
+          return `--${settings?.variable_prefix}${
+            item.name
+          }: ${item?.dark_theme_hex?.toUpperCase()}; \n  ${item?.variants
+            ?.map((variant) => {
+              return `--${settings?.variable_prefix}${item.name}-${
+                variant.variant
+              }: ${variant?.dark_theme_color?.toUpperCase()};\n`;
+            })
+            .join("  ")}`;
+        } else {
+          return `--${settings?.variable_prefix}${
+            item.name
+          }: ${item?.dark_theme_hex?.toUpperCase()};\n`;
+        }
+      }
+    })
+    .join("")}
+  ${boxShadowData
+    .map((item) => {
+      return `--${settings?.variable_prefix}shadow-${item.name.replace(
+        ".",
+        "pt"
+      )}: ${item.dark_variant
+        .map((item) => {
+          return `${item?.horizontal}px ${item?.vertical}px ${item?.blur}px ${
+            item?.spread
+          }px ${hexToRGBA(item?.color, item.alpha)};`;
+        })
+        .join(", \n")}\n`;
+    })
+    .join("  ")}}
 
 @layer base {
   h1,

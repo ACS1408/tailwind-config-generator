@@ -1,11 +1,17 @@
-import { variablePrefixState } from "@/atoms/variablePrefixState";
+import { settingState } from "@/atoms/settingState";
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
 import { useRecoilState } from "recoil";
 
-const ViewColorModal = ({ isOpen, closeModal, name, hex, variants }) => {
-  const [variablePrefix, setVariablePrefix] =
-    useRecoilState(variablePrefixState);
+const ViewColorModal = ({
+  isOpen,
+  closeModal,
+  name,
+  hex,
+  darkThemeHex,
+  variants,
+}) => {
+  const [settings, setSettings] = useRecoilState(settingState);
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -54,7 +60,7 @@ const ViewColorModal = ({ isOpen, closeModal, name, hex, variants }) => {
                     <div className="text-base">
                       <b>variable: </b>
                       <span className="whitespace-nowrap">
-                        --{variablePrefix}
+                        --{settings?.variable_prefix}
                         {name}
                       </span>
                     </div>
@@ -64,7 +70,7 @@ const ViewColorModal = ({ isOpen, closeModal, name, hex, variants }) => {
                   <>
                     <Dialog.Title
                       as="h3"
-                      className="ttl text-2xl text-left mb-5 mt-5 font-medium leading-6 text-gray-900"
+                      className="ttl text-xl text-left mb-5 mt-5 font-medium leading-6 text-gray-900"
                     >
                       Variants
                     </Dialog.Title>
@@ -83,7 +89,39 @@ const ViewColorModal = ({ isOpen, closeModal, name, hex, variants }) => {
                           />
                           <div>{item?.color}</div>
                           <div className="ps-5 flex-1 text-right">
-                            --{variablePrefix}-{name}-{item?.variant}
+                            --{settings?.variable_prefix}{name}-
+                            {item?.variant}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </>
+                ) : null}
+                {darkThemeHex ? (
+                  <>
+                    <Dialog.Title
+                      as="h3"
+                      className="ttl text-xl text-left mb-5 mt-7 font-medium leading-6 text-gray-900"
+                    >
+                      Dark Variants
+                    </Dialog.Title>
+                    {variants?.map((item, i) => {
+                      return (
+                        <div
+                          key={i}
+                          className="flex justify-center items-center gap-3 mb-2"
+                        >
+                          <div className="pe-1">
+                            <b>{item?.variant}:</b>
+                          </div>
+                          <div
+                            className="w-10 h-5"
+                            style={{ backgroundColor: item?.dark_theme_color }}
+                          />
+                          <div>{item?.color}</div>
+                          <div className="ps-5 flex-1 text-right">
+                            --{settings?.variable_prefix}{name}-
+                            {item?.variant}
                           </div>
                         </div>
                       );

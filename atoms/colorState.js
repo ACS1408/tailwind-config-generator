@@ -17,21 +17,25 @@ export const colorState = atom({
       id: 2,
       name: "black",
       hex: "#000000",
+      dark_theme_hex: "#000000",
       variants: [
         {
           id: "variant-0",
           variant: "900",
           color: "#313131",
+          dark_theme_color: "#212121",
         },
         {
           id: "variant-1",
           variant: "800",
           color: "#616161",
+          dark_theme_color: "#414141",
         },
         {
           id: "variant-2",
           variant: "700",
           color: "#919191",
+          dark_theme_color: "#616161",
         },
       ],
     },
