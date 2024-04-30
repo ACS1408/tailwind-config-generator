@@ -5,14 +5,14 @@ import ButtonsWidget from "@/widgets/ButtonsWidget";
 import ColorWidget from "@/widgets/ColorWidget";
 import FontSizeWidget from "@/widgets/FontSizeWidget";
 import FontWeightWidget from "@/widgets/FontWeightWidget";
+import SettingsWidget from "@/widgets/SettingsWidget";
 import SpacingWidget from "@/widgets/SpacingWidget";
-import VariablePrefixWidget from "@/widgets/VariablePrefixWidget";
 import { RecoilRoot } from "recoil";
 
 export default function Home() {
   return (
     <RecoilRoot>
-      <VariablePrefixWidget />
+      <SettingsWidget />
       <ColorWidget />
       <SpacingWidget />
       <FontWeightWidget />

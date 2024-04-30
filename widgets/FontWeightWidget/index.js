@@ -24,11 +24,11 @@ const FontWeightWidget = () => {
     <section className="spacing-widget py-8">
       <Container>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="ttl text-3xl font-semibold">Font Weight</h2>
+          <h2 className="ttl text-3xl font-semibold">Boldness</h2>
           <div className="flex gap-5">
             <div className="ms-5 flex items-center gap-3">
               <span className="text-lg">
-                {isExtend.font_weight ? "extend" : "theme"}
+                {isExtend.font_weight ? "Extend" : "Theme"}
               </span>
               <Switch
                 checked={isExtend.font_weight}
@@ -56,10 +56,34 @@ const FontWeightWidget = () => {
               </Switch>
             </div>
             <button
-              className="bg-[#21DF4B] px-5 py-2 text-white text-md ms-5"
+              className="flex items-center gap-2 text-md ms-5"
               onClick={openModal}
             >
-              Add new font weight
+              <div className="rounded-full bg-[#21DF4B] text-white p-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  id="plus"
+                  width={28}
+                  height={28}
+                >
+                  <g>
+                    <g>
+                      <rect
+                        width="24"
+                        height="24"
+                        opacity="0"
+                        transform="rotate(180 12 12)"
+                      />
+                      <path
+                        d="M19 11h-6V5a1 1 0 0 0-2 0v6H5a1 1 0 0 0 0 2h6v6a1 1 0 0 0 2 0v-6h6a1 1 0 0 0 0-2z"
+                        fill="currentColor"
+                      />
+                    </g>
+                  </g>
+                </svg>
+              </div>
+              <span className="text-lg text-black">Add new</span>
             </button>
           </div>
         </div>

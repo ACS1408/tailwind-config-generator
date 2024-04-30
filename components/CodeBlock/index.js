@@ -411,7 +411,7 @@ ${colorData
   return (
     <section className="code-block py-8">
       <Container>
-        <h2 className="ttl text-3xl font-semibold mb-6">Output</h2>
+        <h2 className="ttl text-3xl font-semibold mb-6">Code</h2>
         <Tab.Group>
           <Tab.List className="flex bg-[#282a36] rounded-t-md">
             {Object.keys(categories).map((category) => (

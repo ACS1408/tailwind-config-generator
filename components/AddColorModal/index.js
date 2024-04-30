@@ -196,7 +196,19 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                                     className="size-8 rounded-full border border-[#dedede] flex justify-center items-center text-xl"
                                     onClick={() => handleRemoveField(field.key)}
                                   >
-                                    <span className="-mt-0.5">x</span>
+                                    <span>
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        id="close"
+                                        width={24}
+                                        height={24}
+                                      >
+                                        <g>
+                                          <path d="m13.41 12 4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
+                                        </g>
+                                      </svg>
+                                    </span>
                                   </button>
                                 </div>
                                 <div className="flex-[0_0_30px] max-w-[30px] ms-auto flex justify-center items-center">
@@ -205,7 +217,27 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                                     className="size-8 rounded-full border border-[#dedede] flex justify-center items-center text-2xl"
                                     onClick={() => handleAddField(field.key)}
                                   >
-                                    <span className="-mt-0.5">+</span>
+                                    <span>
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        id="plus"
+                                        width={22}
+                                        height={22}
+                                      >
+                                        <g>
+                                          <g>
+                                            <rect
+                                              width="24"
+                                              height="24"
+                                              opacity="0"
+                                              transform="rotate(180 12 12)"
+                                            />
+                                            <path d="M19 11h-6V5a1 1 0 0 0-2 0v6H5a1 1 0 0 0 0 2h6v6a1 1 0 0 0 2 0v-6h6a1 1 0 0 0 0-2z" />
+                                          </g>
+                                        </g>
+                                      </svg>
+                                    </span>
                                   </button>
                                 </div>
                               </div>

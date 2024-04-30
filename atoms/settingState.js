@@ -4,6 +4,6 @@ export const settingState = atom({
   key: "settingState",
   default: {
     variable_prefix: "wac-",
-    dark_theme: true,
+    dark_theme: false,
   },
 });

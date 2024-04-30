@@ -2,7 +2,8 @@ import React, { Fragment, useState } from "react";
 import ViewColorModal from "../ViewColorModal";
 import EditColorModal from "../EditColorModal";
 import { Menu, Transition } from "@headlessui/react";
-import { getContrastColor } from "../utils/getContrastColor";
+import { settingState } from "@/atoms/settingState";
+import { useRecoilState } from "recoil";
 
 const ColorBlock = ({
   className,
@@ -16,6 +17,7 @@ const ColorBlock = ({
   darkThemeHex,
   ...props
 }) => {
+  const [settings, setSettings] = useRecoilState(settingState);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
@@ -43,11 +45,20 @@ const ColorBlock = ({
     <>
       <div className={`color-block ${className}`} {...props}>
         <div
-          className="color-box flex justify-center items-center w-full h-24 rounded-md border border-[#ededed] relative"
-          style={{ backgroundColor: hex }}
-        >
-          <Menu as="div" className="absolute top-2 right-2">
-            <Menu.Button className="bg-white border border-[#ededed] size-7 rounded-full flex justify-center items-center">
+          className="color-box flex justify-center items-center w-full h-24 rounded-2xl border border-[#ededed]"
+          style={{ backgroundColor: settings?.dark_theme ? darkThemeHex : hex }}
+        />
+        <div className="flex justify-between mt-2">
+          <div className="color-details">
+            <div className="color-name text-[15px] font-medium capitalize mb-1">
+              {name}
+            </div>
+            <div className="color-code text-[13px] text-[#52595f]">
+              {settings?.dark_theme ? darkThemeHex ?? "Not set" : hex}
+            </div>
+          </div>
+          <Menu as="div" className="relative">
+            <Menu.Button className="bg-white size-7 rounded-full flex justify-center items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="18px"
@@ -115,13 +126,6 @@ const ColorBlock = ({
               </Menu.Items>
             </Transition>
           </Menu>
-          <div
-            className={`color-name px-2 h-7 flex items-center justify-center text-center text-sm font-medium ${getContrastColor(
-              hex
-            )}`}
-          >
-            {name}
-          </div>
         </div>
       </div>
       <ViewColorModal

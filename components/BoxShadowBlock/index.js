@@ -4,9 +4,11 @@ import { boxShadowState } from "@/atoms/boxShadowState";
 import { hexToRGBA } from "../utils/hexToRgba";
 import EditBoxShadowModal from "../EditBoxShadowModal";
 import { Menu, Transition } from "@headlessui/react";
+import { settingState } from "@/atoms/settingState";
 
 const BoxShadowBlock = ({ id, name, value }) => {
   const [boxShadowData, setBoxShadowData] = useRecoilState(boxShadowState);
+  const [settings, setSettings] = useRecoilState(settingState);
   const [isEditBoxShadowModalOpen, setIsEditBoxShadowModalOpen] =
     useState(false);
 
@@ -31,7 +33,10 @@ const BoxShadowBlock = ({ id, name, value }) => {
               .map((item) => {
                 return ` ${item?.horizontal}px ${item?.vertical}px ${
                   item?.blur
-                }px ${item?.spread}px ${hexToRGBA(item?.color, item.alpha)}`;
+                }px ${item?.spread}px ${hexToRGBA(
+                  settings?.dark_theme ? item?.dark_color : item?.color,
+                  item.alpha
+                )}`;
               })
               .join(", "),
           }}
@@ -99,20 +104,6 @@ const BoxShadowBlock = ({ id, name, value }) => {
             </Transition>
           </Menu>
         </div>
-        {/* <div className="flex flex-col gap-2 mt-5">
-          <button
-            className="bg-black text-white px-3 py-1 text-sm w-full"
-            onClick={openEditBoxShadowModal}
-          >
-            Edit
-          </button>
-          <button
-            className="border border-black text-black px-3 py-1 text-sm w-full"
-            onClick={() => handleRemove(id)}
-          >
-            Remove
-          </button>
-        </div> */}
       </div>
       <EditBoxShadowModal
         id={id}
