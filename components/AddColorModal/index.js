@@ -4,9 +4,11 @@ import style from "./AddColorModal.module.scss";
 import { useFormik } from "formik";
 import { useRecoilState } from "recoil";
 import { colorState } from "@/atoms/colorState";
+import { settingState } from "@/atoms/settingState";
 
 const AddColorModal = ({ isOpen, closeModal }) => {
   const [colorData, setColorData] = useRecoilState(colorState);
+  const [settings, setSettings] = useRecoilState(settingState);
 
   const handleRemoveField = (key) => {
     formik.setFieldValue(
@@ -26,7 +28,8 @@ const AddColorModal = ({ isOpen, closeModal }) => {
   const formik = useFormik({
     initialValues: {
       id: "",
-      colorHex: "",
+      colorHex: "#000000",
+      colorDarkHex: "#313131",
       colorName: "",
       fields: [],
     },
@@ -35,6 +38,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
         id: Math.floor(Math.random() * 9994 + 8),
         name: values.colorName,
         hex: values.colorHex,
+        dark_theme_hex: settings?.dark_theme ? values.colorDarkHex : "",
         variants: values.fields,
       };
       setColorData((prev) => [...prev, newData]);
@@ -69,7 +73,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle shadow-lg transition-all">
+              <Dialog.Panel className="w-full max-w-lg transform rounded-2xl bg-white p-6 text-left align-middle shadow-lg transition-all">
                 <Dialog.Title
                   as="h3"
                   className="ttl text-2xl text-center mb-5 font-medium leading-6 text-gray-900"
@@ -82,14 +86,51 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                     <div
                       className={`${style.color_picker_main} col-span-1 flex h-full`}
                     >
-                      <input
-                        type="color"
-                        className="w-full h-44 rounded-lg"
-                        id="colorHex"
-                        name="colorHex"
-                        onChange={formik.handleChange}
-                        value={formik.values.colorHex}
-                      />
+                      {settings?.dark_theme ? (
+                        <div className="w-full">
+                          <div className="relative leading-none mb-0.5">
+                            <label
+                              htmlFor="colorHex"
+                              className="text-black mb-1 block text-sm"
+                            >
+                              Light
+                            </label>
+                            <input
+                              type="color"
+                              className="w-full h-16 rounded-lg"
+                              id="colorHex"
+                              name="colorHex"
+                              onChange={formik.handleChange}
+                              value={formik.values.colorHex}
+                            />
+                          </div>
+                          <div className="relative leading-none mb-0.5">
+                            <label
+                              htmlFor="colorDarkHex"
+                              className="text-black mb-1 block text-sm"
+                            >
+                              Dark
+                            </label>
+                            <input
+                              type="color"
+                              className="w-full h-16 rounded-lg"
+                              id="colorDarkHex"
+                              name="colorDarkHex"
+                              onChange={formik.handleChange}
+                              value={formik.values.colorDarkHex}
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        <input
+                          type="color"
+                          className="w-full h-44 rounded-lg"
+                          id="colorHex"
+                          name="colorHex"
+                          onChange={formik.handleChange}
+                          value={formik.values.colorHex}
+                        />
+                      )}
                     </div>
                     <div className="col-span-2">
                       <input
@@ -113,60 +154,105 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                       <div className={`${style.variant}`}>
                         {formik.values?.fields?.map((field, i) => {
                           return (
-                            <div
-                              className="flex items-center gap-2 mt-4"
-                              key={field.key}
-                            >
-                              <div className="flex items-center flex-[0_0_70%] max-w-[70%]">
-                                <div className="border border-[#dedede] h-9 p-1 flex gap-2">
-                                  <input
-                                    type="color"
-                                    className="flex-[0_0_3rem] w-12 h-[26px]"
-                                    required
-                                    name={`fields[${i}].color`}
-                                    onChange={(e) =>
-                                      formik.setFieldValue(
-                                        `fields[${i}].color`,
-                                        e.target.value
-                                      )
-                                    }
-                                    value={formik.values.fields[i]?.color}
-                                  />
-                                  <input
-                                    type="text"
-                                    className="w-full"
-                                    required
-                                    name={`fields[${i}].variant`}
-                                    placeholder="variant-name"
-                                    onChange={(e) =>
-                                      formik.setFieldValue(
-                                        `fields[${i}].variant`,
-                                        e.target.value
-                                      )
-                                    }
-                                    value={formik.values.fields[i]?.variant}
-                                  />
+                            <>
+                              <div
+                                className="flex items-center gap-2 mt-4"
+                                key={field.key}
+                              >
+                                <div className="flex items-center flex-[0_0_70%] max-w-[70%]">
+                                  <div className="border border-[#dedede] h-9 p-1 flex gap-2">
+                                    <input
+                                      type="color"
+                                      className="flex-[0_0_3rem] w-12 h-[26px]"
+                                      required
+                                      name={`fields[${i}].color`}
+                                      onChange={(e) =>
+                                        formik.setFieldValue(
+                                          `fields[${i}].color`,
+                                          e.target.value
+                                        )
+                                      }
+                                      value={formik.values.fields[i]?.color}
+                                    />
+                                    <input
+                                      type="text"
+                                      className="w-full"
+                                      required
+                                      name={`fields[${i}].variant`}
+                                      placeholder="Variant name"
+                                      onChange={(e) =>
+                                        formik.setFieldValue(
+                                          `fields[${i}].variant`,
+                                          e.target.value
+                                        )
+                                      }
+                                      value={formik.values.fields[i]?.variant}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="flex-[0_0_30px] max-w-[30px] ms-auto flex justify-center items-center">
+                                  <button
+                                    type="button"
+                                    className="size-8 rounded-full border border-[#dedede] flex justify-center items-center text-xl"
+                                    onClick={() => handleRemoveField(field.key)}
+                                  >
+                                    <span className="-mt-0.5">x</span>
+                                  </button>
+                                </div>
+                                <div className="flex-[0_0_30px] max-w-[30px] ms-auto flex justify-center items-center">
+                                  <button
+                                    type="button"
+                                    className="size-8 rounded-full border border-[#dedede] flex justify-center items-center text-2xl"
+                                    onClick={() => handleAddField(field.key)}
+                                  >
+                                    <span className="-mt-0.5">+</span>
+                                  </button>
                                 </div>
                               </div>
-                              <div className="flex-[0_0_30px] max-w-[30px] ms-auto flex justify-center items-center">
-                                <button
-                                  type="button"
-                                  className="size-8 rounded-full border border-[#dedede] flex justify-center items-center text-xl"
-                                  onClick={() => handleRemoveField(field.key)}
+                              {settings?.dark_theme ? (
+                                <div
+                                  className="flex items-center gap-2 mt-4"
+                                  key={field.key}
                                 >
-                                  <span className="-mt-0.5">x</span>
-                                </button>
-                              </div>
-                              <div className="flex-[0_0_30px] max-w-[30px] ms-auto flex justify-center items-center">
-                                <button
-                                  type="button"
-                                  className="size-8 rounded-full border border-[#dedede] flex justify-center items-center text-2xl"
-                                  onClick={() => handleAddField(field.key)}
-                                >
-                                  <span className="-mt-0.5">+</span>
-                                </button>
-                              </div>
-                            </div>
+                                  <div className="flex items-center flex-[0_0_70%] max-w-[70%]">
+                                    <div className="border border-[#dedede] h-9 p-1 flex gap-2">
+                                      <input
+                                        type="color"
+                                        className="flex-[0_0_3rem] w-12 h-[26px]"
+                                        required
+                                        name={`fields[${i}].dark_theme_color`}
+                                        onChange={(e) =>
+                                          formik.setFieldValue(
+                                            `fields[${i}].dark_theme_color`,
+                                            e.target.value
+                                          )
+                                        }
+                                        value={
+                                          formik.values.fields[i]
+                                            ?.dark_theme_color
+                                        }
+                                      />
+                                      <input
+                                        type="text"
+                                        className="w-full"
+                                        required
+                                        name={`fields[${i}].variant`}
+                                        placeholder="Dark variant name"
+                                        onChange={(e) =>
+                                          formik.setFieldValue(
+                                            `fields[${i}].variant`,
+                                            e.target.value
+                                          )
+                                        }
+                                        value={formik.values.fields[i]?.variant}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                            </>
                           );
                         })}
                       </div>

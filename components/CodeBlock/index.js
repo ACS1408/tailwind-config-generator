@@ -223,42 +223,49 @@ module.exports = {
   --gutter-x: 24px;
 }
 
-[data-theme='dark'] {
-  ${colorData
-    .map((item) => {
-      if (item?.dark_theme_hex) {
-        if (item.variants) {
-          return `--${settings?.variable_prefix}${
-            item.name
-          }: ${item?.dark_theme_hex?.toUpperCase()}; \n  ${item?.variants
-            ?.map((variant) => {
-              return `--${settings?.variable_prefix}${item.name}-${
-                variant.variant
-              }: ${variant?.dark_theme_color?.toUpperCase()};\n`;
-            })
-            .join("  ")}`;
-        } else {
-          return `--${settings?.variable_prefix}${
-            item.name
-          }: ${item?.dark_theme_hex?.toUpperCase()};\n`;
-        }
-      }
-    })
-    .join("")}
-  ${boxShadowData
-    .map((item) => {
-      return `--${settings?.variable_prefix}shadow-${item.name.replace(
-        ".",
-        "pt"
-      )}: ${item.value
+${
+  settings?.dark_theme
+    ? `[data-theme='dark'] {
+      ${colorData
         .map((item) => {
-          return `${item?.horizontal}px ${item?.vertical}px ${item?.blur}px ${
-            item?.spread
-          }px ${hexToRGBA(item?.dark_color, item.alpha)};`;
+          if (item?.dark_theme_hex) {
+            if (item.variants) {
+              return `--${settings?.variable_prefix}${
+                item.name
+              }: ${item?.dark_theme_hex?.toUpperCase()}; \n  ${item?.variants
+                ?.map((variant) => {
+                  return `--${settings?.variable_prefix}${item.name}-${
+                    variant.variant
+                  }: ${variant?.dark_theme_color?.toUpperCase()};\n`;
+                })
+                .join("  ")}`;
+            } else {
+              return `--${settings?.variable_prefix}${
+                item.name
+              }: ${item?.dark_theme_hex?.toUpperCase()};\n`;
+            }
+          }
         })
-        .join(", \n")}\n`;
-    })
-    .join("  ")}}
+        .join("")}
+      ${boxShadowData
+        .map((item) => {
+          return `--${settings?.variable_prefix}shadow-${item.name.replace(
+            ".",
+            "pt"
+          )}: ${item.value
+            .map((item) => {
+              return `${item?.horizontal}px ${item?.vertical}px ${
+                item?.blur
+              }px ${item?.spread}px ${hexToRGBA(
+                item?.dark_color,
+                item.alpha
+              )};`;
+            })
+            .join(", \n")}\n`;
+        })
+        .join("  ")}}`
+    : ""
+}
 
 @layer base {
   h1,

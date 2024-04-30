@@ -138,6 +138,7 @@ const ColorBlock = ({
         setColorData={setColorData}
         id={id}
         defaultColor={hex}
+        defaultColorDark={darkThemeHex}
         defaultName={name}
         variants={variants}
       />

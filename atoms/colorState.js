@@ -17,7 +17,7 @@ export const colorState = atom({
       id: 2,
       name: "black",
       hex: "#000000",
-      dark_theme_hex: "#000000",
+      dark_theme_hex: "#333333",
       variants: [
         {
           id: "variant-0",

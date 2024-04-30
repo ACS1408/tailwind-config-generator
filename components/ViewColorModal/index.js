@@ -47,18 +47,35 @@ const ViewColorModal = ({
                 </Dialog.Title>
                 <div className="flex gap-4">
                   <div
-                    className="w-32 h-20 rounded-md border border-[#ededed]"
-                    style={{ backgroundColor: hex }}
-                  />
+                    className={`w-36 h-24 rounded-md border border-[#ededed] overflow-hidden ${
+                      settings?.dark_theme ? "grid grid-cols-2" : ""
+                    }`}
+                  >
+                    <div
+                      className="size-full"
+                      style={{ backgroundColor: hex }}
+                    />
+                    {settings?.dark_theme ? (
+                      <div
+                        className="size-full"
+                        style={{ backgroundColor: darkThemeHex }}
+                      />
+                    ) : null}
+                  </div>
                   <div className="">
                     <div className="text-base">
-                      <b>name: </b> {name}
+                      <b>Name: </b> {name}
                     </div>
                     <div className="text-base">
-                      <b>hex: </b> {hex}
+                      <b>Hex: </b> {hex}
                     </div>
+                    {settings?.dark_theme ? (
+                      <div className="text-base">
+                        <b>Hex (dark): </b> {darkThemeHex}
+                      </div>
+                    ) : null}
                     <div className="text-base">
-                      <b>variable: </b>
+                      <b>CSS variable: </b>
                       <span className="whitespace-nowrap">
                         --{settings?.variable_prefix}
                         {name}
@@ -66,7 +83,7 @@ const ViewColorModal = ({
                     </div>
                   </div>
                 </div>
-                {variants ? (
+                {variants?.length ? (
                   <>
                     <Dialog.Title
                       as="h3"
@@ -89,15 +106,15 @@ const ViewColorModal = ({
                           />
                           <div>{item?.color}</div>
                           <div className="ps-5 flex-1 text-right">
-                            --{settings?.variable_prefix}{name}-
-                            {item?.variant}
+                            --{settings?.variable_prefix}
+                            {name}-{item?.variant}
                           </div>
                         </div>
                       );
                     })}
                   </>
                 ) : null}
-                {darkThemeHex ? (
+                {settings?.dark_theme && variants?.length ? (
                   <>
                     <Dialog.Title
                       as="h3"
@@ -118,10 +135,10 @@ const ViewColorModal = ({
                             className="w-10 h-5"
                             style={{ backgroundColor: item?.dark_theme_color }}
                           />
-                          <div>{item?.color}</div>
+                          <div>{item?.dark_theme_color}</div>
                           <div className="ps-5 flex-1 text-right">
-                            --{settings?.variable_prefix}{name}-
-                            {item?.variant}
+                            --{settings?.variable_prefix}
+                            {name}-{item?.variant}
                           </div>
                         </div>
                       );
