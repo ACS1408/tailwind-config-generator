@@ -35,7 +35,7 @@ const BoxShadowBlock = ({ id, name, value }) => {
                   item?.blur
                 }px ${item?.spread}px ${hexToRGBA(
                   settings?.dark_theme ? item?.dark_color : item?.color,
-                  item.alpha
+                  settings?.dark_theme ? item.alpha_dark : item?.alpha_light
                 )}`;
               })
               .join(", "),

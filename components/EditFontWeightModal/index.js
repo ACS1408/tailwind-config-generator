@@ -41,7 +41,7 @@ const EditFontWeightModal = ({ isOpen, closeModal, id, name, value }) => {
           <div className="fixed inset-0 bg-black/25" />
         </Transition.Child>
 
-        <div className="fixed inset-0">
+        <div className="fixed inset-0 overflow-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <Transition.Child
               as={Fragment}
@@ -60,6 +60,12 @@ const EditFontWeightModal = ({ isOpen, closeModal, id, name, value }) => {
                   Edit Font Weight
                 </Dialog.Title>
                 <form action="" onSubmit={formik.handleSubmit}>
+                  <label
+                    htmlFor="weightName"
+                    className="text-[15px] text-[#131313] font-medium"
+                  >
+                    Weight name
+                  </label>
                   <input
                     type="text"
                     className="mb-3 border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
@@ -69,12 +75,18 @@ const EditFontWeightModal = ({ isOpen, closeModal, id, name, value }) => {
                     onChange={formik.handleChange}
                     value={formik.values.weightName}
                   />
+                  <label
+                    htmlFor="weightValue"
+                    className="text-[15px] text-[#131313] font-medium"
+                  >
+                    Weight
+                  </label>
                   <input
                     type="text"
                     className="mb-2 border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
                     required
                     name="weightValue"
-                    placeholder="Value"
+                    placeholder="Weight (eg: 500, 600, etc.)"
                     onChange={formik.handleChange}
                     value={formik.values.weightValue}
                   />
@@ -83,7 +95,7 @@ const EditFontWeightModal = ({ isOpen, closeModal, id, name, value }) => {
                     className="mt-4 w-full h-9 bg-[#21DF4B] text-white
                   "
                   >
-                    Update font weight
+                    Save font weight
                   </button>
                 </form>
               </Dialog.Panel>

@@ -39,7 +39,7 @@ const AddFontSizeModal = ({ isOpen, closeModal }) => {
           <div className="fixed inset-0 bg-black/25" />
         </Transition.Child>
 
-        <div className="fixed inset-0">
+        <div className="fixed inset-0 overflow-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <Transition.Child
               as={Fragment}
@@ -58,6 +58,12 @@ const AddFontSizeModal = ({ isOpen, closeModal }) => {
                   Add Font Size
                 </Dialog.Title>
                 <form action="" onSubmit={formik.handleSubmit}>
+                  <label
+                    htmlFor="fontName"
+                    className="text-[15px] text-[#131313] font-medium"
+                  >
+                    Font size name
+                  </label>
                   <input
                     type="text"
                     className="mb-3 border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
@@ -67,12 +73,18 @@ const AddFontSizeModal = ({ isOpen, closeModal }) => {
                     onChange={formik.handleChange}
                     value={formik.values.fontName}
                   />
+                  <label
+                    htmlFor="fontSize"
+                    className="text-[15px] text-[#131313] font-medium"
+                  >
+                    Font size
+                  </label>
                   <input
                     type="text"
                     className="mb-2 border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
                     required
                     name="fontSize"
-                    placeholder="Size"
+                    placeholder="Size (in pixels eg: 14, 16, etc.)"
                     onChange={formik.handleChange}
                     value={formik.values.fontSize}
                   />

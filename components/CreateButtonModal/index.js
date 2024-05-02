@@ -159,7 +159,7 @@ const CreateButtonModal = ({
 
                   <fieldset className="space-y-4 col-span-2">
                     <legend className="text-sm font-semibold">
-                      Button Type
+                      Button type
                     </legend>
                     <div className="flex gap-4">
                       <div className="flex items-center">
@@ -167,7 +167,7 @@ const CreateButtonModal = ({
                           type="radio"
                           id="filledButton"
                           name="buttonType"
-                          className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
+                          className="h-4 w-4"
                           onChange={() =>
                             formik.setFieldValue("buttonType", "filled")
                           }
@@ -185,7 +185,7 @@ const CreateButtonModal = ({
                           type="radio"
                           id="outlinedButton"
                           name="buttonType"
-                          className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
+                          className="h-4 w-4"
                           onChange={() =>
                             formik.setFieldValue("buttonType", "outline")
                           }
@@ -203,7 +203,7 @@ const CreateButtonModal = ({
                           type="radio"
                           id="linkButton"
                           name="buttonType"
-                          className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
+                          className="h-4 w-4"
                           onChange={() =>
                             formik.setFieldValue("buttonType", "link")
                           }

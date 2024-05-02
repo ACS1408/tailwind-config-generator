@@ -21,7 +21,7 @@ const EditColorModal = ({
   const handleRemoveField = (key) => {
     formik.setFieldValue(
       "fields",
-      formik.values.fields.filter((field) => field.key !== key)
+      formik.values.fields.filter((field) => field.id !== key)
     );
   };
 
@@ -29,7 +29,7 @@ const EditColorModal = ({
     const newKey = `variant-${Math.floor(Math.random() * 9996 + 4)}`;
     formik.setFieldValue(
       "fields",
-      formik.values.fields.concat({ key: newKey, color: "", variant: "" })
+      formik.values.fields.concat({ id: newKey, color: "#000000", variant: "" })
     );
   };
 
@@ -71,7 +71,7 @@ const EditColorModal = ({
           <div className="fixed inset-0 bg-black/25" />
         </Transition.Child>
 
-        <div className="fixed inset-0">
+        <div className="fixed inset-0 overflow-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <Transition.Child
               as={Fragment}
@@ -142,6 +142,12 @@ const EditColorModal = ({
                       )}
                     </div>
                     <div className="col-span-2">
+                      <label
+                        htmlFor="colorName"
+                        className="text-[15px] text-[#131313] font-medium"
+                      >
+                        Color name
+                      </label>
                       <input
                         type="text"
                         placeholder="Enter name"
@@ -163,11 +169,8 @@ const EditColorModal = ({
                       <div className={`${style.variant}`}>
                         {formik.values?.fields?.map((field, i) => {
                           return (
-                            <>
-                              <div
-                                className="flex items-center gap-2 mt-4"
-                                key={i}
-                              >
+                            <Fragment key={field.id}>
+                              <div className="flex items-center gap-2 mt-4">
                                 <div className="flex items-center flex-[0_0_70%] max-w-[70%]">
                                   <div className="border border-[#dedede] h-9 p-1 flex gap-2">
                                     <input
@@ -203,7 +206,7 @@ const EditColorModal = ({
                                   <button
                                     type="button"
                                     className="size-8 rounded-full border border-[#dedede] flex justify-center items-center text-xl"
-                                    onClick={() => handleRemoveField(field.key)}
+                                    onClick={() => handleRemoveField(field.id)}
                                   >
                                     <span>
                                       <svg
@@ -224,7 +227,7 @@ const EditColorModal = ({
                                   <button
                                     type="button"
                                     className="size-8 rounded-full border border-[#dedede] flex justify-center items-center text-2xl"
-                                    onClick={() => handleAddField(field.key)}
+                                    onClick={() => handleAddField(field.id)}
                                   >
                                     <span>
                                       <svg
@@ -253,9 +256,12 @@ const EditColorModal = ({
                               {settings?.dark_theme ? (
                                 <div
                                   className="flex items-center gap-2 mt-4"
-                                  key={field.key}
+                                  key={field.id}
                                 >
-                                  <div className="flex items-center flex-[0_0_70%] max-w-[70%]">
+                                  <div
+                                    className="flex items-center flex-[0_0_70%] max-w-[70%]"
+                                    id={field?.id}
+                                  >
                                     <div className="border border-[#dedede] h-9 p-1 flex gap-2">
                                       <input
                                         type="color"
@@ -293,7 +299,7 @@ const EditColorModal = ({
                               ) : (
                                 ""
                               )}
-                            </>
+                            </Fragment>
                           );
                         })}
                       </div>
@@ -302,7 +308,7 @@ const EditColorModal = ({
                         className="mt-4 w-full h-9 bg-[#21DF4B] text-white
                         "
                       >
-                        Update color
+                        Save color
                       </button>
                     </div>
                   </div>

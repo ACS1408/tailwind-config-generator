@@ -42,7 +42,7 @@ const EditFontSizeModal = ({ isOpen, closeModal, id, name, size }) => {
           <div className="fixed inset-0 bg-black/25" />
         </Transition.Child>
 
-        <div className="fixed inset-0">
+        <div className="fixed inset-0 overflow-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <Transition.Child
               as={Fragment}
@@ -61,6 +61,12 @@ const EditFontSizeModal = ({ isOpen, closeModal, id, name, size }) => {
                   Edit Font Size
                 </Dialog.Title>
                 <form action="" onSubmit={formik.handleSubmit}>
+                  <label
+                    htmlFor="fontSizeName"
+                    className="text-[15px] text-[#131313] font-medium"
+                  >
+                    Font size name
+                  </label>
                   <input
                     type="text"
                     className="mb-3 border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
@@ -70,12 +76,18 @@ const EditFontSizeModal = ({ isOpen, closeModal, id, name, size }) => {
                     onChange={formik.handleChange}
                     value={formik.values.fontSizeName}
                   />
+                  <label
+                    htmlFor="fontSizeSize"
+                    className="text-[15px] text-[#131313] font-medium"
+                  >
+                    Font size name
+                  </label>
                   <input
                     type="text"
                     className="mb-2 border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
                     required
                     name="fontSizeSize"
-                    placeholder="Size"
+                    placeholder="Size (in pixels eg: 14, 16, etc.)"
                     onChange={formik.handleChange}
                     value={formik.values.fontSizeSize}
                   />
@@ -84,7 +96,7 @@ const EditFontSizeModal = ({ isOpen, closeModal, id, name, size }) => {
                     className="mt-4 w-full h-9 bg-[#21DF4B] text-white
                   "
                   >
-                    Update font size
+                    Save font size
                   </button>
                 </form>
               </Dialog.Panel>

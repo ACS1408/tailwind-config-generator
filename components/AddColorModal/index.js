@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import style from "./AddColorModal.module.scss";
 import { useFormik } from "formik";
 import { useRecoilState } from "recoil";
@@ -13,7 +13,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
   const handleRemoveField = (key) => {
     formik.setFieldValue(
       "fields",
-      formik.values.fields.filter((field) => field.key !== key)
+      formik.values.fields.filter((field) => field.id !== key)
     );
   };
 
@@ -21,7 +21,11 @@ const AddColorModal = ({ isOpen, closeModal }) => {
     const newKey = `variant-${Math.floor(Math.random() * 10000) + 1}`;
     formik.setFieldValue(
       "fields",
-      formik.values.fields.concat({ key: newKey, color: "", variant: "" })
+      formik.values.fields.concat({
+        id: newKey,
+        color: "#000000",
+        variant: "",
+      })
     );
   };
 
@@ -62,7 +66,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
           <div className="fixed inset-0 bg-black/25" />
         </Transition.Child>
 
-        <div className="fixed inset-0">
+        <div className="fixed inset-0 overflow-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <Transition.Child
               as={Fragment}
@@ -133,9 +137,15 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                       )}
                     </div>
                     <div className="col-span-2">
+                      <label
+                        htmlFor="colorName"
+                        className="text-[15px] text-[#131313] font-medium"
+                      >
+                        Color name
+                      </label>
                       <input
                         type="text"
-                        placeholder="Enter name"
+                        placeholder="Color name (eg: dark, grey, etc.)"
                         className="border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
                         id="colorName"
                         name="colorName"
@@ -154,11 +164,8 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                       <div className={`${style.variant}`}>
                         {formik.values?.fields?.map((field, i) => {
                           return (
-                            <>
-                              <div
-                                className="flex items-center gap-2 mt-4"
-                                key={field.key}
-                              >
+                            <Fragment key={field.id}>
+                              <div className="flex items-center gap-2 mt-4">
                                 <div className="flex items-center flex-[0_0_70%] max-w-[70%]">
                                   <div className="border border-[#dedede] h-9 p-1 flex gap-2">
                                     <input
@@ -194,7 +201,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                                   <button
                                     type="button"
                                     className="size-8 rounded-full border border-[#dedede] flex justify-center items-center text-xl"
-                                    onClick={() => handleRemoveField(field.key)}
+                                    onClick={() => handleRemoveField(field.id)}
                                   >
                                     <span>
                                       <svg
@@ -215,7 +222,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                                   <button
                                     type="button"
                                     className="size-8 rounded-full border border-[#dedede] flex justify-center items-center text-2xl"
-                                    onClick={() => handleAddField(field.key)}
+                                    onClick={() => handleAddField(field.id)}
                                   >
                                     <span>
                                       <svg
@@ -284,7 +291,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                               ) : (
                                 ""
                               )}
-                            </>
+                            </Fragment>
                           );
                         })}
                       </div>

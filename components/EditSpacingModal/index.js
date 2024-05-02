@@ -41,7 +41,7 @@ const EditSpacingModal = ({ isOpen, closeModal, id, name, size }) => {
           <div className="fixed inset-0 bg-black/25" />
         </Transition.Child>
 
-        <div className="fixed inset-0">
+        <div className="fixed inset-0 overflow-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <Transition.Child
               as={Fragment}
@@ -60,6 +60,12 @@ const EditSpacingModal = ({ isOpen, closeModal, id, name, size }) => {
                   Edit Spacing
                 </Dialog.Title>
                 <form action="" onSubmit={formik.handleSubmit}>
+                  <label
+                    htmlFor="spacingName"
+                    className="text-[15px] text-[#131313] font-medium"
+                  >
+                    Spacing name
+                  </label>
                   <input
                     type="text"
                     className="mb-3 border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
@@ -69,12 +75,18 @@ const EditSpacingModal = ({ isOpen, closeModal, id, name, size }) => {
                     onChange={formik.handleChange}
                     value={formik.values.spacingName}
                   />
+                  <label
+                    htmlFor="spacingSize"
+                    className="text-[15px] text-[#131313] font-medium"
+                  >
+                    Spacing size
+                  </label>
                   <input
                     type="text"
                     className="mb-2 border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
                     required
                     name="spacingSize"
-                    placeholder="Size"
+                    placeholder="Size (in pixels. eg: 22, 43, etc.)"
                     onChange={formik.handleChange}
                     value={formik.values.spacingSize}
                   />
@@ -83,7 +95,7 @@ const EditSpacingModal = ({ isOpen, closeModal, id, name, size }) => {
                     className="mt-4 w-full h-9 bg-[#21DF4B] text-white
                   "
                   >
-                    Update spacing
+                    Save spacing
                   </button>
                 </form>
               </Dialog.Panel>

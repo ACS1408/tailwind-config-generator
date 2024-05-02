@@ -5,9 +5,11 @@ import React, { Fragment } from "react";
 import { useRecoilState } from "recoil";
 import style from "./AddBoxShadowModal.module.scss";
 import { hexToRGBA } from "../utils/hexToRgba";
+import { settingState } from "@/atoms/settingState";
 
 const AddBoxShadowModal = ({ isOpen, closeModal }) => {
   const [boxShadowData, setBoxShadowData] = useRecoilState(boxShadowState);
+  const [settings, setSettings] = useRecoilState(settingState);
 
   const handleRemoveField = (key) => {
     formik.setFieldValue(
@@ -22,13 +24,14 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
       "shadowValue",
       formik.values.shadowValue.concat({
         key: newKey,
-        color: "",
-        dark_color: "",
-        alpha: "",
-        horizontal: "",
-        vertical: "",
-        blur: "",
-        spread: "",
+        color: "#000000",
+        dark_color: "#212121",
+        alpha_light: 0.1,
+        alpha_dark: 0.2,
+        horizontal: 0,
+        vertical: 0,
+        blur: 2,
+        spread: 2,
       })
     );
   };
@@ -42,11 +45,12 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
           key: "layer-0",
           color: "#000000",
           dark_color: "#000000",
-          alpha: "0.1",
-          horizontal: "",
-          vertical: "",
-          blur: "",
-          spread: "",
+          alpha_light: 0.1,
+          alpha_dark: 0.2,
+          horizontal: 0,
+          vertical: 0,
+          blur: 2,
+          spread: 2,
         },
       ],
     },
@@ -76,7 +80,7 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
           <div className="fixed inset-0 bg-black/25" />
         </Transition.Child>
 
-        <div className="fixed inset-0">
+        <div className="fixed inset-0 overflow-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <Transition.Child
               as={Fragment}
@@ -87,37 +91,72 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-sm transform rounded-2xl bg-white p-6 text-left align-middle shadow-lg transition-all">
+              <Dialog.Panel className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle shadow-lg transition-all">
                 <Dialog.Title
                   as="h3"
                   className="ttl text-2xl text-center mb-5 font-medium leading-6 text-gray-900"
                 >
                   Add Box Shadow
                 </Dialog.Title>
-                <div
-                  className="rounded-md max-w-40 mx-auto p-6 text-center mt-6 mb-10"
-                  style={{
-                    boxShadow: formik.values.shadowValue
-                      .map((item) => {
-                        return ` ${item?.horizontal}px ${item?.vertical}px ${
-                          item?.blur
-                        }px ${item?.spread}px ${hexToRGBA(
-                          item?.color,
-                          item.alpha
-                        )}`;
-                      })
-                      .join(", "),
-                  }}
-                >
-                  shadow-{formik.values.shadowName}
+                <div className="flex">
+                  <div
+                    className="rounded-md max-w-[45%] mx-auto flex-1 p-6 text-center mt-6 mb-10"
+                    style={{
+                      boxShadow: formik.values.shadowValue
+                        .map((item) => {
+                          return `${item?.horizontal}px ${item?.vertical}px ${
+                            item?.blur
+                          }px ${item?.spread}px ${hexToRGBA(
+                            item?.color,
+                            item.alpha_light
+                          )}`;
+                        })
+                        .join(", "),
+                    }}
+                  >
+                    shadow-{formik.values.shadowName}
+                    {settings?.dark_theme ? (
+                      <div className="">(light)</div>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  {settings?.dark_theme ? (
+                    <div
+                      className="rounded-md max-w-[45%] mx-auto flex-1 p-6 text-center mt-6 mb-10"
+                      style={{
+                        boxShadow: formik.values.shadowValue
+                          .map((item) => {
+                            return ` ${item?.horizontal}px ${
+                              item?.vertical
+                            }px ${item?.blur}px ${item?.spread}px ${hexToRGBA(
+                              item?.dark_color,
+                              item.alpha_dark
+                            )}`;
+                          })
+                          .join(", "),
+                      }}
+                    >
+                      shadow-{formik.values.shadowName}
+                      <div className="">(dark)</div>
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <form action="" onSubmit={formik.handleSubmit}>
+                  <label
+                    htmlFor="shadowName"
+                    className="text-[15px] text-[#131313] font-medium"
+                  >
+                    Shadow name
+                  </label>
                   <input
                     type="text"
                     className="mb-3 border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
                     required
                     name="shadowName"
-                    placeholder="Name"
+                    placeholder="Name (eg: lg, md, etc.)"
                     onChange={formik.handleChange}
                     value={formik.values.shadowName}
                   />
@@ -129,80 +168,156 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
                           key={field.key}
                         >
                           <div className="grid grid-cols-2 gap-3">
-                            <div className="border border-[#dedede] h-9 p-1 flex gap-2">
+                            <div className="">
+                              <label
+                                htmlFor={`shadowValue[${i}].color`}
+                                className="text-[15px] text-[#131313] font-medium"
+                              >
+                                Shadow color{" "}
+                                {settings?.dark_theme ? "(Light)" : ""}
+                              </label>
+                              <div className="border border-[#dedede] h-10 p-1 flex gap-2 items-center">
+                                <input
+                                  type="color"
+                                  className={`${style.color_picker} flex-[0_0_3rem] w-12 h-[30px]`}
+                                  required
+                                  id={`shadowValue[${i}].color`}
+                                  name={`shadowValue[${i}].color`}
+                                  onChange={(e) =>
+                                    formik.setFieldValue(
+                                      `shadowValue[${i}].color`,
+                                      e.target.value
+                                    )
+                                  }
+                                  value={formik.values.shadowValue[i]?.color}
+                                />
+                                <span>{field?.color}</span>
+                              </div>
+                            </div>
+                            <div className="">
+                              <label
+                                htmlFor={`shadowValue[${i}].alpha_light`}
+                                className="text-[15px] text-[#131313] font-medium"
+                              >
+                                Opacity {settings?.dark_theme ? "(Light)" : ""}
+                              </label>
                               <input
-                                type="color"
-                                className={`${style.color_picker} flex-[0_0_3rem] w-12 h-[26px]`}
+                                type="number"
+                                className="border border-[#dedede] text-[#1a1717] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
                                 required
-                                name={`shadowValue[${i}].color`}
+                                placeholder="Opacity"
+                                name={`shadowValue[${i}].alpha_light`}
                                 onChange={(e) =>
                                   formik.setFieldValue(
-                                    `shadowValue[${i}].color`,
+                                    `shadowValue[${i}].alpha_light`,
                                     e.target.value
                                   )
                                 }
-                                value={formik.values.shadowValue[i]?.color}
+                                value={
+                                  formik.values.shadowValue[i]?.alpha_light
+                                }
                               />
-                              <span>{field?.color}</span>
                             </div>
-                            <div className="border border-[#dedede] h-9 p-1 flex gap-2">
+                            {settings?.dark_theme ? (
+                              <>
+                                <div className="">
+                                  <label
+                                    htmlFor={`shadowValue[${i}].dark_color`}
+                                    className="text-[15px] text-[#131313] font-medium"
+                                  >
+                                    Shadow color (Dark)
+                                  </label>
+                                  <div className="border border-[#dedede] h-10 p-1 flex gap-2 items-center">
+                                    <input
+                                      type="color"
+                                      className={`${style.color_picker} flex-[0_0_3rem] w-12 h-[30px]`}
+                                      required
+                                      name={`shadowValue[${i}].dark_color`}
+                                      onChange={(e) =>
+                                        formik.setFieldValue(
+                                          `shadowValue[${i}].dark_color`,
+                                          e.target.value
+                                        )
+                                      }
+                                      value={
+                                        formik.values.shadowValue[i]?.dark_color
+                                      }
+                                    />
+                                    <span>{field?.dark_color}</span>
+                                  </div>
+                                </div>
+                                <div className="">
+                                  <label
+                                    htmlFor={`shadowValue[${i}].alpha_dark`}
+                                    className="text-[15px] text-[#131313] font-medium"
+                                  >
+                                    Opacity (Dark)
+                                  </label>
+                                  <input
+                                    type="number"
+                                    className="border border-[#dedede] text-[#1a1717] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
+                                    required
+                                    placeholder="Opacity"
+                                    name={`shadowValue[${i}].alpha_dark`}
+                                    onChange={(e) =>
+                                      formik.setFieldValue(
+                                        `shadowValue[${i}].alpha_dark`,
+                                        e.target.value
+                                      )
+                                    }
+                                    value={
+                                      formik.values.shadowValue[i]?.alpha_dark
+                                    }
+                                  />
+                                </div>
+                              </>
+                            ) : (
+                              ""
+                            )}
+                            <div className="">
+                              <label
+                                htmlFor={`shadowValue[${i}].horizontal`}
+                                className="text-[15px] text-[#131313] font-medium"
+                              >
+                                Horizontal offset
+                              </label>
                               <input
-                                type="color"
-                                className={`${style.color_picker} flex-[0_0_3rem] w-12 h-[26px]`}
+                                type="number"
+                                className="border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
                                 required
-                                name={`shadowValue[${i}].dark_color`}
+                                placeholder="Horizontal"
+                                name={`shadowValue[${i}].horizontal`}
                                 onChange={(e) =>
                                   formik.setFieldValue(
-                                    `shadowValue[${i}].dark_color`,
+                                    `shadowValue[${i}].horizontal`,
                                     e.target.value
                                   )
                                 }
-                                value={formik.values.shadowValue[i]?.dark_color}
+                                value={formik.values.shadowValue[i]?.horizontal}
                               />
-                              <span>{field?.dark_color}</span>
                             </div>
-                            <input
-                              type="number"
-                              className="border border-[#dedede] text-[#1a1717] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
-                              required
-                              placeholder="Opacity"
-                              name={`shadowValue[${i}].alpha`}
-                              onChange={(e) =>
-                                formik.setFieldValue(
-                                  `shadowValue[${i}].alpha`,
-                                  e.target.value
-                                )
-                              }
-                              value={formik.values.shadowValue[i]?.alpha}
-                            />
-                            <input
-                              type="number"
-                              className="border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
-                              required
-                              placeholder="Horizontal"
-                              name={`shadowValue[${i}].horizontal`}
-                              onChange={(e) =>
-                                formik.setFieldValue(
-                                  `shadowValue[${i}].horizontal`,
-                                  e.target.value
-                                )
-                              }
-                              value={formik.values.shadowValue[i]?.horizontal}
-                            />
-                            <input
-                              type="number"
-                              className="border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
-                              required
-                              placeholder="Vertical"
-                              name={`shadowValue[${i}].vertical`}
-                              onChange={(e) =>
-                                formik.setFieldValue(
-                                  `shadowValue[${i}].vertical`,
-                                  e.target.value
-                                )
-                              }
-                              value={formik.values.shadowValue[i]?.vertical}
-                            />
+                            <div className="">
+                              <label
+                                htmlFor={`shadowValue[${i}].vertical`}
+                                className="text-[15px] text-[#131313] font-medium"
+                              >
+                                Vertical offset
+                              </label>
+                              <input
+                                type="number"
+                                className="border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
+                                required
+                                placeholder="Vertical"
+                                name={`shadowValue[${i}].vertical`}
+                                onChange={(e) =>
+                                  formik.setFieldValue(
+                                    `shadowValue[${i}].vertical`,
+                                    e.target.value
+                                  )
+                                }
+                                value={formik.values.shadowValue[i]?.vertical}
+                              />
+                            </div>
                             <input
                               type="number"
                               className="border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"

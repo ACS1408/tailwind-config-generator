@@ -96,7 +96,7 @@ const EditButtonModal = ({
           <div className="fixed inset-0 bg-black/25" />
         </Transition.Child>
 
-        <div className="fixed inset-0">
+        <div className="fixed inset-0 overflow-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <Transition.Child
               as={Fragment}
@@ -172,7 +172,7 @@ const EditButtonModal = ({
 
                   <fieldset className="space-y-4 col-span-2">
                     <legend className="text-sm font-semibold">
-                      Button Type
+                      Button type
                     </legend>
                     <div className="flex gap-4">
                       <div className="flex items-center">
@@ -180,7 +180,7 @@ const EditButtonModal = ({
                           type="radio"
                           id="filledButton"
                           name="buttonType"
-                          className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
+                          className="h-4 w-4"
                           onChange={() =>
                             formik.setFieldValue("buttonType", "filled")
                           }
@@ -198,7 +198,7 @@ const EditButtonModal = ({
                           type="radio"
                           id="outlinedButton"
                           name="buttonType"
-                          className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
+                          className="h-4 w-4"
                           onChange={() =>
                             formik.setFieldValue("buttonType", "outline")
                           }
@@ -216,7 +216,7 @@ const EditButtonModal = ({
                           type="radio"
                           id="linkButton"
                           name="buttonType"
-                          className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
+                          className="h-4 w-4"
                           onChange={() =>
                             formik.setFieldValue("buttonType", "link")
                           }
@@ -417,7 +417,7 @@ const EditButtonModal = ({
                     type="submit"
                     className="mt-4 col-span-2 w-full h-9 bg-[#21DF4B] text-white"
                   >
-                    Update Button
+                    Save Button
                   </button>
                   <button
                     type="button"
