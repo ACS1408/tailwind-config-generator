@@ -1,25 +1,29 @@
 "use client";
-import CodeBlock from "@/components/CodeBlock";
+import FloatingMenuBar from "@/components/FloatingMenuBar";
+import MainHeader from "@/components/MainHeader";
 import BoxShadowWidget from "@/widgets/BoxShadowWidget";
 import ButtonsWidget from "@/widgets/ButtonsWidget";
 import ColorWidget from "@/widgets/ColorWidget";
 import FontSizeWidget from "@/widgets/FontSizeWidget";
 import FontWeightWidget from "@/widgets/FontWeightWidget";
-import SettingsWidget from "@/widgets/SettingsWidget";
 import SpacingWidget from "@/widgets/SpacingWidget";
 import { RecoilRoot } from "recoil";
 
 export default function Home() {
   return (
-    <RecoilRoot>
-      <SettingsWidget />
-      <ColorWidget />
-      <SpacingWidget />
-      <FontWeightWidget />
-      <FontSizeWidget />
-      <BoxShadowWidget />
-      <ButtonsWidget />
-      <CodeBlock />
-    </RecoilRoot>
+    <>
+      <MainHeader />
+      <RecoilRoot>
+        <div className="pt-20 pb-24">
+          <ColorWidget />
+          <SpacingWidget />
+          <FontWeightWidget />
+          <FontSizeWidget />
+          <BoxShadowWidget />
+          <ButtonsWidget />
+        </div>
+        <FloatingMenuBar />
+      </RecoilRoot>
+    </>
   );
 }

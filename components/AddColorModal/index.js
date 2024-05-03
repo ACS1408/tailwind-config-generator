@@ -63,7 +63,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/25" />
+          <div className="fixed inset-0 bg-[#00000090]" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-auto">
@@ -77,7 +77,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-lg transform rounded-2xl bg-white p-6 text-left align-middle shadow-lg transition-all">
+              <Dialog.Panel className="w-full max-w-lg transform rounded-2xl bg-white p-6 text-left align-middle transition-all">
                 <Dialog.Title
                   as="h3"
                   className="ttl text-2xl text-center mb-5 font-medium leading-6 text-gray-900"

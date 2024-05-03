@@ -9,11 +9,11 @@ const colors = {
     800: "var(--wac-black-800)",
     700: "var(--wac-black-700)",
   },
+  white: "var(--wac-white)",
   dark: "var(--wac-dark)",
   error: "var(--wac-error)",
   warning: "var(--wac-warning)",
   success: "var(--wac-success)",
-  white: "var(--wac-white)",
 };
 
 const spacing = {

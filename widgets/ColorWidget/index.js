@@ -23,7 +23,7 @@ const ColorWidget = () => {
 
   return (
     <>
-      <section className="color-widget py-8">
+      <section className="color-widget py-8 pt-12">
         <Container>
           <div className="flex items-center justify-between mb-6">
             <h2 className="ttl text-3xl font-semibold">Color tones</h2>
@@ -48,7 +48,7 @@ const ColorWidget = () => {
                     className={`${
                       isExtend.colors ? "translate-x-[26px]" : "translate-x-0"
                     }
-                    pointer-events-none inline-block h-[26px] w-[26px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                    pointer-events-none inline-block h-[26px] w-[26px] transform rounded-full bg-white transition duration-200 ease-in-out`}
                   />
                 </Switch>
               </div>

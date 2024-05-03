@@ -3,17 +3,17 @@
 @tailwind utilities;
 
 :root {
-  --wac-primary: #7300ff;
-  --wac-secondary: #00f0ff;
+  --wac-primary: #8060f6;
+  --wac-secondary: #b093fb;
   --wac-black: #000000;
   --wac-black-900: #313131;
   --wac-black-800: #616161;
   --wac-black-700: #919191;
+  --wac-white: #ffffff;
   --wac-dark: #263251;
   --wac-error: #ff0000;
   --wac-warning: #ffd500;
   --wac-success: #00ff00;
-  --wac-white: #ffffff;
 
   --wac-spacing-4pt5: 1.125rem;
   --wac-spacing-5pt5: 1.375rem;
@@ -34,22 +34,11 @@
   --wac-text-h6: 1.125rem;
   --wac-text-p: 1rem;
 
-  --wac-shadow-sm: 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
-  --wac-shadow-md: 0px 0px 4px 5px rgba(0, 0, 0, 0.06);
-  --wac-shadow-lg: 0px 0px 6px 3px rgba(0, 0, 0, 0.15);
+  --wac-shadow-sm: 0px 0px 2px 2px rgba(33, 33, 33, 1);
+  --wac-shadow-md: 0px 0px 4px 5px rgba(65, 65, 65, 1);
+  --wac-shadow-lg: 0px 0px 6px 3px rgba(97, 97, 97, 1);
 
   --gutter-x: 24px;
-}
-
-[data-theme="dark"] {
-  --wac-black: #333333;
-  --wac-black-900: #212121;
-  --wac-black-800: #414141;
-  --wac-black-700: #616161;
-
-  --wac-shadow-sm: 0px 0px 2px 2px rgba(33, 33, 33, 0.1);
-  --wac-shadow-md: 0px 0px 4px 5px rgba(65, 65, 65, 0.06);
-  --wac-shadow-lg: 0px 0px 6px 3px rgba(97, 97, 97, 0.15);
 }
 
 @layer base {
@@ -107,17 +96,29 @@
   .container {
     @apply sm:max-w-[540px] md:max-w-[720px] 
     lg:max-w-[960px] xl:max-w-[1080px] 
-    xxl:max-w-[1260px] xxxl:max-w-[1296px];
+    xxl:max-w-[1260px] xxxl:max-w-[1403px];
   }
 
   //Buttons
   .btn-primary {
-    @apply bg-primary border border-[1px] border-primary text-white px-[1.25rem] py-[0.625rem];
+    @apply bg-[#7300FF] border  border-[#7300FF] text-white px-[1.25rem] py-[0.625rem];
   }
   .btn-secondary {
-    @apply bg-secondary border border-[1px] border-secondary text-white px-[1.25rem] py-[0.625rem];
+    @apply bg-[#00F0FF] border  border-[#00F0FF] text-white px-[1.25rem] py-[0.625rem];
   }
 }
 
 @layer utilities {
+}
+
+.no-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+[aria-label="Copy Code"] {
+  position: fixed !important;
+  top: 154px !important;
+  right: 50px !important;
 }

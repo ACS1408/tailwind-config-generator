@@ -32,6 +32,7 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
         vertical: 0,
         blur: 2,
         spread: 2,
+        inset: false,
       })
     );
   };
@@ -67,7 +68,7 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/25" />
+          <div className="fixed inset-0 bg-[#00000090]" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-auto">
@@ -81,7 +82,7 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle shadow-lg transition-all">
+              <Dialog.Panel className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle transition-all">
                 <Dialog.Title
                   as="h3"
                   className="ttl text-2xl text-center mb-5 font-medium leading-6 text-gray-900"
@@ -94,12 +95,11 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
                     style={{
                       boxShadow: formik.values.shadowValue
                         .map((item) => {
-                          return `${item?.horizontal}px ${item?.vertical}px ${
-                            item?.blur
-                          }px ${item?.spread}px ${hexToRGBA(
-                            item?.color,
-                            item.alpha_light
-                          )}`;
+                          return `${item?.inset ? "inset" : ""} ${
+                            item?.horizontal
+                          }px ${item?.vertical}px ${item?.blur}px ${
+                            item?.spread
+                          }px ${hexToRGBA(item?.color, item.alpha_light)}`;
                         })
                         .join(", "),
                     }}
@@ -117,9 +117,11 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
                       style={{
                         boxShadow: formik.values.shadowValue
                           .map((item) => {
-                            return ` ${item?.horizontal}px ${
-                              item?.vertical
-                            }px ${item?.blur}px ${item?.spread}px ${hexToRGBA(
+                            return `${item?.inset ? "inset" : ""} ${
+                              item?.horizontal
+                            }px ${item?.vertical}px ${item?.blur}px ${
+                              item?.spread
+                            }px ${hexToRGBA(
                               item?.dark_color,
                               item.alpha_dark
                             )}`;
@@ -196,6 +198,7 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
                                 className="border border-[#dedede] text-[#1a1717] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
                                 required
                                 placeholder="Opacity"
+                                id={`shadowValue[${i}].alpha_light`}
                                 name={`shadowValue[${i}].alpha_light`}
                                 onChange={(e) =>
                                   formik.setFieldValue(
@@ -222,6 +225,7 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
                                       type="color"
                                       className={`${style.color_picker} flex-[0_0_3rem] w-12 h-[30px]`}
                                       required
+                                      id={`shadowValue[${i}].dark_color`}
                                       name={`shadowValue[${i}].dark_color`}
                                       onChange={(e) =>
                                         formik.setFieldValue(
@@ -248,6 +252,7 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
                                     className="border border-[#dedede] text-[#1a1717] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
                                     required
                                     placeholder="Opacity"
+                                    id={`shadowValue[${i}].alpha_dark`}
                                     name={`shadowValue[${i}].alpha_dark`}
                                     onChange={(e) =>
                                       formik.setFieldValue(
@@ -276,6 +281,7 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
                                 className="border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
                                 required
                                 placeholder="Horizontal"
+                                id={`shadowValue[${i}].horizontal`}
                                 name={`shadowValue[${i}].horizontal`}
                                 onChange={(e) =>
                                   formik.setFieldValue(
@@ -298,6 +304,7 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
                                 className="border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
                                 required
                                 placeholder="Vertical"
+                                id={`shadowValue[${i}].vertical`}
                                 name={`shadowValue[${i}].vertical`}
                                 onChange={(e) =>
                                   formik.setFieldValue(
@@ -308,34 +315,72 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
                                 value={formik.values.shadowValue[i]?.vertical}
                               />
                             </div>
-                            <input
-                              type="number"
-                              className="border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
-                              required
-                              placeholder="Blur"
-                              name={`shadowValue[${i}].blur`}
-                              onChange={(e) =>
-                                formik.setFieldValue(
-                                  `shadowValue[${i}].blur`,
-                                  e.target.value
-                                )
-                              }
-                              value={formik.values.shadowValue[i]?.blur}
-                            />
-                            <input
-                              type="number"
-                              className="border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
-                              required
-                              placeholder="Spread"
-                              name={`shadowValue[${i}].spread`}
-                              onChange={(e) =>
-                                formik.setFieldValue(
-                                  `shadowValue[${i}].spread`,
-                                  e.target.value
-                                )
-                              }
-                              value={formik.values.shadowValue[i]?.spread}
-                            />
+                            <div className="">
+                              <label
+                                htmlFor={`shadowValue[${i}].blur`}
+                                className="text-[15px] text-[#131313] font-medium"
+                              >
+                                Blur radius
+                              </label>
+                              <input
+                                type="number"
+                                className="border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
+                                required
+                                placeholder="Blur"
+                                id={`shadowValue[${i}].blur`}
+                                name={`shadowValue[${i}].blur`}
+                                onChange={(e) =>
+                                  formik.setFieldValue(
+                                    `shadowValue[${i}].blur`,
+                                    e.target.value
+                                  )
+                                }
+                                value={formik.values.shadowValue[i]?.blur}
+                              />
+                            </div>
+                            <div className="">
+                              <label
+                                htmlFor={`shadowValue[${i}].spread`}
+                                className="text-[15px] text-[#131313] font-medium"
+                              >
+                                Spread radius
+                              </label>
+                              <input
+                                type="number"
+                                className="border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
+                                required
+                                placeholder="Spread"
+                                id={`shadowValue[${i}].spread`}
+                                name={`shadowValue[${i}].spread`}
+                                onChange={(e) =>
+                                  formik.setFieldValue(
+                                    `shadowValue[${i}].spread`,
+                                    e.target.value
+                                  )
+                                }
+                                value={formik.values.shadowValue[i]?.spread}
+                              />
+                            </div>
+                            <div className="col-span-2 flex items-center gap-2">
+                              <input
+                                type="checkbox"
+                                id={`shadowValue[${i}].inset`}
+                                name={`shadowValue[${i}].inset`}
+                                onChange={(e) =>
+                                  formik.setFieldValue(
+                                    `shadowValue[${i}].inset`,
+                                    e.target.checked
+                                  )
+                                }
+                                checked={formik.values.shadowValue[i]?.inset}
+                              />
+                              <label
+                                htmlFor={`shadowValue[${i}].inset`}
+                                className="text-[15px] text-[#131313] font-medium"
+                              >
+                                Inset
+                              </label>
+                            </div>
                           </div>
                           {i > 0 ? (
                             <div className="text-right">

@@ -56,17 +56,31 @@ const CodeBlock = () => {
     if (
       Object.values(border).every((value) => value === Object.values(border)[0])
     ) {
-      return `border border-[${Object.values(border)[0]}px]`;
+      return `border ${
+        Object.values(border)[0] !== 1
+          ? `border-[${Object.values(border)[0]}px]`
+          : ""
+      }`;
     } else {
       if (top === bottom && left === right) {
-        return `border border-x-[${left}px] border-y-[${top}px]`;
+        return `border ${left !== 1 ? `border-x-[${left}px]` : ""} ${
+          top !== 1 ? `border-y-[${top}px]` : ""
+        }`;
       } else if (top === bottom && left !== right) {
-        return `border border-y-[${top}px] border-s-[${left}px] border-e-[${right}px]`;
+        return `border ${top !== 1 ? `border-y-[${top}px]` : ""} ${
+          left !== 1 ? `border-s-[${left}px]` : ""
+        } ${right !== 1 ? `border-e-[${right}px]` : ""}`;
       }
       if (left === right && top !== bottom) {
-        return `border border-x-[${left}px] border-t-[${top}px] border-b-[${right}px]`;
+        return `border ${left !== 1 ? `border-x-[${left}px]` : ""} ${
+          top !== 1 ? `border-t-[${top}px]` : ""
+        } ${bottom !== 1 ? `border-b-[${bottom}px]` : ""}`;
       } else {
-        return `border border-s-[${left}px] border-e-[${right}px] border-t-[${top}px] border-b-[${bottom}px]`;
+        return `border ${left !== 1 ? `border-s-[${left}px]` : ""} ${
+          right !== 1 ? `border-e-[${right}px]` : ""
+        } ${top !== 1 ? `border-t-[${top}px]` : ""} ${
+          bottom !== 1 ? `border-b-[${bottom}px]` : ""
+        }`;
       }
     }
   };
@@ -409,42 +423,39 @@ ${colorData
   }
 
   return (
-    <section className="code-block py-8">
-      <Container>
-        <h2 className="ttl text-3xl font-semibold mb-6">Code</h2>
-        <Tab.Group>
-          <Tab.List className="flex bg-[#282a36] rounded-t-md">
-            {Object.keys(categories).map((category) => (
-              <Tab
-                key={category}
-                className={({ selected }) =>
-                  classNames(
-                    "outline-none px-6 py-3 text-white text-sm relative",
-                    "after:content-[''] after:w-full after:h-[2px] after:bg-white after:absolute after:bottom-0 after:left-0",
-                    selected ? "" : "after:hidden"
-                  )
-                }
-              >
-                {category}
-              </Tab>
-            ))}
-          </Tab.List>
-          <Tab.Panels className="py-4 bg-[#282a36] rounded-b-md">
-            {Object.values(categories).map((posts, idx) => (
-              <Tab.Panel key={idx}>
-                <CopyBlock
-                  text={posts.text}
-                  language={posts.language}
-                  theme={dracula}
-                  showLineNumbers
-                  wrapLines
-                />
-              </Tab.Panel>
-            ))}
-          </Tab.Panels>
-        </Tab.Group>
-      </Container>
-    </section>
+    <div className="code-block">
+      <Tab.Group>
+        <Tab.List className="flex bg-[#282a36] rounded-t-md">
+          {Object.keys(categories).map((category) => (
+            <Tab
+              key={category}
+              className={({ selected }) =>
+                classNames(
+                  "outline-none px-6 py-3 text-white text-sm relative",
+                  "after:content-[''] after:w-full after:h-[2px] after:bg-white after:absolute after:bottom-0 after:left-0",
+                  selected ? "" : "after:hidden"
+                )
+              }
+            >
+              {category}
+            </Tab>
+          ))}
+        </Tab.List>
+        <Tab.Panels className="py-4 bg-[#282a36] rounded-b-md h-[calc(100vh_-_154px)] overflow-auto no-scrollbar">
+          {Object.values(categories).map((posts, idx) => (
+            <Tab.Panel key={idx}>
+              <CopyBlock
+                text={posts.text}
+                language={posts.language}
+                theme={dracula}
+                showLineNumbers
+                wrapLines
+              />
+            </Tab.Panel>
+          ))}
+        </Tab.Panels>
+      </Tab.Group>
+    </div>
   );
 };
 

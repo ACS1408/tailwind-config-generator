@@ -49,7 +49,7 @@ const BoxShadowWidget = () => {
                   className={`${
                     isExtend.box_shadow ? "translate-x-[26px]" : "translate-x-0"
                   }
-                  pointer-events-none inline-block h-[26px] w-[26px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                  pointer-events-none inline-block h-[26px] w-[26px] transform rounded-full bg-white transition duration-200 ease-in-out`}
                 />
               </Switch>
             </div>
