@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import style from "./AddColorModal.module.scss";
 import { useFormik } from "formik";
 import { useRecoilState } from "recoil";
@@ -18,12 +18,13 @@ const AddColorModal = ({ isOpen, closeModal }) => {
   };
 
   const handleAddField = () => {
-    const newKey = `variant-${Math.floor(Math.random() * 10000) + 1}`;
+    const newKey = `new-variant-${Math.floor(Math.random() * 10000) + 1}`;
     formik.setFieldValue(
       "fields",
       formik.values.fields.concat({
         id: newKey,
-        color: "#000000",
+        color: formik.values.colorHex,
+        dark_theme_color: formik.values.colorDarkHex,
         variant: "",
       })
     );
@@ -164,100 +165,80 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                       <div className={`${style.variant}`}>
                         {formik.values?.fields?.map((field, i) => {
                           return (
-                            <Fragment key={field.id}>
-                              <div className="flex items-center gap-2 mt-4">
-                                <div className="flex items-center flex-[0_0_70%] max-w-[70%]">
-                                  <div className="border border-[#dedede] h-9 p-1 flex gap-2">
-                                    <input
-                                      type="color"
-                                      className="flex-[0_0_3rem] w-12 h-[26px]"
-                                      required
-                                      name={`fields[${i}].color`}
-                                      onChange={(e) =>
-                                        formik.setFieldValue(
-                                          `fields[${i}].color`,
-                                          e.target.value
-                                        )
-                                      }
-                                      value={formik.values.fields[i]?.color}
-                                    />
-                                    <input
-                                      type="text"
-                                      className="w-full"
-                                      required
-                                      name={`fields[${i}].variant`}
-                                      placeholder="Variant name"
-                                      onChange={(e) =>
-                                        formik.setFieldValue(
-                                          `fields[${i}].variant`,
-                                          e.target.value
-                                        )
-                                      }
-                                      value={formik.values.fields[i]?.variant}
-                                    />
-                                  </div>
-                                </div>
-                                <div className="flex-[0_0_30px] max-w-[30px] ms-auto flex justify-center items-center">
-                                  <button
-                                    type="button"
-                                    className="size-8 rounded-full border border-[#dedede] flex justify-center items-center text-xl"
-                                    onClick={() => handleRemoveField(field.id)}
-                                  >
-                                    <span>
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        id="close"
-                                        width={24}
-                                        height={24}
-                                      >
-                                        <g>
-                                          <path d="m13.41 12 4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
-                                        </g>
-                                      </svg>
-                                    </span>
-                                  </button>
-                                </div>
-                                <div className="flex-[0_0_30px] max-w-[30px] ms-auto flex justify-center items-center">
-                                  <button
-                                    type="button"
-                                    className="size-8 rounded-full border border-[#dedede] flex justify-center items-center text-2xl"
-                                    onClick={() => handleAddField(field.id)}
-                                  >
-                                    <span>
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        id="plus"
-                                        width={22}
-                                        height={22}
-                                      >
-                                        <g>
-                                          <g>
-                                            <rect
-                                              width="24"
-                                              height="24"
-                                              opacity="0"
-                                              transform="rotate(180 12 12)"
-                                            />
-                                            <path d="M19 11h-6V5a1 1 0 0 0-2 0v6H5a1 1 0 0 0 0 2h6v6a1 1 0 0 0 2 0v-6h6a1 1 0 0 0 0-2z" />
-                                          </g>
-                                        </g>
-                                      </svg>
-                                    </span>
-                                  </button>
+                            <div
+                              key={field.id}
+                              className="border border-[#ededed] p-3 mt-4 relative"
+                            >
+                              <button
+                                className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 bg-white border border-[#ededed] rounded-full size-5 flex justify-center items-center"
+                                onClick={() => handleRemoveField(field.id)}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  id="close"
+                                  width={16}
+                                  height={16}
+                                >
+                                  <g>
+                                    <path d="m13.41 12 4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
+                                  </g>
+                                </svg>
+                              </button>
+                              <label
+                                htmlFor={`fields[${i}].variant`}
+                                className="text-[15px] text-[#131313] font-medium"
+                              >
+                                Variant name{" "}
+                                {`${settings?.dark_theme ? "(Light)" : ""}`}
+                              </label>
+                              <div className="flex items-center gap-2">
+                                <div className="border border-[#dedede] h-9 p-1 flex gap-2 w-full">
+                                  <input
+                                    type="color"
+                                    className="flex-[0_0_3rem] w-full h-[26px]"
+                                    required
+                                    name={`fields[${i}].color`}
+                                    onChange={(e) =>
+                                      formik.setFieldValue(
+                                        `fields[${i}].color`,
+                                        e.target.value
+                                      )
+                                    }
+                                    value={formik.values.fields[i]?.color}
+                                  />
+                                  <input
+                                    type="text"
+                                    className="w-full"
+                                    required
+                                    name={`fields[${i}].variant`}
+                                    placeholder="Variant name"
+                                    onChange={(e) =>
+                                      formik.setFieldValue(
+                                        `fields[${i}].variant`,
+                                        e.target.value
+                                      )
+                                    }
+                                    value={formik.values.fields[i]?.variant}
+                                  />
                                 </div>
                               </div>
                               {settings?.dark_theme ? (
-                                <div
-                                  className="flex items-center gap-2 mt-4"
-                                  key={field.key}
-                                >
-                                  <div className="flex items-center flex-[0_0_70%] max-w-[70%]">
-                                    <div className="border border-[#dedede] h-9 p-1 flex gap-2">
+                                <>
+                                  <label
+                                    htmlFor={`fields[${i}].variant`}
+                                    className="text-[15px] text-[#131313] font-medium mt-3 block"
+                                  >
+                                    Variant name (Dark)
+                                  </label>
+                                  <div
+                                    className="flex items-center gap-2"
+                                    key={field.key}
+                                  >
+                                    <div className="border border-[#dedede] h-9 p-1 flex gap-2 w-full">
                                       <input
                                         type="color"
-                                        className="flex-[0_0_3rem] w-12 h-[26px]"
+                                        className="flex-[0_0_3rem] w-full h-[26px]"
                                         required
                                         name={`fields[${i}].dark_theme_color`}
                                         onChange={(e) =>
@@ -287,13 +268,26 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                                       />
                                     </div>
                                   </div>
-                                </div>
+                                </>
                               ) : (
                                 ""
                               )}
-                            </Fragment>
+                            </div>
                           );
                         })}
+                        {formik.values?.fields?.length > 0 ? (
+                          <div className="flex justify-end">
+                            <button
+                              type="button"
+                              className="text-sm text-[#21df4b] mt-1"
+                              onClick={handleAddField}
+                            >
+                              <span>Add Field</span>
+                            </button>
+                          </div>
+                        ) : (
+                          ""
+                        )}
                       </div>
                       <button
                         type="submit"

@@ -1,7 +1,7 @@
 import { fontWeightState } from "@/atoms/fontWeightState";
 import { Dialog, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useRecoilState } from "recoil";
 
 const EditFontWeightModal = ({ isOpen, closeModal, id, name, value }) => {
@@ -25,6 +25,16 @@ const EditFontWeightModal = ({ isOpen, closeModal, id, name, value }) => {
       closeModal();
     },
   });
+
+  useEffect(() => {
+    formik.resetForm({
+      values: {
+        id: id,
+        weightName: name,
+        weightValue: value,
+      },
+    });
+  }, [fontWeightData]);
 
   return (
     <Transition appear show={isOpen} as={Fragment}>

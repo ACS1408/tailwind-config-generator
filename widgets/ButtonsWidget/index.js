@@ -1,6 +1,7 @@
 import { buttonState } from "@/atoms/buttonState";
 import ButtonBlock from "@/components/ButtonBlock";
 import CreateButtonModal from "@/components/CreateButtonModal";
+import NoDataPlaceholder from "@/components/NoDataPlaceholder";
 import Container from "@/components/utils/Container";
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
@@ -51,14 +52,20 @@ const ButtonsWidget = () => {
                   </g>
                 </svg>
               </div>
-              <span className="text-lg text-black">Add new</span>
+              <span className="text-lg text-black font-semibold">Add new</span>
             </button>
           </div>
-          <div className="flex gap-4">
-            {buttonData?.map((button) => {
-              return <ButtonBlock key={button?.id} button={button} />;
-            })}
-          </div>
+          {buttonData?.length > 0 ? (
+            <>
+              <div className="flex gap-4">
+                {buttonData?.map((button) => {
+                  return <ButtonBlock key={button?.id} button={button} />;
+                })}
+              </div>
+            </>
+          ) : (
+            <NoDataPlaceholder />
+          )}
         </Container>
       </section>
       <CreateButtonModal

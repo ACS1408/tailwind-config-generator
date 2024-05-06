@@ -2,6 +2,7 @@ import { extendState } from "@/atoms/extendState";
 import { fontSizeState } from "@/atoms/fontSizeState";
 import AddFontSizeModal from "@/components/AddFontSizeModal";
 import FontSizeBlock from "@/components/FontSizeBlock";
+import NoDataPlaceholder from "@/components/NoDataPlaceholder";
 import Container from "@/components/utils/Container";
 import { Switch } from "@headlessui/react";
 import React, { useState } from "react";
@@ -81,27 +82,39 @@ const FontSizeWidget = () => {
                   </g>
                 </svg>
               </div>
-              <span className="text-lg text-black">Add new</span>
+              <span className="text-lg text-black font-semibold">Add new</span>
             </button>
           </div>
         </div>
-        <div className="spacing-block grid grid-cols-12 items-center">
-          <div className="col-span-1 py-2 font-bold text-md">Name</div>
-          <div className="col-span-1 py-2 px-4 font-bold text-md">Size</div>
-          <div className="col-span-1 py-2 px-4 font-bold text-md">Pixels</div>
-          <div className="col-span-7 py-2 px-4 font-bold text-md"></div>
-          <div className="col-span-2 py-2 px-4 font-bold text-md"></div>
-          {fontSizeData?.map((font, i) => {
-            return (
-              <FontSizeBlock
-                id={font?.id}
-                name={font?.name}
-                size={font?.size}
-                key={font?.id}
-              />
-            );
-          })}
-        </div>
+        {fontSizeData?.length > 0 ? (
+          <>
+            <div className="spacing-block flex flex-wrap items-center">
+              <div className="flex-[0_0_10%] max-w-[10%] py-2 font-bold text-md">
+                Name
+              </div>
+              <div className="flex-[0_0_15%] max-w-[15%] py-2 px-4 font-bold text-md">
+                Size
+              </div>
+              <div className="flex-[0_0_15%] max-w-[15%] py-2 px-4 font-bold text-md">
+                Pixels
+              </div>
+              <div className="flex-[0_0_40%] max-w-[40%] py-2 px-4 font-bold text-md"></div>
+              <div className="flex-[0_0_20%] max-w-[20%] py-2 px-4 font-bold text-md"></div>
+              {fontSizeData?.map((font, i) => {
+                return (
+                  <FontSizeBlock
+                    id={font?.id}
+                    name={font?.name}
+                    size={font?.size}
+                    key={font?.id}
+                  />
+                );
+              })}
+            </div>
+          </>
+        ) : (
+          <NoDataPlaceholder />
+        )}
       </Container>
       <AddFontSizeModal isOpen={isOpen} closeModal={closeModal} />
     </section>

@@ -2,7 +2,7 @@ import { fontSizeState } from "@/atoms/fontSizeState";
 import { spacingState } from "@/atoms/spacingState";
 import { Dialog, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useRecoilState } from "recoil";
 
 const EditFontSizeModal = ({ isOpen, closeModal, id, name, size }) => {
@@ -26,6 +26,16 @@ const EditFontSizeModal = ({ isOpen, closeModal, id, name, size }) => {
       closeModal();
     },
   });
+
+  useEffect(() => {
+    formik.resetForm({
+      values: {
+        id: id,
+        fontSizeName: name,
+        fontSizeSize: size,
+      },
+    });
+  }, [fontSizeData]);
 
   return (
     <Transition appear show={isOpen} as={Fragment}>

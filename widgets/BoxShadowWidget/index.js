@@ -2,6 +2,7 @@ import { boxShadowState } from "@/atoms/boxShadowState";
 import { extendState } from "@/atoms/extendState";
 import AddBoxShadowModal from "@/components/AddBoxShadowModal";
 import BoxShadowBlock from "@/components/BoxShadowBlock";
+import NoDataPlaceholder from "@/components/NoDataPlaceholder";
 import Container from "@/components/utils/Container";
 import { Switch } from "@headlessui/react";
 import React, { useState } from "react";
@@ -81,22 +82,32 @@ const BoxShadowWidget = () => {
                   </g>
                 </svg>
               </div>
-              <span className="text-lg text-black">Add new</span>
+              <span className="text-lg text-black font-semibold">Add new</span>
             </button>
           </div>
         </div>
-        <div className="spacing-block grid grid-cols-7 gap-4">
-          {boxShadowData?.map((shadow) => {
-            return (
-              <BoxShadowBlock
-                id={shadow?.id}
-                name={shadow?.name}
-                value={shadow?.value}
-                key={shadow?.id}
-              />
-            );
-          })}
-        </div>
+        {boxShadowData?.length > 0 ? (
+          <>
+            <div className="spacing-block flex flex-wrap -mx-[10px] gap-y-3">
+              {boxShadowData?.map((shadow) => {
+                return (
+                  <div
+                    className="flex-[0_0_33.3333%] max-w-[33.3333%] px-[10px]"
+                    key={shadow?.id}
+                  >
+                    <BoxShadowBlock
+                      id={shadow?.id}
+                      name={shadow?.name}
+                      value={shadow?.value}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        ) : (
+          <NoDataPlaceholder />
+        )}
       </Container>
       <AddBoxShadowModal isOpen={isOpen} closeModal={closeModal} />
     </section>

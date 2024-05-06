@@ -1,6 +1,7 @@
 import { extendState } from "@/atoms/extendState";
 import { spacingState } from "@/atoms/spacingState";
 import AddSpacingModal from "@/components/AddSpacingModal";
+import NoDataPlaceholder from "@/components/NoDataPlaceholder";
 import SpacingBlock from "@/components/SpacingBlock";
 import Container from "@/components/utils/Container";
 import { Switch } from "@headlessui/react";
@@ -78,27 +79,39 @@ const SpacingWidget = () => {
                   </g>
                 </svg>
               </div>
-              <span className="text-lg text-black">Add new</span>
+              <span className="text-lg text-black font-semibold">Add new</span>
             </button>
           </div>
         </div>
-        <div className="spacing-block grid grid-cols-12 items-center">
-          <div className="col-span-1 py-2 font-bold text-md">Name</div>
-          <div className="col-span-1 py-2 px-4 font-bold text-md">Size</div>
-          <div className="col-span-1 py-2 px-4 font-bold text-md">Pixels</div>
-          <div className="col-span-7 py-2 px-4 font-bold text-md"></div>
-          <div className="col-span-2 py-2 px-4 font-bold text-md"></div>
-          {spacingData?.map((spacing, i) => {
-            return (
-              <SpacingBlock
-                id={spacing?.id}
-                name={spacing?.name}
-                size={spacing?.size}
-                key={spacing?.id}
-              />
-            );
-          })}
-        </div>
+        {spacingData?.length > 0 ? (
+          <>
+            <div className="spacing-block flex flex-wrap items-center">
+              <div className="flex-[0_0_10%] max-w-[10%] py-2 font-bold text-md">
+                Name
+              </div>
+              <div className="flex-[0_0_15%] max-w-[15%] py-2 px-4 font-bold text-md">
+                Size
+              </div>
+              <div className="flex-[0_0_15%] max-w-[15%] py-2 px-4 font-bold text-md">
+                Pixels
+              </div>
+              <div className="flex-[0_0_40%] max-w-[40%] py-2 px-4 font-bold text-md"></div>
+              <div className="flex-[0_0_20%] max-w-[20%] py-2 px-4 font-bold text-md"></div>
+              {spacingData?.map((spacing, i) => {
+                return (
+                  <SpacingBlock
+                    id={spacing?.id}
+                    name={spacing?.name}
+                    size={spacing?.size}
+                    key={spacing?.id}
+                  />
+                );
+              })}
+            </div>
+          </>
+        ) : (
+          <NoDataPlaceholder />
+        )}
       </Container>
       <AddSpacingModal isOpen={isOpen} closeModal={closeModal} />
     </section>

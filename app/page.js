@@ -1,6 +1,7 @@
 "use client";
 import FloatingMenuBar from "@/components/FloatingMenuBar";
 import MainHeader from "@/components/MainHeader";
+import Container from "@/components/utils/Container";
 import BoxShadowWidget from "@/widgets/BoxShadowWidget";
 import ButtonsWidget from "@/widgets/ButtonsWidget";
 import ColorWidget from "@/widgets/ColorWidget";
@@ -12,14 +13,22 @@ import { RecoilRoot } from "recoil";
 export default function Home() {
   return (
     <>
-      <MainHeader />
       <RecoilRoot>
+        <MainHeader />
         <div className="pt-20 pb-24">
           <ColorWidget />
-          <SpacingWidget />
-          <FontWeightWidget />
-          <FontSizeWidget />
-          <BoxShadowWidget />
+          <Container>
+            <div className="grid xxl:grid-cols-2 grid-cols-1 xxl:gap-12">
+              <SpacingWidget />
+              <FontSizeWidget />
+            </div>
+          </Container>
+          <Container>
+            <div className="grid xxl:grid-cols-2 grid-cols-1 xxl:gap-12">
+              <FontWeightWidget />
+              <BoxShadowWidget />
+            </div>
+          </Container>
           <ButtonsWidget />
         </div>
         <FloatingMenuBar />

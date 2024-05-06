@@ -1,7 +1,7 @@
 import { spacingState } from "@/atoms/spacingState";
 import { Dialog, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useRecoilState } from "recoil";
 
 const EditSpacingModal = ({ isOpen, closeModal, id, name, size }) => {
@@ -25,6 +25,16 @@ const EditSpacingModal = ({ isOpen, closeModal, id, name, size }) => {
       closeModal();
     },
   });
+
+  useEffect(() => {
+    formik.resetForm({
+      values: {
+        id: id,
+        spacingName: name,
+        spacingSize: size,
+      },
+    });
+  }, [spacingData]);
 
   return (
     <Transition appear show={isOpen} as={Fragment}>

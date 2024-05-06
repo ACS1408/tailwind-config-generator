@@ -7,6 +7,8 @@ import { useRecoilState } from "recoil";
 import { colorState } from "@/atoms/colorState";
 import { Switch } from "@headlessui/react";
 import { extendState } from "@/atoms/extendState";
+import Image from "next/image";
+import NoDataPlaceholder from "@/components/NoDataPlaceholder";
 
 const ColorWidget = () => {
   const [colorData, setColorData] = useRecoilState(colorState);
@@ -80,26 +82,32 @@ const ColorWidget = () => {
                     </g>
                   </svg>
                 </div>
-                <span className="text-lg text-black">Add new</span>
+                <span className="text-lg text-black font-semibold">Add new</span>
               </button>
             </div>
           </div>
-          <div className="grid gap-6 grid-cols-6">
-            {colorData?.map((color, i) => {
-              return (
-                <ColorBlock
-                  key={color.id}
-                  id={color?.id}
-                  hex={color?.hex}
-                  name={color?.name}
-                  variants={color?.variants}
-                  darkThemeHex={color?.dark_theme_hex}
-                  colorData={colorData}
-                  setColorData={setColorData}
-                />
-              );
-            })}
-          </div>
+          {colorData?.length > 0 ? (
+            <>
+              <div className="grid gap-6 grid-cols-6">
+                {colorData?.map((color, i) => {
+                  return (
+                    <ColorBlock
+                      key={color.id}
+                      id={color?.id}
+                      hex={color?.hex}
+                      name={color?.name}
+                      variants={color?.variants}
+                      darkThemeHex={color?.dark_theme_hex}
+                      colorData={colorData}
+                      setColorData={setColorData}
+                    />
+                  );
+                })}
+              </div>
+            </>
+          ) : (
+            <NoDataPlaceholder />
+          )}
         </Container>
       </section>
       <AddColorModal

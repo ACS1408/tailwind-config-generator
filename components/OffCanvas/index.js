@@ -6,7 +6,7 @@ const OffCanvas = ({ isOffcanvasOpen, closeOffcanvas }) => {
     <>
       {isOffcanvasOpen ? (
         <div
-          className="offcanvas-backdrop fixed inset-0 bg-[#00000090]"
+          className="offcanvas-backdrop fixed inset-0 bg-[#00000090] z-10"
           onClick={closeOffcanvas}
         />
       ) : (
@@ -15,7 +15,7 @@ const OffCanvas = ({ isOffcanvasOpen, closeOffcanvas }) => {
       <div
         className={`${
           isOffcanvasOpen ? "translate-x-0" : "translate-x-full"
-        } offcanvas-body bg-white border border-[#ededed] p-4 fixed top-0 right-0 max-w-[575px] w-full transition-transform duration-300 ease-in-out`}
+        } offcanvas-body bg-white border border-[#ededed] p-4 fixed top-0 right-0 max-w-[575px] w-full transition-transform duration-300 ease-in-out z-[11]`}
       >
         <button
           className="size-8 rounded-full flex justify-center items-center text-2xl absolute top-8 right-5"

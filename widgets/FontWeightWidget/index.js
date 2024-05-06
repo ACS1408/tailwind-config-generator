@@ -2,6 +2,7 @@ import { extendState } from "@/atoms/extendState";
 import { fontWeightState } from "@/atoms/fontWeightState";
 import AddFontWeightModal from "@/components/AddFontWeightModal";
 import FontWeightBlock from "@/components/FontWeightBlock";
+import NoDataPlaceholder from "@/components/NoDataPlaceholder";
 import Container from "@/components/utils/Container";
 import { Switch } from "@headlessui/react";
 import React, { useState } from "react";
@@ -83,22 +84,32 @@ const FontWeightWidget = () => {
                   </g>
                 </svg>
               </div>
-              <span className="text-lg text-black">Add new</span>
+              <span className="text-lg text-black font-semibold">Add new</span>
             </button>
           </div>
         </div>
-        <div className="spacing-block grid grid-cols-7 gap-4">
-          {fontWeightData?.map((weight, i) => {
-            return (
-              <FontWeightBlock
-                id={weight?.id}
-                name={weight?.name}
-                value={weight?.value}
-                key={weight?.id}
-              />
-            );
-          })}
-        </div>
+        {fontWeightData?.length > 0 ? (
+          <>
+            <div className="spacing-block flex flex-wrap -mx-[6px] gap-y-3">
+              {fontWeightData?.map((weight, i) => {
+                return (
+                  <div
+                    className="flex-[0_0_33.3333%] max-w-[33.3333%] px-[6px]"
+                    key={weight?.id}
+                  >
+                    <FontWeightBlock
+                      id={weight?.id}
+                      name={weight?.name}
+                      value={weight?.value}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        ) : (
+          <NoDataPlaceholder />
+        )}
       </Container>
       <AddFontWeightModal isOpen={isOpen} closeModal={closeModal} />
     </section>

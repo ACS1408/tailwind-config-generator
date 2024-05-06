@@ -19,7 +19,7 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
   };
 
   const handleAddField = () => {
-    const newKey = `layer-${Math.floor(Math.random() * 10000) + 1}`;
+    const newKey = `new-layer-${Math.floor(Math.random() * 10000) + 1}`;
     formik.setFieldValue(
       "shadowValue",
       formik.values.shadowValue.concat({

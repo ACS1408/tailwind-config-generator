@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import style from "./EditButtonModal.module.scss";
 import { useRecoilState } from "recoil";
 import { buttonState } from "@/atoms/buttonState";
@@ -76,6 +76,31 @@ const EditButtonModal = ({
       closeEditButtonModal();
     },
   });
+
+  useEffect(() => {
+    formik.resetForm({
+      values: {
+        id: id,
+        buttonName: buttonName,
+        buttonType: buttonType,
+        bgHex: bgHex,
+        borderHex: borderHex,
+        textHex: textHex,
+        buttonPadding: {
+          top: buttonPaddingTop,
+          bottom: buttonPaddingBottom,
+          left: buttonPaddingLeft,
+          right: buttonPaddingRight,
+        },
+        buttonBorder: {
+          top: buttonBorderTop,
+          bottom: buttonBorderBottom,
+          left: buttonBorderLeft,
+          right: buttonBorderRight,
+        },
+      },
+    });
+  }, [buttonData]);
 
   const handleRemoveButton = (id) => {
     setButtonData(buttonData.filter((item) => item.id !== id));

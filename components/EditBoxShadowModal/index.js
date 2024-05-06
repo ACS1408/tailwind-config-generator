@@ -1,7 +1,7 @@
 import { boxShadowState } from "@/atoms/boxShadowState";
 import { Dialog, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import style from "./EditBoxShadowModal.module.scss";
 import { hexToRGBA } from "../utils/hexToRgba";
@@ -19,7 +19,7 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
   };
 
   const handleAddField = () => {
-    const newKey = `layer-${Math.floor(Math.random() * 10000) + 1}`;
+    const newKey = `new-layer-${Math.floor(Math.random() * 10000) + 1}`;
     formik.setFieldValue(
       "shadowValue",
       formik.values.shadowValue.concat({
@@ -56,6 +56,17 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
       closeModal();
     },
   });
+
+  useEffect(() => {
+    formik.resetForm({
+      values: {
+        id: id,
+        shadowName: name,
+        shadowValue: value,
+      },
+    });
+  }, [boxShadowData]);
+
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={closeModal}>

@@ -23,16 +23,20 @@ const SpacingBlock = ({ id, name, size }) => {
 
   return (
     <>
-      <div className="col-span-1 py-1 text-md">{name}</div>
-      <div className="col-span-1 py-1 px-4 text-md">{pxToRem(size)}rem</div>
-      <div className="col-span-1 py-1 px-4 text-md">{size}px</div>
-      <div className="col-span-7 py-1 px-4 text-md">
+      <div className="flex-[0_0_10%] max-w-[10%] py-1 text-md">{name}</div>
+      <div className="flex-[0_0_15%] max-w-[15%] py-1 px-4 text-md">
+        {pxToRem(size)}rem
+      </div>
+      <div className="flex-[0_0_15%] max-w-[15%] py-1 px-4 text-md">
+        {size}px
+      </div>
+      <div className="flex-[0_0_40%] max-w-[40%] py-1 px-4 text-md">
         <div
           className="h-4 bg-[#21df4b] rounded-sm"
           style={{ width: `${pxToRem(size)}rem` }}
         />
       </div>
-      <div className="col-span-2 py-1 ps-4 text-md flex gap-2 justify-end">
+      <div className="flex-[0_0_20%] max-w-[20%] py-1 ps-4 text-md flex gap-2 justify-end">
         <Menu as="div" className="relative">
           <Menu.Button className="bg-white border border-[#ededed] size-7 rounded-full flex justify-center items-center">
             <svg
