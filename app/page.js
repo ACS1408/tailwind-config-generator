@@ -20,12 +20,12 @@ export default function Home() {
           <Container>
             <div className="grid xxl:grid-cols-2 grid-cols-1 xxl:gap-12">
               <SpacingWidget />
-              <FontSizeWidget />
+              <FontWeightWidget />
             </div>
           </Container>
           <Container>
             <div className="grid xxl:grid-cols-2 grid-cols-1 xxl:gap-12">
-              <FontWeightWidget />
+              <FontSizeWidget />
               <BoxShadowWidget />
             </div>
           </Container>
