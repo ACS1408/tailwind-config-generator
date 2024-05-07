@@ -109,32 +109,32 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                     >
                       {settings?.dark_theme ? (
                         <div className="w-full">
-                          <div className="relative leading-none mb-0.5">
+                          <div className="relative leading-none mb-2">
                             <label
                               htmlFor="colorHex"
-                              className="text-black mb-1 block text-sm"
+                              className="text-black mb-1 block text-sm font-medium"
                             >
-                              Light
+                              Light shade
                             </label>
                             <input
                               type="color"
-                              className="w-full h-16 rounded-lg"
+                              className="w-full h-16 rounded-lg cursor-pointer"
                               id="colorHex"
                               name="colorHex"
                               onChange={formik.handleChange}
                               value={formik.values.colorHex}
                             />
                           </div>
-                          <div className="relative leading-none mb-0.5">
+                          <div className="relative leading-none mb-2">
                             <label
                               htmlFor="colorDarkHex"
-                              className="text-black mb-1 block text-sm"
+                              className="text-black mb-1 block text-sm font-medium"
                             >
-                              Dark
+                              Dark shade
                             </label>
                             <input
                               type="color"
-                              className="w-full h-16 rounded-lg"
+                              className="w-full h-16 rounded-lg cursor-pointer"
                               id="colorDarkHex"
                               name="colorDarkHex"
                               onChange={formik.handleChange}
@@ -172,7 +172,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                       {formik.values?.fields?.length === 0 ? (
                         <button
                           type="button"
-                          className="mt-4 w-full h-9 bg-[#21DF4B] text-white"
+                          className="mt-4 w-full h-9 bg-transparent text-black border border-black"
                           onClick={handleAddField}
                         >
                           Add variants
@@ -295,7 +295,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                           <div className="flex justify-end">
                             <button
                               type="button"
-                              className="text-sm text-[#21df4b] mt-1"
+                              className="text-sm text-black mt-1 underline"
                               onClick={handleAddField}
                             >
                               <span>Add Field</span>
@@ -307,8 +307,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                       </div>
                       <button
                         type="submit"
-                        className="mt-4 w-full h-9 bg-[#21DF4B] text-white
-                        "
+                        className="mt-4 w-full h-10 bg-black text-white border border-black"
                       >
                         Add color
                       </button>

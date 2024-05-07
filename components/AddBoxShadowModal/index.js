@@ -400,6 +400,7 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
                                   )
                                 }
                                 checked={formik.values.shadowValue[i]?.inset}
+                                className="accent-black"
                               />
                               <label
                                 htmlFor={`shadowValue[${i}].inset`}
@@ -427,7 +428,7 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
                   <div className="text-right">
                     <button
                       type="button"
-                      className="mt-2 text-[#21DF4B] text-sm underline"
+                      className="mt-2 text-black text-sm underline"
                       onClick={handleAddField}
                     >
                       New layer
@@ -435,8 +436,7 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
                   </div>
                   <button
                     type="submit"
-                    className="mt-4 w-full h-9 bg-[#21DF4B] text-white
-                  "
+                    className="mt-4 w-full h-10 bg-black text-white border border-black"
                   >
                     Add box shadow
                   </button>

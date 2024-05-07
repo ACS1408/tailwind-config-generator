@@ -132,7 +132,23 @@ const EditButtonModal = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle transition-all">
+              <Dialog.Panel className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle transition-all relative">
+                <button
+                  className="size-7 flex justify-center items-center absolute top-3 right-3"
+                  onClick={closeEditButtonModal}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    id="close"
+                    width={24}
+                    height={24}
+                  >
+                    <g>
+                      <path d="m13.41 12 4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
+                    </g>
+                  </svg>
+                </button>
                 <Dialog.Title
                   as="h3"
                   className="ttl text-2xl text-center mb-5 font-medium leading-6 text-gray-900"
@@ -205,7 +221,7 @@ const EditButtonModal = ({
                           type="radio"
                           id="filledButton"
                           name="buttonType"
-                          className="h-4 w-4"
+                          className="h-4 w-4 accent-black"
                           onChange={() =>
                             formik.setFieldValue("buttonType", "filled")
                           }
@@ -223,7 +239,7 @@ const EditButtonModal = ({
                           type="radio"
                           id="outlinedButton"
                           name="buttonType"
-                          className="h-4 w-4"
+                          className="h-4 w-4 accent-black"
                           onChange={() =>
                             formik.setFieldValue("buttonType", "outline")
                           }
@@ -241,7 +257,7 @@ const EditButtonModal = ({
                           type="radio"
                           id="linkButton"
                           name="buttonType"
-                          className="h-4 w-4"
+                          className="h-4 w-4 accent-black"
                           onChange={() =>
                             formik.setFieldValue("buttonType", "link")
                           }
@@ -440,13 +456,13 @@ const EditButtonModal = ({
                   </div>
                   <button
                     type="submit"
-                    className="mt-4 col-span-2 w-full h-9 bg-[#21DF4B] text-white"
+                    className="mt-4 col-span-2 w-full h-10 bg-black text-white border border-black"
                   >
                     Save Button
                   </button>
                   <button
                     type="button"
-                    className="col-span-2 w-full h-9 bg-transparent border border-[#ff0000] text-[#ff0000]"
+                    className="col-span-2 w-full h-10 bg-transparent border border-[#ff0000] text-[#ff0000]"
                     onClick={() => handleRemoveButton(formik.values.id)}
                   >
                     Remove Button

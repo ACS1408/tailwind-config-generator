@@ -118,8 +118,7 @@ const EditSpacingModal = ({ isOpen, closeModal, id, name, size }) => {
                   />
                   <button
                     type="submit"
-                    className="mt-4 w-full h-9 bg-[#21DF4B] text-white
-                  "
+                    className="mt-4 w-full h-10 bg-black text-white border border-black"
                   >
                     Save spacing
                   </button>
