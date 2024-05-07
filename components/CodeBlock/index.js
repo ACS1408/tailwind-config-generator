@@ -144,6 +144,17 @@ const container = {
   padding: "calc(var(--gutter-x) / 2)",
 };
 
+const screens: {
+  xs: { max: "576px" },
+  sm: "576px",
+  md: "768px",
+  lg: "992px",
+  xl: "1200px",
+  xxl: "1420px",
+  xxxl: "1600px",
+  laptop: { min: "1200px", max: "1450px" },
+};
+
 module.exports = {
   content: [
     "./widgets/**/*.{js,ts,jsx,tsx,mdx}",
@@ -156,16 +167,7 @@ module.exports = {
     !isExtend.font_size ? "\n    fontSize," : ""
   }${!isExtend.box_shadow ? "\n    boxShadow," : ""}
     container,
-    screens: {
-      xs: { max: "576px" },
-      sm: "576px",
-      md: "768px",
-      lg: "992px",
-      xl: "1200px",
-      xxl: "1420px",
-      xxxl: "1600px",
-      laptop: { min: "1200px", max: "1450px" },
-    },
+    screens,
     extend: {${isExtend.colors ? "\n      colors,    " : ""}${
     isExtend.spacing ? "\n      spacing,    " : ""
   }${isExtend.font_weight ? "\n      fontWeight,    " : ""}${

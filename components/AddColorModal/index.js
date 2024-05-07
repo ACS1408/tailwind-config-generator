@@ -172,7 +172,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                       {formik.values?.fields?.length === 0 ? (
                         <button
                           type="button"
-                          className="mt-4 w-full h-9 bg-transparent text-black border border-black"
+                          className="mt-4 w-full h-10 bg-transparent text-[#21df4b] border border-[#21df4b]"
                           onClick={handleAddField}
                         >
                           Add variants
@@ -307,7 +307,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                       </div>
                       <button
                         type="submit"
-                        className="mt-4 w-full h-10 bg-black text-white border border-black"
+                        className="mt-4 w-full h-10 bg-[#21df4b] text-white border border-[#21df4b]"
                       >
                         Add color
                       </button>

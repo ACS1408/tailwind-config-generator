@@ -106,7 +106,7 @@ const AddFontWeightModal = ({ isOpen, closeModal }) => {
                   />
                   <button
                     type="submit"
-                    className="mt-4 w-full h-10 bg-black text-white border border-black"
+                    className="mt-4 w-full h-10 bg-[#21df4b] text-white border border-[#21df4b]"
                   >
                     Add font weight
                   </button>

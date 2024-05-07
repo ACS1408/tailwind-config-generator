@@ -428,7 +428,7 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
                   <div className="text-right">
                     <button
                       type="button"
-                      className="mt-2 text-black text-sm underline"
+                      className="mt-2 text-[#21df4b] text-sm underline"
                       onClick={handleAddField}
                     >
                       New layer
@@ -436,7 +436,7 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
                   </div>
                   <button
                     type="submit"
-                    className="mt-4 w-full h-10 bg-black text-white border border-black"
+                    className="mt-4 w-full h-10 bg-[#21df4b] text-white border border-[#21df4b]"
                   >
                     Add box shadow
                   </button>
