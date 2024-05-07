@@ -5,9 +5,11 @@ import { hexToRGBA } from "../utils/hexToRgba";
 import EditBoxShadowModal from "../EditBoxShadowModal";
 import { Menu, Transition } from "@headlessui/react";
 import { settingState } from "@/atoms/settingState";
+import { colorState } from "@/atoms/colorState";
 
 const BoxShadowBlock = ({ id, name, value }) => {
   const [boxShadowData, setBoxShadowData] = useRecoilState(boxShadowState);
+  const [colorData, setColorData] = useRecoilState(colorState);
   const [settings, setSettings] = useRecoilState(settingState);
   const [isEditBoxShadowModalOpen, setIsEditBoxShadowModalOpen] =
     useState(false);
@@ -31,12 +33,29 @@ const BoxShadowBlock = ({ id, name, value }) => {
           style={{
             boxShadow: value
               .map((item) => {
+                const [colorMain, colorVariant] = item.color?.split("-");
                 return ` ${item?.horizontal}px ${item?.vertical}px ${
                   item?.blur
-                }px ${item?.spread}px ${hexToRGBA(
-                  settings?.dark_theme ? item?.dark_color : item?.color,
-                  settings?.dark_theme ? item.alpha_dark : item?.alpha_light
-                )}`;
+                }px ${item?.spread}px ${
+                  !settings?.dark_theme
+                    ? colorData?.filter(
+                        (color) => color?.name === item.color
+                      )[0]?.hex ??
+                      colorData
+                        ?.filter((color) => color?.name === colorMain)[0]
+                        ?.variants?.filter(
+                          (variant) => variant?.variant === colorVariant
+                        )[0]?.color
+                    : colorData?.filter(
+                        (color) => color?.name === item.color
+                      )[0]?.dark_theme_hex ??
+                      colorData
+                        ?.filter((color) => color?.name === colorMain)[0]
+                        ?.variants?.filter(
+                          (variant) => variant?.variant === colorVariant
+                        )[0]?.dark_theme_color ??
+                      "transparent"
+                }`;
               })
               .join(", "),
           }}

@@ -10,7 +10,6 @@ import { pxToRem } from "../utils/pxToRem";
 import { fontWeightState } from "@/atoms/fontWeightState";
 import { fontSizeState } from "@/atoms/fontSizeState";
 import { boxShadowState } from "@/atoms/boxShadowState";
-import { hexToRGBA } from "../utils/hexToRgba";
 import { Tab } from "@headlessui/react";
 import { buttonState } from "@/atoms/buttonState";
 
@@ -229,9 +228,17 @@ module.exports = {
         "pt"
       )}: ${item.value
         .map((item) => {
+          const [colorMain, colorVariant] = item?.color?.split("-");
           return `${item?.horizontal}px ${item?.vertical}px ${item?.blur}px ${
             item?.spread
-          }px ${hexToRGBA(item?.color, item.alpha)};`;
+          }px ${
+            colorData?.filter((color) => color?.name === item.color)[0]?.hex ??
+            colorData
+              ?.filter((color) => color?.name === colorMain)[0]
+              ?.variants?.filter(
+                (variant) => variant?.variant === colorVariant
+              )[0]?.color
+          };`;
         })
         .join(", \n")}\n`;
     })
@@ -270,9 +277,18 @@ ${colorData
         "pt"
       )}: ${item.value
         .map((item) => {
+          const [colorMain, colorVariant] = item?.color?.split("-");
           return `${item?.horizontal}px ${item?.vertical}px ${item?.blur}px ${
             item?.spread
-          }px ${hexToRGBA(item?.dark_color, item.alpha)};`;
+          }px ${
+            colorData?.filter((color) => color?.name === item.color)[0]
+              ?.dark_theme_hex ??
+            colorData
+              ?.filter((color) => color?.name === colorMain)[0]
+              ?.variants?.filter(
+                (variant) => variant?.variant === colorVariant
+              )[0]?.dark_theme_color
+          };`;
         })
         .join(", \n")}\n`;
     })

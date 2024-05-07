@@ -9,10 +9,7 @@ export const boxShadowState = atom({
       value: [
         {
           key: "layer-0",
-          color: "#000000",
-          dark_color: "#212121",
-          alpha_light: 0.1,
-          alpha_dark: 0.1,
+          color: "black-700",
           horizontal: 0,
           vertical: 0,
           blur: 2,
@@ -27,10 +24,7 @@ export const boxShadowState = atom({
       value: [
         {
           key: "layer-0",
-          color: "#000000",
-          dark_color: "#414141",
-          alpha_light: 0.06,
-          alpha_dark: 0.06,
+          color: "black-900",
           horizontal: 0,
           vertical: 0,
           blur: 4,
@@ -45,10 +39,7 @@ export const boxShadowState = atom({
       value: [
         {
           key: "layer-0",
-          color: "#000000",
-          dark_color: "#616161",
-          alpha_light: 0.15,
-          alpha_dark: 0.15,
+          color: "black",
           horizontal: 0,
           vertical: 0,
           blur: 6,
