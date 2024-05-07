@@ -84,16 +84,16 @@ const MainHeader = () => {
             </Link>
             <nav className="flex items-center gap-4">
               <button
-                className="bg-black text-white px-5 py-2"
+                className="bg-black text-white border border-black px-5 py-3 rounded-md"
                 onClick={handleExportJSON}
               >
-                Export Data
+                Export selection
               </button>
               <button
-                className="bg-white text-black border border-black px-5 py-2"
+                className="bg-white text-black border border-black px-5 py-3 rounded-md"
                 onClick={openModal}
               >
-                Import Data
+                Import selection
               </button>
             </nav>
           </div>

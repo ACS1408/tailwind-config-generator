@@ -25,7 +25,7 @@ const FontWeightWidget = () => {
     <section className="spacing-widget py-8">
       <Container>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="ttl text-3xl font-semibold">Boldness</h2>
+          <h2 className="ttl text-3xl font-semibold">Font Weight</h2>
           <div className="flex gap-5">
             <div className="ms-5 flex items-center gap-3">
               <span className="text-lg">
@@ -94,7 +94,7 @@ const FontWeightWidget = () => {
               {fontWeightData?.map((weight, i) => {
                 return (
                   <div
-                    className="flex-[0_0_33.3333%] max-w-[33.3333%] px-[6px]"
+                    className="flex-[0_0_15%] max-w-[15%] px-[6px]"
                     key={weight?.id}
                   >
                     <FontWeightBlock

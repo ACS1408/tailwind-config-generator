@@ -25,7 +25,7 @@ const FloatingMenuBar = () => {
     <>
       <div className="floating-menu-bar bg-white rounded-md fixed bottom-5 left-1/2 -translate-x-1/2 p-3 border border-[#ededed] flex gap-4 items-center">
         <button
-          className="btn-generate-code bg-[#21DF4B] text-white h-12 px-6 py-2 rounded-md"
+          className="btn-generate-code bg-black border border-black text-white h-12 px-6 py-2 rounded-md"
           onClick={openOffcanvas}
         >
           Generate Code

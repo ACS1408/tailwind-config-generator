@@ -17,18 +17,10 @@ export default function Home() {
         <MainHeader />
         <div className="pt-20 pb-24">
           <ColorWidget />
-          <Container>
-            <div className="grid xxl:grid-cols-2 grid-cols-1 xxl:gap-12">
-              <SpacingWidget />
-              <FontWeightWidget />
-            </div>
-          </Container>
-          <Container>
-            <div className="grid xxl:grid-cols-2 grid-cols-1 xxl:gap-12">
-              <FontSizeWidget />
-              <BoxShadowWidget />
-            </div>
-          </Container>
+          <SpacingWidget />
+          <FontWeightWidget />
+          <FontSizeWidget />
+          <BoxShadowWidget />
           <ButtonsWidget />
         </div>
         <FloatingMenuBar />

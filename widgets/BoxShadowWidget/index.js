@@ -92,7 +92,7 @@ const BoxShadowWidget = () => {
               {boxShadowData?.map((shadow) => {
                 return (
                   <div
-                    className="flex-[0_0_33.3333%] max-w-[33.3333%] px-[10px]"
+                    className="flex-[0_0_15%] max-w-[15%] px-[10px]"
                     key={shadow?.id}
                   >
                     <BoxShadowBlock
