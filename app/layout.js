@@ -32,7 +32,10 @@ export default function RootLayout({ children }) {
         />
         <link rel="manifest" href="./site.webmanifest" />
       </Head>
-      <body className={dm_sans.className}>{children}</body>
+      <body className={dm_sans.className}>
+        {children}
+        <div id="offcanvas-root"></div>
+      </body>
     </html>
   );
 }

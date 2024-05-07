@@ -99,7 +99,23 @@ const EditColorModal = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle transition-all">
+              <Dialog.Panel className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle transition-all relative">
+                <button
+                  className="size-7 flex justify-center items-center absolute top-3 right-3"
+                  onClick={closeModal}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    id="close"
+                    width={24}
+                    height={24}
+                  >
+                    <g>
+                      <path d="m13.41 12 4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
+                    </g>
+                  </svg>
+                </button>
                 <Dialog.Title
                   as="h3"
                   className="ttl text-2xl text-center mb-5 font-medium leading-6 text-gray-900"

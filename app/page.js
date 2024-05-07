@@ -1,7 +1,6 @@
 "use client";
 import FloatingMenuBar from "@/components/FloatingMenuBar";
 import MainHeader from "@/components/MainHeader";
-import Container from "@/components/utils/Container";
 import BoxShadowWidget from "@/widgets/BoxShadowWidget";
 import ButtonsWidget from "@/widgets/ButtonsWidget";
 import ColorWidget from "@/widgets/ColorWidget";

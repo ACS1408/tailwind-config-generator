@@ -34,9 +34,9 @@
   --wac-text-h6: 1.125rem;
   --wac-text-p: 1rem;
 
-  --wac-shadow-sm: 0px 0px 2px 2px rgba(33, 33, 33, 1);
-  --wac-shadow-md: 0px 0px 4px 5px rgba(65, 65, 65, 1);
-  --wac-shadow-lg: 0px 0px 6px 3px rgba(97, 97, 97, 1);
+  --wac-shadow-sm: 0px 0px 2px 2px rgba(0, 0, 0, 1);
+  --wac-shadow-md: 0px 0px 4px 5px rgba(0, 0, 0, 1);
+  --wac-shadow-lg: 0px 0px 6px 3px rgba(0, 0, 0, 1);
 
   --gutter-x: 24px;
 }
@@ -121,4 +121,10 @@
   position: fixed !important;
   top: 154px !important;
   right: 50px !important;
+}
+html[style*="padding-right: 17px"] {
+  header,
+  .floating-menu-bar-wrap {
+    padding-right: 17px;
+  }
 }
