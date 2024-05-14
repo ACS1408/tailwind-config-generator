@@ -1,10 +1,13 @@
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import style from "./EditColorModal.module.scss";
 import { colorState } from "@/atoms/colorState";
 import { useRecoilState } from "recoil";
 import { useFormik } from "formik";
 import { settingState } from "@/atoms/settingState";
+import { SketchPicker } from "react-color";
+import { decimalToHex } from "../utils/decimalToHex";
+import { hexToRGBA } from "../utils/hexToRgba";
 
 const EditColorModal = ({
   id,
@@ -17,6 +20,8 @@ const EditColorModal = ({
 }) => {
   const [colorData, setColorData] = useRecoilState(colorState);
   const [settings, setSettings] = useRecoilState(settingState);
+  const [openPicker, setOpenPicker] = useState(false);
+  const [openDarkPicker, setOpenDarkPicker] = useState(false);
 
   const handleRemoveField = (key) => {
     formik.setFieldValue(
@@ -34,6 +39,8 @@ const EditColorModal = ({
         color: formik.values.colorHex,
         dark_theme_color: formik.values.colorDarkHex,
         variant: "",
+        picker: false,
+        dark_picker: false,
       })
     );
   };
@@ -137,14 +144,50 @@ const EditColorModal = ({
                             >
                               Light shade
                             </label>
-                            <input
-                              type="color"
-                              className="w-full h-16 rounded-lg cursor-pointer"
-                              id="colorHex"
-                              name="colorHex"
-                              onChange={formik.handleChange}
-                              value={formik.values.colorHex}
-                            />
+                            <div className="relative w-full h-20">
+                              <button
+                                type="button"
+                                className="w-full rounded-lg h-full"
+                                style={{
+                                  backgroundColor: hexToRGBA(
+                                    formik.values.colorHex
+                                  ),
+                                }}
+                                onFocus={() => setOpenPicker(true)}
+                                onBlur={() => setOpenPicker(false)}
+                              >
+                                <Transition
+                                  appear
+                                  show={openPicker}
+                                  as={Fragment}
+                                >
+                                  <Transition.Child
+                                    as={Fragment}
+                                    enter="ease-out duration-300"
+                                    enterFrom="opacity-0 translate-y-[90%]"
+                                    enterTo="opacity-100 translate-y-full"
+                                    leave="ease-in duration-200"
+                                    leaveFrom="opacity-100 translate-y-full"
+                                    leaveTo="opacity-0 translate-y-[90%]"
+                                  >
+                                    <div className="absolute bottom-0 left-0 w-full translate-y-full z-10">
+                                      <SketchPicker
+                                        color={hexToRGBA(
+                                          formik.values.colorHex
+                                        )}
+                                        presetColors={[]}
+                                        onChange={(color) => {
+                                          formik.setFieldValue(
+                                            "colorHex",
+                                            decimalToHex(color)
+                                          );
+                                        }}
+                                      />
+                                    </div>
+                                  </Transition.Child>
+                                </Transition>
+                              </button>
+                            </div>
                           </div>
                           <div className="relative leading-none mb-2">
                             <label
@@ -153,25 +196,91 @@ const EditColorModal = ({
                             >
                               Dark shade
                             </label>
-                            <input
-                              type="color"
-                              className="w-full h-16 rounded-lg cursor-pointer"
-                              id="colorDarkHex"
-                              name="colorDarkHex"
-                              onChange={formik.handleChange}
-                              value={formik.values.colorDarkHex}
-                            />
+                            <div className="relative w-full h-20">
+                              <button
+                                type="button"
+                                className="w-full rounded-lg h-full"
+                                style={{
+                                  backgroundColor: hexToRGBA(
+                                    formik.values.colorDarkHex
+                                  ),
+                                }}
+                                onFocus={() => setOpenDarkPicker(true)}
+                                onBlur={() => setOpenDarkPicker(false)}
+                              >
+                                <Transition
+                                  appear
+                                  show={openDarkPicker}
+                                  as={Fragment}
+                                >
+                                  <Transition.Child
+                                    as={Fragment}
+                                    enter="ease-out duration-300"
+                                    enterFrom="opacity-0 translate-y-[90%]"
+                                    enterTo="opacity-100 translate-y-full"
+                                    leave="ease-in duration-200"
+                                    leaveFrom="opacity-100 translate-y-full"
+                                    leaveTo="opacity-0 translate-y-[90%]"
+                                  >
+                                    <div className="absolute bottom-0 left-0 w-full translate-y-full z-10">
+                                      <SketchPicker
+                                        color={hexToRGBA(
+                                          formik.values.colorDarkHex
+                                        )}
+                                        presetColors={[]}
+                                        onChange={(color) => {
+                                          formik.setFieldValue(
+                                            "colorDarkHex",
+                                            decimalToHex(color)
+                                          );
+                                        }}
+                                      />
+                                    </div>
+                                  </Transition.Child>
+                                </Transition>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       ) : (
-                        <input
-                          type="color"
-                          className="w-full h-44 rounded-lg"
-                          id="colorHex"
-                          name="colorHex"
-                          onChange={formik.handleChange}
-                          value={formik.values.colorHex}
-                        />
+                        <div className="relative w-full max-h-44 h-full">
+                          <button
+                            type="button"
+                            className="w-full rounded-lg h-full"
+                            style={{
+                              backgroundColor: hexToRGBA(
+                                formik.values.colorHex
+                              ),
+                            }}
+                            onFocus={() => setOpenPicker(true)}
+                            onBlur={() => setOpenPicker(false)}
+                          >
+                            <Transition appear show={openPicker} as={Fragment}>
+                              <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 translate-y-[90%]"
+                                enterTo="opacity-100 translate-y-full"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 translate-y-full"
+                                leaveTo="opacity-0 translate-y-[90%]"
+                              >
+                                <div className="absolute bottom-0 left-0 w-full translate-y-full z-10">
+                                  <SketchPicker
+                                    color={hexToRGBA(formik.values.colorHex)}
+                                    presetColors={[]}
+                                    onChange={(color) => {
+                                      formik.setFieldValue(
+                                        "colorHex",
+                                        decimalToHex(color)
+                                      );
+                                    }}
+                                  />
+                                </div>
+                              </Transition.Child>
+                            </Transition>
+                          </button>
+                        </div>
                       )}
                     </div>
                     <div className="col-span-2">
@@ -224,19 +333,60 @@ const EditColorModal = ({
                               </button>
                               <div className="flex items-center gap-2">
                                 <div className="border border-[#dedede] h-9 p-1 flex gap-2 w-full">
-                                  <input
-                                    type="color"
-                                    className="flex-[0_0_3rem] w-full h-[26px]"
-                                    required
-                                    name={`fields[${i}].color`}
-                                    onChange={(e) =>
-                                      formik.setFieldValue(
-                                        `fields[${i}].color`,
-                                        e.target.value
-                                      )
-                                    }
-                                    value={formik.values.fields[i]?.color}
-                                  />
+                                  <div className="relative flex-[0_0_3rem] w-full h-[26px]">
+                                    <button
+                                      type="button"
+                                      className="w-full h-full absolute inset-0"
+                                      style={{
+                                        backgroundColor: hexToRGBA(
+                                          formik.values.fields[i].color
+                                        ),
+                                      }}
+                                      onFocus={() =>
+                                        formik.setFieldValue(
+                                          `fields[${i}].picker`,
+                                          true
+                                        )
+                                      }
+                                      onBlur={() =>
+                                        formik.setFieldValue(
+                                          `fields[${i}].picker`,
+                                          false
+                                        )
+                                      }
+                                    >
+                                      <Transition
+                                        appear
+                                        show={formik.values.fields[i]?.picker}
+                                        as={Fragment}
+                                      >
+                                        <Transition.Child
+                                          as={Fragment}
+                                          enter="ease-out duration-300"
+                                          enterFrom="opacity-0 translate-y-[90%]"
+                                          enterTo="opacity-100 translate-y-full"
+                                          leave="ease-in duration-200"
+                                          leaveFrom="opacity-100 translate-y-full"
+                                          leaveTo="opacity-0 translate-y-[90%]"
+                                        >
+                                          <div className="absolute bottom-0 left-0 w-full translate-y-full z-10">
+                                            <SketchPicker
+                                              color={hexToRGBA(
+                                                formik.values.fields[i].color
+                                              )}
+                                              presetColors={[]}
+                                              onChange={(color) => {
+                                                formik.setFieldValue(
+                                                  `fields[${i}].color`,
+                                                  decimalToHex(color)
+                                                );
+                                              }}
+                                            />
+                                          </div>
+                                        </Transition.Child>
+                                      </Transition>
+                                    </button>
+                                  </div>
                                   <input
                                     type="text"
                                     className="w-full"
@@ -259,22 +409,64 @@ const EditColorModal = ({
                                   key={field.key}
                                 >
                                   <div className="border border-[#dedede] h-9 p-1 flex gap-2 w-full">
-                                    <input
-                                      type="color"
-                                      className="flex-[0_0_3rem] w-full h-[26px]"
-                                      required
-                                      name={`fields[${i}].dark_theme_color`}
-                                      onChange={(e) =>
-                                        formik.setFieldValue(
-                                          `fields[${i}].dark_theme_color`,
-                                          e.target.value
-                                        )
-                                      }
-                                      value={
-                                        formik.values.fields[i]
-                                          ?.dark_theme_color
-                                      }
-                                    />
+                                    <div className="relative flex-[0_0_3rem] w-full h-[26px]">
+                                      <button
+                                        type="button"
+                                        className="w-full h-full absolute inset-0"
+                                        style={{
+                                          backgroundColor: hexToRGBA(
+                                            formik.values.fields[i]
+                                              .dark_theme_color
+                                          ),
+                                        }}
+                                        onFocus={() =>
+                                          formik.setFieldValue(
+                                            `fields[${i}].dark_picker`,
+                                            true
+                                          )
+                                        }
+                                        onBlur={() =>
+                                          formik.setFieldValue(
+                                            `fields[${i}].dark_picker`,
+                                            false
+                                          )
+                                        }
+                                      >
+                                        <Transition
+                                          appear
+                                          show={
+                                            formik.values.fields[i]?.dark_picker
+                                          }
+                                          as={Fragment}
+                                        >
+                                          <Transition.Child
+                                            as={Fragment}
+                                            enter="ease-out duration-300"
+                                            enterFrom="opacity-0 translate-y-[90%]"
+                                            enterTo="opacity-100 translate-y-full"
+                                            leave="ease-in duration-200"
+                                            leaveFrom="opacity-100 translate-y-full"
+                                            leaveTo="opacity-0 translate-y-[90%]"
+                                          >
+                                            <div className="absolute bottom-0 left-0 w-full translate-y-full z-10">
+                                              <SketchPicker
+                                                color={hexToRGBA(
+                                                  formik.values.fields[i]
+                                                    .dark_theme_color
+                                                )}
+                                                presetColors={[]}
+                                                onChange={(color) => {
+                                                  formik.setFieldValue(
+                                                    `fields[${i}].dark_theme_color`,
+                                                    decimalToHex(color)
+                                                  );
+                                                }}
+                                              />
+                                            </div>
+                                          </Transition.Child>
+                                        </Transition>
+                                      </button>
+                                    </div>
                                     <input
                                       type="text"
                                       className="w-full"
