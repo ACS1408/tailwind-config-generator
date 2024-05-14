@@ -68,7 +68,7 @@ const ColorBlock = ({
             <div className="color-name text-[15px] font-medium capitalize mb-1">
               {name}
             </div>
-            <div className="color-code text-[13px] text-[#52595f]">
+            <div className="color-code text-[13px] text-[#52595f] uppercase">
               {settings?.dark_theme ? darkThemeHex ?? "Not set" : hex}
             </div>
           </div>

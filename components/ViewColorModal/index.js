@@ -83,11 +83,12 @@ const ViewColorModal = ({
                       <b>Name: </b> {name}
                     </div>
                     <div className="text-base">
-                      <b>Hex: </b> {hex}
+                      <b>Hex: </b> <span className="uppercase">{hex}</span>
                     </div>
                     {settings?.dark_theme ? (
                       <div className="text-base">
-                        <b>Hex (dark): </b> {darkThemeHex}
+                        <b>Hex (dark): </b>{" "}
+                        <span className="uppercase">{darkThemeHex}</span>
                       </div>
                     ) : null}
                     <div className="text-base">
@@ -120,7 +121,7 @@ const ViewColorModal = ({
                             className="w-10 h-5"
                             style={{ backgroundColor: item?.color }}
                           />
-                          <div>{item?.color}</div>
+                          <div className="uppercase">{item?.color}</div>
                           <div className="ps-5 flex-1 text-right">
                             --{settings?.variable_prefix}
                             {name}-{item?.variant}

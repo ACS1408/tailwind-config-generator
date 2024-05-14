@@ -143,7 +143,7 @@ const container = {
   padding: "calc(var(--gutter-x) / 2)",
 };
 
-const screens: {
+const screens = {
   xs: { max: "576px" },
   sm: "576px",
   md: "768px",
