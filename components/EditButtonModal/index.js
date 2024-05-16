@@ -108,7 +108,11 @@ const EditButtonModal = ({
 
   return (
     <Transition appear show={isEditButtonModalOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={closeEditButtonModal}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={() => false && closeEditButtonModal()}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"

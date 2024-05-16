@@ -75,7 +75,11 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          onClose={() => false && closeModal()}
+        >
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -236,9 +240,8 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
                                     >
                                       <Listbox.Options className="absolute mt-1 max-h-56 w-full overflow-auto bg-white border border-[#dedede] outline-none p-3 no-scrollbar">
                                         {colorData.map((color, colorIdx) => (
-                                          <>
+                                          <Fragment key={colorIdx}>
                                             <Listbox.Option
-                                              key={colorIdx}
                                               onClick={() =>
                                                 formik.setFieldValue(
                                                   `shadowValue[${i}].color`,
@@ -352,7 +355,7 @@ const AddBoxShadowModal = ({ isOpen, closeModal }) => {
                                                 );
                                               }
                                             )}
-                                          </>
+                                          </Fragment>
                                         ))}
                                         <div
                                           className={`group relative select-none px-3 py-2 cursor-pointer mb-1 hover:bg-[#21df4b] hover:text-white`}

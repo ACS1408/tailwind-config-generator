@@ -61,7 +61,11 @@ const AddColorModal = ({ isOpen, closeModal }) => {
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={closeModal}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={() => false && closeModal()}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -312,10 +316,9 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                               </button>
                               <label
                                 htmlFor={`fields[${i}].variant`}
-                                className="text-[15px] text-[#131313] font-medium"
+                                className="-mt-6 block bg-white w-max px-2 text-[15px] font-medium"
                               >
-                                Variant name{" "}
-                                {`${settings?.dark_theme ? "(Light)" : ""}`}
+                                Variant {i + 1}
                               </label>
                               <div className="flex items-center gap-2">
                                 <div className="border border-[#dedede] h-9 p-1 flex gap-2 w-full">

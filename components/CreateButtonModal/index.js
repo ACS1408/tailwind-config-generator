@@ -66,7 +66,7 @@ const CreateButtonModal = ({
       <Dialog
         as="div"
         className="relative z-10"
-        onClose={closeCreateButtonModal}
+        onClose={() => false && closeCreateButtonModal()}
       >
         <Transition.Child
           as={Fragment}

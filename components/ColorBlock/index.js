@@ -68,8 +68,12 @@ const ColorBlock = ({
             <div className="color-name text-[15px] font-medium capitalize mb-1">
               {name}
             </div>
-            <div className="color-code text-[13px] text-[#52595f] uppercase">
-              {settings?.dark_theme ? darkThemeHex ?? "Not set" : hex}
+            <div className="color-code text-[13px] text-[#52595f]">
+              {settings?.dark_theme && !darkThemeHex ? (
+                <span className="">Not set</span>
+              ) : (
+                <span className="uppercase">{hex}</span>
+              )}
             </div>
           </div>
           <Menu as="div" className="relative">

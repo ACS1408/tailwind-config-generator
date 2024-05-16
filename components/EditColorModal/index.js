@@ -82,7 +82,11 @@ const EditColorModal = ({
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={closeModal}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={() => false && closeModal()}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -199,15 +203,29 @@ const EditColorModal = ({
                             <div className="relative w-full h-20">
                               <button
                                 type="button"
-                                className="w-full rounded-lg h-full"
+                                className="w-full rounded-lg h-full border border-[#ededed] flex justify-center items-center"
                                 style={{
-                                  backgroundColor: hexToRGBA(
-                                    formik.values.colorDarkHex
-                                  ),
+                                  backgroundColor: formik.values.colorDarkHex
+                                    ? hexToRGBA(formik.values.colorDarkHex)
+                                    : "",
                                 }}
                                 onFocus={() => setOpenDarkPicker(true)}
                                 onBlur={() => setOpenDarkPicker(false)}
                               >
+                                {!formik.values.colorDarkHex ? (
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 16 16"
+                                    id="block"
+                                    width={16}
+                                    height={16}
+                                    fill="#ff0000"
+                                  >
+                                    <path d="M8,0c-4.41113,0 -8,3.58887 -8,8c0,4.41113 3.58887,8 8,8c4.41113,0 8,-3.58887 8,-8c0,-4.41113 -3.58887,-8 -8,-8Zm-6,8c0,-1.29382 0.415771,-2.49005 1.11487,-3.47107l8.3562,8.3562c-0.981018,0.699097 -2.17725,1.11487 -3.47107,1.11487c-3.30859,0 -6,-2.69141 -6,-6Zm10.8851,3.47107l-8.3562,-8.3562c0.981018,-0.699097 2.17725,-1.11487 3.47107,-1.11487c3.30859,0 6,2.69141 6,6c0,1.29382 -0.415771,2.49005 -1.11487,3.47107Z" />
+                                  </svg>
+                                ) : (
+                                  ""
+                                )}
                                 <Transition
                                   appear
                                   show={openDarkPicker}
@@ -224,9 +242,13 @@ const EditColorModal = ({
                                   >
                                     <div className="absolute bottom-0 left-0 w-full translate-y-full z-10">
                                       <SketchPicker
-                                        color={hexToRGBA(
+                                        color={
                                           formik.values.colorDarkHex
-                                        )}
+                                            ? hexToRGBA(
+                                                formik.values.colorDarkHex
+                                              )
+                                            : ""
+                                        }
                                         presetColors={[]}
                                         onChange={(color) => {
                                           formik.setFieldValue(
@@ -331,6 +353,12 @@ const EditColorModal = ({
                                   </g>
                                 </svg>
                               </button>
+                              <label
+                                htmlFor={`fields[${i}].variant`}
+                                className="-mt-6 block bg-white w-max px-2 text-[15px] font-medium"
+                              >
+                                Variant {i + 1}
+                              </label>
                               <div className="flex items-center gap-2">
                                 <div className="border border-[#dedede] h-9 p-1 flex gap-2 w-full">
                                   <div className="relative flex-[0_0_3rem] w-full h-[26px]">
@@ -391,6 +419,7 @@ const EditColorModal = ({
                                     type="text"
                                     className="w-full"
                                     required
+                                    id={`fields[${i}].variant`}
                                     name={`fields[${i}].variant`}
                                     placeholder="Variant name"
                                     onChange={(e) =>

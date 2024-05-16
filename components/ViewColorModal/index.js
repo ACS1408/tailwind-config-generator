@@ -14,7 +14,11 @@ const ViewColorModal = ({
   const [settings, setSettings] = useRecoilState(settingState);
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={closeModal}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={() => false && closeModal()}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
