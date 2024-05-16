@@ -202,8 +202,7 @@ const EditBoxShadowModal = ({ id, isOpen, closeModal, name, value }) => {
                                   htmlFor={`shadowValue[${i}].color`}
                                   className="text-[15px] text-[#131313] font-medium"
                                 >
-                                  Shadow color{" "}
-                                  {settings?.dark_theme ? "(Light)" : ""}
+                                  Shadow color
                                 </label>
                                 <Listbox
                                   value={formik.values.shadowValue[i].color}
