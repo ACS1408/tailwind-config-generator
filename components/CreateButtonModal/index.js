@@ -49,6 +49,12 @@ const CreateButtonModal = ({
         left: 20,
         right: 20,
       },
+      radius: {
+        top_right: 0,
+        bottom_right: 0,
+        bottom_left: 0,
+        top_left: 0,
+      },
     },
     onSubmit: (values, { resetForm }) => {
       const newData = {
@@ -78,6 +84,12 @@ const CreateButtonModal = ({
           bottom: values.padding.bottom,
           left: values.padding.left,
           right: values.padding.right,
+        },
+        radius: {
+          top_right: values.top_right,
+          bottom_right: values.bottom_right,
+          bottom_left: values.bottom_left,
+          top_left: values.top_left,
         },
       };
       setButtonData((prev) => [...prev, newData]);
@@ -147,35 +159,127 @@ const CreateButtonModal = ({
                       type="button"
                       className="capitalize"
                       style={{
+                        borderRadius: `${formik.values.radius.top_left}px ${formik.values.radius.top_right}px ${formik.values.radius.bottom_right}px ${formik.values.radius.bottom_left}px`,
                         backgroundColor:
-                          formik.values.type === "filled"
-                            ? formik.values.bgHex
-                            : "transparent",
-                        color: formik.values.text.color,
+                          formik?.values?.type === "filled"
+                            ? colorData?.filter(
+                                (color) => color?.name === formik.values.bg
+                              )[0]?.hex ??
+                              colorData
+                                ?.filter(
+                                  (color) =>
+                                    color?.name ===
+                                    formik.values.bg.split("-")[0]
+                                )[0]
+                                ?.variants?.filter(
+                                  (variant) =>
+                                    variant?.variant ===
+                                    formik.values.bg.split("-")[1]
+                                )[0]?.color
+                            : "",
+                        color:
+                          colorData?.filter(
+                            (color) => color?.name === formik.values.text.color
+                          )[0]?.hex ??
+                          colorData
+                            ?.filter(
+                              (color) =>
+                                color?.name ===
+                                formik.values.text.color.split("-")[0]
+                            )[0]
+                            ?.variants?.filter(
+                              (variant) =>
+                                variant?.variant ===
+                                formik.values.text.color.split("-")[1]
+                            )[0]?.color,
                         padding: `${formik.values.padding.top}px ${formik.values.padding.right}px ${formik.values.padding.bottom}px ${formik.values.padding.left}px`,
                         borderTop: `${
                           formik.values.type !== "link"
-                            ? `${formik.values.border.width.top}px solid ${formik.values.border.color}`
+                            ? `${formik.values.border.width.top}px solid ${
+                                colorData?.filter(
+                                  (color) =>
+                                    color?.name === formik.values.border.color
+                                )[0]?.hex ??
+                                colorData
+                                  ?.filter(
+                                    (color) =>
+                                      color?.name ===
+                                      formik.values.border.color.split("-")[0]
+                                  )[0]
+                                  ?.variants?.filter(
+                                    (variant) =>
+                                      variant?.variant ===
+                                      formik.values.border.color.split("-")[1]
+                                  )[0]?.color
+                              }`
                             : ""
                         }`,
                         borderRight: `${
                           formik.values.type !== "link"
-                            ? `${formik.values.border.width.right}px solid ${formik.values.border.color}`
+                            ? `${formik.values.border.width.right}px solid ${
+                                colorData?.filter(
+                                  (color) =>
+                                    color?.name === formik.values.border.color
+                                )[0]?.hex ??
+                                colorData
+                                  ?.filter(
+                                    (color) =>
+                                      color?.name ===
+                                      formik.values.border.color.split("-")[0]
+                                  )[0]
+                                  ?.variants?.filter(
+                                    (variant) =>
+                                      variant?.variant ===
+                                      formik.values.border.color.split("-")[1]
+                                  )[0]?.color
+                              }`
                             : ""
                         }`,
                         borderBottom: `${
                           formik.values.type !== "link"
-                            ? `${formik.values.border.width.bottom}px solid ${formik.values.border.color}`
+                            ? `${formik.values.border.width.bottom}px solid ${
+                                colorData?.filter(
+                                  (color) =>
+                                    color?.name === formik.values.border.color
+                                )[0]?.hex ??
+                                colorData
+                                  ?.filter(
+                                    (color) =>
+                                      color?.name ===
+                                      formik.values.border.color.split("-")[0]
+                                  )[0]
+                                  ?.variants?.filter(
+                                    (variant) =>
+                                      variant?.variant ===
+                                      formik.values.border.color.split("-")[1]
+                                  )[0]?.color
+                              }`
                             : ""
                         }`,
                         borderLeft: `${
                           formik.values.type !== "link"
-                            ? `${formik.values.border.width.left}px solid ${formik.values.border.color}`
+                            ? `${formik.values.border.width.left}px solid ${
+                                colorData?.filter(
+                                  (color) =>
+                                    color?.name === formik.values.border.color
+                                )[0]?.hex ??
+                                colorData
+                                  ?.filter(
+                                    (color) =>
+                                      color?.name ===
+                                      formik.values.border.color.split("-")[0]
+                                  )[0]
+                                  ?.variants?.filter(
+                                    (variant) =>
+                                      variant?.variant ===
+                                      formik.values.border.color.split("-")[1]
+                                  )[0]?.color
+                              }`
                             : ""
                         }`,
                       }}
                     >
-                      {formik.values.name}
+                      {formik.values.type} {formik.values.name}
                     </button>
                     <div className="text-center mt-4">
                       .btn-{formik.values.name}
@@ -1075,41 +1179,116 @@ const CreateButtonModal = ({
                             formik.values.type === "link" ? "brightness-50" : ""
                           }`}
                         >
+                          <>
+                            <input
+                              type="number"
+                              name="radius.top_left"
+                              id="radius.top_left"
+                              onChange={formik.handleChange}
+                              value={
+                                formik.values.type !== "link"
+                                  ? formik?.values?.radius?.top_left
+                                  : ""
+                              }
+                              placeholder="-"
+                              className="padding-top text-sm w-7 h-5 absolute top-0 left-0 -translate-x-full -translate-y-full bg-[#00000000] text-center placeholder:text-black"
+                            />
+                            <input
+                              type="number"
+                              name="radius.top_right"
+                              id="radius.top_right"
+                              onChange={formik.handleChange}
+                              value={
+                                formik.values.type !== "link"
+                                  ? formik?.values?.radius?.top_right
+                                  : ""
+                              }
+                              placeholder="-"
+                              className="padding-top text-sm w-7 h-5 absolute top-0 right-0 translate-x-full -translate-y-full bg-[#00000000] text-center placeholder:text-black"
+                            />
+                            <input
+                              type="number"
+                              name="radius.bottom_right"
+                              id="radius.bottom_right"
+                              onChange={formik.handleChange}
+                              value={
+                                formik.values.type !== "link"
+                                  ? formik?.values?.radius?.bottom_right
+                                  : ""
+                              }
+                              placeholder="-"
+                              className="padding-top text-sm w-7 h-5 absolute bottom-0 right-0 translate-x-full translate-y-full bg-[#00000000] text-center placeholder:text-black"
+                            />
+                            <input
+                              type="number"
+                              name="radius.bottom_left"
+                              id="radius.bottom_left"
+                              onChange={formik.handleChange}
+                              value={
+                                formik.values.type !== "link"
+                                  ? formik?.values?.radius?.bottom_left
+                                  : ""
+                              }
+                              placeholder="-"
+                              className="padding-top text-sm w-7 h-5 absolute bottom-0 left-0 -translate-x-full translate-y-full bg-[#00000000] text-center placeholder:text-black"
+                            />
+                          </>
+
                           <input
                             type="number"
                             name="border.width.top"
                             id="border.width.top"
                             onChange={formik.handleChange}
-                            value={formik.values.border.width.top}
-                            className="padding-top text-sm w-7 h-5 absolute top-1 left-1/2 -translate-x-1/2 bg-[#00000000] text-center"
-                            disabled={formik.values.type === "link"}
+                            value={
+                              formik.values.type !== "link"
+                                ? formik?.values?.border?.width?.top
+                                : ""
+                            }
+                            placeholder="-"
+                            className="padding-top text-sm w-7 h-5 absolute top-1 left-1/2 -translate-x-1/2 bg-[#00000000] text-center placeholder:text-black"
+                            disabled={formik?.values?.type === "link"}
                           />
                           <input
                             type="number"
                             name="border.width.bottom"
                             id="border.width.bottom"
                             onChange={formik.handleChange}
-                            value={formik.values.border.width.bottom}
-                            className="padding-bottom text-sm w-7 h-5 absolute bottom-1 left-1/2 -translate-x-1/2 bg-[#00000000] text-center"
-                            disabled={formik.values.type === "link"}
+                            value={
+                              formik.values.type !== "link"
+                                ? formik?.values?.border?.width?.bottom
+                                : ""
+                            }
+                            placeholder="-"
+                            className="padding-bottom text-sm w-7 h-5 absolute bottom-1 left-1/2 -translate-x-1/2 bg-[#00000000] text-center placeholder:text-black"
+                            disabled={formik?.values?.type === "link"}
                           />
                           <input
                             type="number"
                             name="border.width.left"
                             id="border.width.left"
                             onChange={formik.handleChange}
-                            value={formik.values.border.width.left}
-                            className="padding-left text-sm w-7 h-5 absolute top-1/2 left-1 -translate-y-1/2 bg-[#00000000] text-center"
-                            disabled={formik.values.type === "link"}
+                            value={
+                              formik.values.type !== "link"
+                                ? formik?.values?.border?.width?.left
+                                : ""
+                            }
+                            placeholder="-"
+                            className="padding-left text-sm w-7 h-5 absolute top-1/2 left-1 -translate-y-1/2 bg-[#00000000] text-center placeholder:text-black"
+                            disabled={formik?.values?.type === "link"}
                           />
                           <input
                             type="number"
                             name="border.width.right"
                             id="border.width.right"
                             onChange={formik.handleChange}
-                            value={formik.values.border.width.right}
-                            className="padding-right text-sm w-7 h-5 absolute top-1/2 right-1 -translate-y-1/2 bg-[#00000000] text-center"
-                            disabled={formik.values.type === "link"}
+                            value={
+                              formik.values.type !== "link"
+                                ? formik?.values?.border?.width?.right
+                                : ""
+                            }
+                            placeholder="-"
+                            className="padding-right text-sm w-7 h-5 absolute top-1/2 right-1 -translate-y-1/2 bg-[#00000000] text-center placeholder:text-black"
+                            disabled={formik?.values?.type === "link"}
                           />
                         </div>
                         <div className="bg-[#a3f0b7] border border-dashed border-black inset-x-9 inset-y-7 absolute">
@@ -1118,32 +1297,36 @@ const CreateButtonModal = ({
                             name="padding.top"
                             id="padding.top"
                             onChange={formik.handleChange}
-                            value={formik.values.padding.top}
-                            className="padding-top text-sm w-7 h-5 absolute top-1 left-1/2 -translate-x-1/2 bg-[#00000000] text-center"
+                            value={formik?.values?.padding?.top}
+                            placeholder="-"
+                            className="padding-top text-sm w-7 h-5 absolute top-1 left-1/2 -translate-x-1/2 bg-[#00000000] text-center placeholder:text-black"
                           />
                           <input
                             type="number"
                             name="padding.bottom"
                             id="padding.bottom"
                             onChange={formik.handleChange}
-                            value={formik.values.padding.bottom}
-                            className="padding-bottom text-sm w-7 h-5 absolute bottom-1 left-1/2 -translate-x-1/2 bg-[#00000000] text-center"
+                            value={formik?.values?.padding?.bottom}
+                            placeholder="-"
+                            className="padding-bottom text-sm w-7 h-5 absolute bottom-1 left-1/2 -translate-x-1/2 bg-[#00000000] text-center placeholder:text-black"
                           />
                           <input
                             type="number"
                             name="padding.left"
                             id="padding.left"
                             onChange={formik.handleChange}
-                            value={formik.values.padding.left}
-                            className="padding-left text-sm w-7 h-5 absolute top-1/2 left-1 -translate-y-1/2 bg-[#00000000] text-center"
+                            value={formik?.values?.padding?.left}
+                            placeholder="-"
+                            className="padding-left text-sm w-7 h-5 absolute top-1/2 left-1 -translate-y-1/2 bg-[#00000000] text-center placeholder:text-black"
                           />
                           <input
                             type="number"
                             name="padding.right"
                             id="padding.right"
                             onChange={formik.handleChange}
-                            value={formik.values.padding.right}
-                            className="padding-right text-sm w-7 h-5 absolute top-1/2 right-1 -translate-y-1/2 bg-[#00000000] text-center"
+                            value={formik?.values?.padding?.right}
+                            placeholder="-"
+                            className="padding-right text-sm w-7 h-5 absolute top-1/2 right-1 -translate-y-1/2 bg-[#00000000] text-center placeholder:text-black"
                           />
                         </div>
                         <div className="bg-[#93bdec] border border-black absolute inset-x-[72px] inset-y-14 flex justify-center items-center text-sm">
@@ -1151,6 +1334,7 @@ const CreateButtonModal = ({
                         </div>
                       </div>
                     </div>
+
                     <button
                       type="submit"
                       className="mt-4 col-span-2 w-full h-10 bg-[#21df4b] text-white border border-[#21df4b]"

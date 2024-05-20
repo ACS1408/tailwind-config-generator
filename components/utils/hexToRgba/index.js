@@ -23,10 +23,17 @@ export const hexToRGBA = (hex) => {
     if (hex.length === 9) {
       alpha = parseInt(hex.slice(7, 9), 16) / 255;
     }
+  }
+  // 8 digits hex code
+  else if (hex.length === 8) {
+    r = parseInt(hex.slice(2, 4), 16);
+    g = parseInt(hex.slice(4, 6), 16);
+    b = parseInt(hex.slice(6, 8), 16);
+    alpha = parseInt(hex.slice(0, 2), 16) / 255;
   } else {
     // Handle invalid hex color code
     throw new Error("Invalid hex color code");
   }
 
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  return `rgba(${r}, ${g}, ${b}, ${alpha.toFixed(2)})`;
 };

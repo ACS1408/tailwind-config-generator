@@ -1,74 +1,82 @@
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, Listbox, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import style from "./EditButtonModal.module.scss";
 import { useRecoilState } from "recoil";
 import { buttonState } from "@/atoms/buttonState";
+import { colorState } from "@/atoms/colorState";
 
 const EditButtonModal = ({
   isEditButtonModalOpen,
   closeEditButtonModal,
   id,
-  buttonName,
-  buttonType,
-  bgHex,
-  borderHex,
-  textHex,
-  buttonPaddingTop,
-  buttonPaddingBottom,
-  buttonPaddingLeft,
-  buttonPaddingRight,
-  buttonBorderTop,
-  buttonBorderBottom,
-  buttonBorderLeft,
-  buttonBorderRight,
+  name,
+  type,
+  bg,
+  border,
+  text,
+  padding,
+  radius,
 }) => {
   const [buttonData, setButtonData] = useRecoilState(buttonState);
+  const [colorData, setColorData] = useRecoilState(colorState);
+  const [isAddColorModalOpen, setIsAddColorModalOpen] = useState(false);
+
+  const openAddColorModal = () => {
+    setIsAddColorModalOpen(true);
+  };
+
+  const closeAddColorModal = () => {
+    setIsAddColorModalOpen(false);
+  };
 
   const formik = useFormik({
     initialValues: {
       id: id,
-      buttonName: buttonName,
-      buttonType: buttonType,
-      bgHex: bgHex,
-      borderHex: borderHex,
-      textHex: textHex,
-      buttonPadding: {
-        top: buttonPaddingTop,
-        bottom: buttonPaddingBottom,
-        left: buttonPaddingLeft,
-        right: buttonPaddingRight,
-      },
-      buttonBorder: {
-        top: buttonBorderTop,
-        bottom: buttonBorderBottom,
-        left: buttonBorderLeft,
-        right: buttonBorderRight,
-      },
+      name: name,
+      type: type,
+      bg: bg,
+      border: border,
+      text: text,
+      padding: padding,
+      border: border,
+      radius: radius,
     },
     onSubmit: (values) => {
       const newData = {
         id: values.id,
-        name: values.buttonName,
-        buttonType: values.buttonType,
-        bgColor: values.buttonType === "filled" ? values.bgHex : "",
-        borderColor: values.buttonType !== "link" ? values.borderHex : "",
-        textColor: values.textHex,
-        padding: {
-          top: values.buttonPadding.top,
-          bottom: values.buttonPadding.bottom,
-          left: values.buttonPadding.left,
-          right: values.buttonPadding.right,
-        },
+        name: values.name,
+        type: values.type,
+        bg: values.type === "filled" ? values.bg : "",
         border:
-          values.buttonType !== "link"
+          values.type !== "link"
             ? {
-                top: values.buttonBorder.top,
-                bottom: values.buttonBorder.bottom,
-                left: values.buttonBorder.left,
-                right: values.buttonBorder.right,
+                color: values.border.color,
+                width: {
+                  top: values.border.width.top,
+                  bottom: values.border.width.bottom,
+                  left: values.border.width.left,
+                  right: values.border.width.right,
+                },
               }
             : "",
+        text: {
+          color: values.text.color,
+          weight: values.text.weight,
+          size: values.text.size,
+        },
+        padding: {
+          top: values.padding.top,
+          bottom: values.padding.bottom,
+          left: values.padding.left,
+          right: values.padding.right,
+        },
+        radius: {
+          top_right: values.top_right,
+          bottom_right: values.bottom_right,
+          bottom_left: values.bottom_left,
+          top_left: values.top_left,
+        },
       };
       setButtonData((prev) =>
         prev.map((item) => (item.id === values.id ? newData : item))
@@ -81,23 +89,14 @@ const EditButtonModal = ({
     formik.resetForm({
       values: {
         id: id,
-        buttonName: buttonName,
-        buttonType: buttonType,
-        bgHex: bgHex,
-        borderHex: borderHex,
-        textHex: textHex,
-        buttonPadding: {
-          top: buttonPaddingTop,
-          bottom: buttonPaddingBottom,
-          left: buttonPaddingLeft,
-          right: buttonPaddingRight,
-        },
-        buttonBorder: {
-          top: buttonBorderTop,
-          bottom: buttonBorderBottom,
-          left: buttonBorderLeft,
-          right: buttonBorderRight,
-        },
+        name: name,
+        type: type,
+        bg: bg,
+        border: border,
+        text: text,
+        padding: padding,
+        border: border,
+        radius: radius,
       },
     });
   }, [buttonData]);
@@ -136,7 +135,7 @@ const EditButtonModal = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle transition-all relative">
+              <Dialog.Panel className="w-full max-w-xl transform rounded-2xl bg-white p-6 text-left align-middle transition-all relative">
                 <button
                   className="size-7 flex justify-center items-center absolute top-3 right-3"
                   onClick={closeEditButtonModal}
@@ -167,69 +166,165 @@ const EditButtonModal = ({
                     type="button"
                     className="capitalize"
                     style={{
+                      borderRadius: `${formik.values.radius.top_left}px ${formik.values.radius.top_right}px ${formik.values.radius.bottom_right}px ${formik.values.radius.bottom_left}px`,
                       backgroundColor:
-                        formik.values.buttonType === "filled"
-                          ? formik.values.bgHex
-                          : "transparent",
-                      color: formik.values.textHex,
-                      padding: `${formik.values.buttonPadding.top}px ${formik.values.buttonPadding.right}px ${formik.values.buttonPadding.bottom}px ${formik.values.buttonPadding.left}px`,
+                        formik?.values?.type === "filled"
+                          ? colorData?.filter(
+                              (color) => color?.name === formik.values.bg
+                            )[0]?.hex ??
+                            colorData
+                              ?.filter(
+                                (color) =>
+                                  color?.name === formik.values.bg.split("-")[0]
+                              )[0]
+                              ?.variants?.filter(
+                                (variant) =>
+                                  variant?.variant ===
+                                  formik.values.bg.split("-")[1]
+                              )[0]?.color
+                          : "",
+                      color:
+                        colorData?.filter(
+                          (color) => color?.name === formik.values.text.color
+                        )[0]?.hex ??
+                        colorData
+                          ?.filter(
+                            (color) =>
+                              color?.name ===
+                              formik.values.text.color.split("-")[0]
+                          )[0]
+                          ?.variants?.filter(
+                            (variant) =>
+                              variant?.variant ===
+                              formik.values.text.color.split("-")[1]
+                          )[0]?.color,
+                      padding: `${formik.values.padding.top}px ${formik.values.padding.right}px ${formik.values.padding.bottom}px ${formik.values.padding.left}px`,
                       borderTop: `${
-                        formik.values.buttonType !== "link"
-                          ? `${formik.values.buttonBorder.top}px solid ${formik.values.borderHex}`
+                        formik.values.type !== "link"
+                          ? `${formik.values.border.width.top}px solid ${
+                              colorData?.filter(
+                                (color) =>
+                                  color?.name === formik.values.border.color
+                              )[0]?.hex ??
+                              colorData
+                                ?.filter(
+                                  (color) =>
+                                    color?.name ===
+                                    formik.values.border.color.split("-")[0]
+                                )[0]
+                                ?.variants?.filter(
+                                  (variant) =>
+                                    variant?.variant ===
+                                    formik.values.border.color.split("-")[1]
+                                )[0]?.color
+                            }`
                           : ""
                       }`,
                       borderRight: `${
-                        formik.values.buttonType !== "link"
-                          ? `${formik.values.buttonBorder.right}px solid ${formik.values.borderHex}`
+                        formik.values.type !== "link"
+                          ? `${formik.values.border.width.right}px solid ${
+                              colorData?.filter(
+                                (color) =>
+                                  color?.name === formik.values.border.color
+                              )[0]?.hex ??
+                              colorData
+                                ?.filter(
+                                  (color) =>
+                                    color?.name ===
+                                    formik.values.border.color.split("-")[0]
+                                )[0]
+                                ?.variants?.filter(
+                                  (variant) =>
+                                    variant?.variant ===
+                                    formik.values.border.color.split("-")[1]
+                                )[0]?.color
+                            }`
                           : ""
                       }`,
                       borderBottom: `${
-                        formik.values.buttonType !== "link"
-                          ? `${formik.values.buttonBorder.bottom}px solid ${formik.values.borderHex}`
+                        formik.values.type !== "link"
+                          ? `${formik.values.border.width.bottom}px solid ${
+                              colorData?.filter(
+                                (color) =>
+                                  color?.name === formik.values.border.color
+                              )[0]?.hex ??
+                              colorData
+                                ?.filter(
+                                  (color) =>
+                                    color?.name ===
+                                    formik.values.border.color.split("-")[0]
+                                )[0]
+                                ?.variants?.filter(
+                                  (variant) =>
+                                    variant?.variant ===
+                                    formik.values.border.color.split("-")[1]
+                                )[0]?.color
+                            }`
                           : ""
                       }`,
                       borderLeft: `${
-                        formik.values.buttonType !== "link"
-                          ? `${formik.values.buttonBorder.left}px solid ${formik.values.borderHex}`
+                        formik.values.type !== "link"
+                          ? `${formik.values.border.width.left}px solid ${
+                              colorData?.filter(
+                                (color) =>
+                                  color?.name === formik.values.border.color
+                              )[0]?.hex ??
+                              colorData
+                                ?.filter(
+                                  (color) =>
+                                    color?.name ===
+                                    formik.values.border.color.split("-")[0]
+                                )[0]
+                                ?.variants?.filter(
+                                  (variant) =>
+                                    variant?.variant ===
+                                    formik.values.border.color.split("-")[1]
+                                )[0]?.color
+                            }`
                           : ""
                       }`,
                     }}
                   >
-                    {formik.values.buttonName}
+                    {formik.values.type} {formik.values.name}
                   </button>
                 </div>
+
                 <form
                   action=""
                   className="grid grid-cols-2 gap-4"
                   onSubmit={formik.handleSubmit}
                 >
                   <div className="col-span-2">
+                    <label
+                      htmlFor="name"
+                      className="text-sm font-medium mb-1 block"
+                    >
+                      Button name
+                    </label>
                     <input
                       type="text"
                       placeholder="Enter button name"
                       className="border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
-                      id="buttonName"
-                      name="buttonName"
+                      id="name"
+                      name="name"
                       onChange={formik.handleChange}
-                      value={formik.values.buttonName}
+                      value={formik.values.name}
                     />
                   </div>
 
                   <fieldset className="space-y-4 col-span-2">
-                    <legend className="text-sm font-semibold">
-                      Button type
-                    </legend>
+                    <legend className="text-sm font-medium">Button type</legend>
                     <div className="flex gap-4">
                       <div className="flex items-center">
                         <input
                           type="radio"
                           id="filledButton"
-                          name="buttonType"
+                          name="type"
                           className="h-4 w-4 accent-black"
                           onChange={() =>
-                            formik.setFieldValue("buttonType", "filled")
+                            formik.setFieldValue("type", "filled")
                           }
-                          checked={formik.values.buttonType === "filled"}
+                          checked={formik.values.type === "filled"}
                         />
                         <label
                           htmlFor="filledButton"
@@ -242,12 +337,12 @@ const EditButtonModal = ({
                         <input
                           type="radio"
                           id="outlinedButton"
-                          name="buttonType"
+                          name="type"
                           className="h-4 w-4 accent-black"
                           onChange={() =>
-                            formik.setFieldValue("buttonType", "outline")
+                            formik.setFieldValue("type", "outline")
                           }
-                          checked={formik.values.buttonType === "outline"}
+                          checked={formik.values.type === "outline"}
                         />
                         <label
                           htmlFor="outlinedButton"
@@ -260,12 +355,10 @@ const EditButtonModal = ({
                         <input
                           type="radio"
                           id="linkButton"
-                          name="buttonType"
+                          name="type"
                           className="h-4 w-4 accent-black"
-                          onChange={() =>
-                            formik.setFieldValue("buttonType", "link")
-                          }
-                          checked={formik.values.buttonType === "link"}
+                          onChange={() => formik.setFieldValue("type", "link")}
+                          checked={formik.values.type === "link"}
                         />
                         <label
                           htmlFor="linkButton"
@@ -277,95 +370,790 @@ const EditButtonModal = ({
                     </div>
                   </fieldset>
 
-                  {formik.values.buttonType === "outline" ? (
-                    <div className="">
+                  {formik.values.type === "outline" ? (
+                    <div>
                       <label
-                        htmlFor="bgHex"
+                        htmlFor="border.color"
                         className="text-sm font-medium mb-1 block"
                       >
                         Border color
                       </label>
-                      <div className="border border-[#dedede] h-9 p-1 flex gap-2">
-                        <input
-                          type="color"
-                          className={`${style.color_picker} flex-[0_0_3rem] w-12 h-[26px]`}
-                          id="borderHex"
-                          name="borderHex"
-                          onChange={formik.handleChange}
-                          value={formik.values.borderHex}
-                        />
-                        <span className="uppercase">
-                          {formik.values.borderHex}
-                        </span>
-                      </div>
+                      <Listbox value={formik.values.border.color}>
+                        <div className="relative">
+                          <Listbox.Button className="relative w-full cursor-default border border-[#dedede] h-10">
+                            <span className="block truncate text-left ps-4 text-md">
+                              {formik.values.border.color}
+                            </span>
+                            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="12.828"
+                                height="7.414"
+                                viewBox="0 0 12.828 7.414"
+                              >
+                                <path
+                                  id="Path_1"
+                                  data-name="Path 1"
+                                  d="M1,1,6,6l5-5"
+                                  transform="translate(0.414 0.414)"
+                                  fill="none"
+                                  stroke="#000"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                />
+                              </svg>
+                            </span>
+                          </Listbox.Button>
+                          <Transition
+                            as={Fragment}
+                            leave="transition ease-in duration-100"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                          >
+                            <Listbox.Options className="absolute mt-1 max-h-56 w-full overflow-auto bg-white border border-[#dedede] outline-none p-3 no-scrollbar z-[2]">
+                              {colorData.map((color, colorIdx) => (
+                                <Fragment key={colorIdx}>
+                                  <Listbox.Option
+                                    onClick={() =>
+                                      formik.setFieldValue(
+                                        `border.color`,
+                                        color?.name
+                                      )
+                                    }
+                                    className={({ active, selected }) =>
+                                      `relative select-none px-3 py-2 cursor-pointer mb-1 ${
+                                        active
+                                          ? "bg-[#21df4b] text-white"
+                                          : "text-gray-900"
+                                      } ${
+                                        selected
+                                          ? "bg-[#21df4b] text-white"
+                                          : "text-gray-900"
+                                      }`
+                                    }
+                                    value={color}
+                                  >
+                                    {({ active, selected }) => (
+                                      <>
+                                        <span
+                                          className={`flex justify-between items-center truncate ${
+                                            selected
+                                              ? "font-medium"
+                                              : "font-normal"
+                                          }`}
+                                        >
+                                          <span className="">{color.name}</span>
+                                          <span
+                                            className={`text-sm ${
+                                              active
+                                                ? "!text-white"
+                                                : "text-[#bbbbbb]"
+                                            } ${
+                                              selected
+                                                ? "!text-white"
+                                                : "text-[#bbbbbb]"
+                                            }`}
+                                          >
+                                            {color.hex}
+                                          </span>
+                                        </span>
+                                      </>
+                                    )}
+                                  </Listbox.Option>
+                                  {color?.variants?.map((item, itemIdx) => {
+                                    return (
+                                      <Listbox.Option
+                                        key={itemIdx}
+                                        onClick={() =>
+                                          formik.setFieldValue(
+                                            `border.color`,
+                                            color?.name + "-" + item?.variant
+                                          )
+                                        }
+                                        className={({ active, selected }) =>
+                                          `relative select-none px-3 py-2 cursor-pointer mb-1 ${
+                                            active
+                                              ? "bg-[#21df4b] text-white"
+                                              : "text-gray-900"
+                                          } ${
+                                            selected
+                                              ? "bg-[#21df4b] text-white"
+                                              : "text-gray-900"
+                                          }`
+                                        }
+                                        value={item}
+                                      >
+                                        {({ active, selected }) => (
+                                          <>
+                                            <span
+                                              className={`flex justify-between items-center truncate ${
+                                                selected
+                                                  ? "font-medium"
+                                                  : "font-normal"
+                                              }`}
+                                            >
+                                              <span className="">
+                                                {color?.name}-{item?.variant}
+                                              </span>
+                                              <span
+                                                className={`text-sm ${
+                                                  active
+                                                    ? "!text-white"
+                                                    : "text-[#bbbbbb]"
+                                                } ${
+                                                  selected
+                                                    ? "!text-white"
+                                                    : "text-[#bbbbbb]"
+                                                }`}
+                                              >
+                                                {item.color}
+                                              </span>
+                                            </span>
+                                          </>
+                                        )}
+                                      </Listbox.Option>
+                                    );
+                                  })}
+                                </Fragment>
+                              ))}
+                              <div
+                                className={`group relative select-none px-3 py-2 cursor-pointer mb-1 hover:bg-[#21df4b] hover:text-white`}
+                                onClick={openAddColorModal}
+                              >
+                                <>
+                                  <span
+                                    className={`flex items-center truncate gap-2`}
+                                  >
+                                    <div
+                                      className={`border rounded-full size-8 flex justify-center items-center group-hover:border-white border-[#dedede]`}
+                                    >
+                                      <svg
+                                        id="Group_2"
+                                        data-name="Group 2"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 18 18"
+                                        className="group-hover:fill-white fill-black"
+                                      >
+                                        <g id="Group_1" data-name="Group 1">
+                                          <rect
+                                            id="Rectangle_1"
+                                            data-name="Rectangle 1"
+                                            width="18"
+                                            height="18"
+                                            transform="translate(18 18) rotate(180)"
+                                            opacity="0"
+                                          />
+                                          <path
+                                            id="Path_1"
+                                            data-name="Path 1"
+                                            d="M15.25,9.25h-4.5V4.75a.75.75,0,0,0-1.5,0v4.5H4.75a.75.75,0,0,0,0,1.5h4.5v4.5a.75.75,0,0,0,1.5,0v-4.5h4.5a.75.75,0,0,0,0-1.5Z"
+                                            transform="translate(-1 -1)"
+                                          />
+                                        </g>
+                                      </svg>
+                                    </div>
+
+                                    <span className="">Add new color</span>
+                                  </span>
+                                </>
+                              </div>
+                            </Listbox.Options>
+                          </Transition>
+                        </div>
+                      </Listbox>
                     </div>
-                  ) : formik.values.buttonType === "filled" ? (
+                  ) : formik.values.type === "filled" ? (
                     <>
-                      <div className="">
+                      <div>
                         <label
-                          htmlFor="bgHex"
+                          htmlFor="bg"
                           className="text-sm font-medium mb-1 block"
                         >
                           Background color
                         </label>
-                        <div className="border border-[#dedede] h-9 p-1 flex gap-2">
-                          <input
-                            type="color"
-                            className={`${style.color_picker} flex-[0_0_3rem] w-12 h-[26px]`}
-                            id="bgHex"
-                            name="bgHex"
-                            onChange={formik.handleChange}
-                            value={formik.values.bgHex}
-                          />
-                          <span className="uppercase">
-                            {formik.values.bgHex}
-                          </span>
-                        </div>
+                        <Listbox value={formik.values.bg}>
+                          <div className="relative">
+                            <Listbox.Button className="relative w-full cursor-default border border-[#dedede] h-10">
+                              <span className="block truncate text-left ps-4 text-md">
+                                {formik.values.bg}
+                              </span>
+                              <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="12.828"
+                                  height="7.414"
+                                  viewBox="0 0 12.828 7.414"
+                                >
+                                  <path
+                                    id="Path_1"
+                                    data-name="Path 1"
+                                    d="M1,1,6,6l5-5"
+                                    transform="translate(0.414 0.414)"
+                                    fill="none"
+                                    stroke="#000"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                  />
+                                </svg>
+                              </span>
+                            </Listbox.Button>
+                            <Transition
+                              as={Fragment}
+                              leave="transition ease-in duration-100"
+                              leaveFrom="opacity-100"
+                              leaveTo="opacity-0"
+                            >
+                              <Listbox.Options className="absolute mt-1 max-h-56 w-full overflow-auto bg-white border border-[#dedede] outline-none p-3 no-scrollbar z-[2]">
+                                {colorData.map((color, colorIdx) => (
+                                  <Fragment key={colorIdx}>
+                                    <Listbox.Option
+                                      onClick={() =>
+                                        formik.setFieldValue(`bg`, color?.name)
+                                      }
+                                      className={({ active, selected }) =>
+                                        `relative select-none px-3 py-2 cursor-pointer mb-1 ${
+                                          active
+                                            ? "bg-[#21df4b] text-white"
+                                            : "text-gray-900"
+                                        } ${
+                                          selected
+                                            ? "bg-[#21df4b] text-white"
+                                            : "text-gray-900"
+                                        }`
+                                      }
+                                      value={color}
+                                    >
+                                      {({ active, selected }) => (
+                                        <>
+                                          <span
+                                            className={`flex justify-between items-center truncate ${
+                                              selected
+                                                ? "font-medium"
+                                                : "font-normal"
+                                            }`}
+                                          >
+                                            <span className="">
+                                              {color.name}
+                                            </span>
+                                            <span
+                                              className={`text-sm ${
+                                                active
+                                                  ? "!text-white"
+                                                  : "text-[#bbbbbb]"
+                                              } ${
+                                                selected
+                                                  ? "!text-white"
+                                                  : "text-[#bbbbbb]"
+                                              }`}
+                                            >
+                                              {color.hex}
+                                            </span>
+                                          </span>
+                                        </>
+                                      )}
+                                    </Listbox.Option>
+                                    {color?.variants?.map((item, itemIdx) => {
+                                      return (
+                                        <Listbox.Option
+                                          key={itemIdx}
+                                          onClick={() =>
+                                            formik.setFieldValue(
+                                              `bg`,
+                                              color?.name + "-" + item?.variant
+                                            )
+                                          }
+                                          className={({ active, selected }) =>
+                                            `relative select-none px-3 py-2 cursor-pointer mb-1 ${
+                                              active
+                                                ? "bg-[#21df4b] text-white"
+                                                : "text-gray-900"
+                                            } ${
+                                              selected
+                                                ? "bg-[#21df4b] text-white"
+                                                : "text-gray-900"
+                                            }`
+                                          }
+                                          value={item}
+                                        >
+                                          {({ active, selected }) => (
+                                            <>
+                                              <span
+                                                className={`flex justify-between items-center truncate ${
+                                                  selected
+                                                    ? "font-medium"
+                                                    : "font-normal"
+                                                }`}
+                                              >
+                                                <span className="">
+                                                  {color?.name}-{item?.variant}
+                                                </span>
+                                                <span
+                                                  className={`text-sm ${
+                                                    active
+                                                      ? "!text-white"
+                                                      : "text-[#bbbbbb]"
+                                                  } ${
+                                                    selected
+                                                      ? "!text-white"
+                                                      : "text-[#bbbbbb]"
+                                                  }`}
+                                                >
+                                                  {item.color}
+                                                </span>
+                                              </span>
+                                            </>
+                                          )}
+                                        </Listbox.Option>
+                                      );
+                                    })}
+                                  </Fragment>
+                                ))}
+                                <div
+                                  className={`group relative select-none px-3 py-2 cursor-pointer mb-1 hover:bg-[#21df4b] hover:text-white`}
+                                  onClick={openAddColorModal}
+                                >
+                                  <>
+                                    <span
+                                      className={`flex items-center truncate gap-2`}
+                                    >
+                                      <div
+                                        className={`border rounded-full size-8 flex justify-center items-center group-hover:border-white border-[#dedede]`}
+                                      >
+                                        <svg
+                                          id="Group_2"
+                                          data-name="Group 2"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          width="18"
+                                          height="18"
+                                          viewBox="0 0 18 18"
+                                          className="group-hover:fill-white fill-black"
+                                        >
+                                          <g id="Group_1" data-name="Group 1">
+                                            <rect
+                                              id="Rectangle_1"
+                                              data-name="Rectangle 1"
+                                              width="18"
+                                              height="18"
+                                              transform="translate(18 18) rotate(180)"
+                                              opacity="0"
+                                            />
+                                            <path
+                                              id="Path_1"
+                                              data-name="Path 1"
+                                              d="M15.25,9.25h-4.5V4.75a.75.75,0,0,0-1.5,0v4.5H4.75a.75.75,0,0,0,0,1.5h4.5v4.5a.75.75,0,0,0,1.5,0v-4.5h4.5a.75.75,0,0,0,0-1.5Z"
+                                              transform="translate(-1 -1)"
+                                            />
+                                          </g>
+                                        </svg>
+                                      </div>
+
+                                      <span className="">Add new color</span>
+                                    </span>
+                                  </>
+                                </div>
+                              </Listbox.Options>
+                            </Transition>
+                          </div>
+                        </Listbox>
                       </div>
-                      <div className="">
+                      <div>
                         <label
-                          htmlFor="bgHex"
+                          htmlFor="border.color"
                           className="text-sm font-medium mb-1 block"
                         >
                           Border color
                         </label>
-                        <div className="border border-[#dedede] h-9 p-1 flex gap-2">
-                          <input
-                            type="color"
-                            className={`${style.color_picker} flex-[0_0_3rem] w-12 h-[26px]`}
-                            id="borderHex"
-                            name="borderHex"
-                            onChange={formik.handleChange}
-                            value={formik.values.borderHex}
-                          />
-                          <span className="uppercase">
-                            {formik.values.borderHex}
-                          </span>
-                        </div>
+                        <Listbox value={formik.values.border.color}>
+                          <div className="relative">
+                            <Listbox.Button className="relative w-full cursor-default border border-[#dedede] h-10">
+                              <span className="block truncate text-left ps-4 text-md">
+                                {formik.values.border.color}
+                              </span>
+                              <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="12.828"
+                                  height="7.414"
+                                  viewBox="0 0 12.828 7.414"
+                                >
+                                  <path
+                                    id="Path_1"
+                                    data-name="Path 1"
+                                    d="M1,1,6,6l5-5"
+                                    transform="translate(0.414 0.414)"
+                                    fill="none"
+                                    stroke="#000"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                  />
+                                </svg>
+                              </span>
+                            </Listbox.Button>
+                            <Transition
+                              as={Fragment}
+                              leave="transition ease-in duration-100"
+                              leaveFrom="opacity-100"
+                              leaveTo="opacity-0"
+                            >
+                              <Listbox.Options className="absolute mt-1 max-h-56 w-full overflow-auto bg-white border border-[#dedede] outline-none p-3 no-scrollbar z-[2]">
+                                {colorData.map((color, colorIdx) => (
+                                  <Fragment key={colorIdx}>
+                                    <Listbox.Option
+                                      onClick={() =>
+                                        formik.setFieldValue(
+                                          `border.color`,
+                                          color?.name
+                                        )
+                                      }
+                                      className={({ active, selected }) =>
+                                        `relative select-none px-3 py-2 cursor-pointer mb-1 ${
+                                          active
+                                            ? "bg-[#21df4b] text-white"
+                                            : "text-gray-900"
+                                        } ${
+                                          selected
+                                            ? "bg-[#21df4b] text-white"
+                                            : "text-gray-900"
+                                        }`
+                                      }
+                                      value={color}
+                                    >
+                                      {({ active, selected }) => (
+                                        <>
+                                          <span
+                                            className={`flex justify-between items-center truncate ${
+                                              selected
+                                                ? "font-medium"
+                                                : "font-normal"
+                                            }`}
+                                          >
+                                            <span className="">
+                                              {color.name}
+                                            </span>
+                                            <span
+                                              className={`text-sm ${
+                                                active
+                                                  ? "!text-white"
+                                                  : "text-[#bbbbbb]"
+                                              } ${
+                                                selected
+                                                  ? "!text-white"
+                                                  : "text-[#bbbbbb]"
+                                              }`}
+                                            >
+                                              {color.hex}
+                                            </span>
+                                          </span>
+                                        </>
+                                      )}
+                                    </Listbox.Option>
+                                    {color?.variants?.map((item, itemIdx) => {
+                                      return (
+                                        <Listbox.Option
+                                          key={itemIdx}
+                                          onClick={() =>
+                                            formik.setFieldValue(
+                                              `border.color`,
+                                              color?.name + "-" + item?.variant
+                                            )
+                                          }
+                                          className={({ active, selected }) =>
+                                            `relative select-none px-3 py-2 cursor-pointer mb-1 ${
+                                              active
+                                                ? "bg-[#21df4b] text-white"
+                                                : "text-gray-900"
+                                            } ${
+                                              selected
+                                                ? "bg-[#21df4b] text-white"
+                                                : "text-gray-900"
+                                            }`
+                                          }
+                                          value={item}
+                                        >
+                                          {({ active, selected }) => (
+                                            <>
+                                              <span
+                                                className={`flex justify-between items-center truncate ${
+                                                  selected
+                                                    ? "font-medium"
+                                                    : "font-normal"
+                                                }`}
+                                              >
+                                                <span className="">
+                                                  {color?.name}-{item?.variant}
+                                                </span>
+                                                <span
+                                                  className={`text-sm ${
+                                                    active
+                                                      ? "!text-white"
+                                                      : "text-[#bbbbbb]"
+                                                  } ${
+                                                    selected
+                                                      ? "!text-white"
+                                                      : "text-[#bbbbbb]"
+                                                  }`}
+                                                >
+                                                  {item.color}
+                                                </span>
+                                              </span>
+                                            </>
+                                          )}
+                                        </Listbox.Option>
+                                      );
+                                    })}
+                                  </Fragment>
+                                ))}
+                                <div
+                                  className={`group relative select-none px-3 py-2 cursor-pointer mb-1 hover:bg-[#21df4b] hover:text-white`}
+                                  onClick={openAddColorModal}
+                                >
+                                  <>
+                                    <span
+                                      className={`flex items-center truncate gap-2`}
+                                    >
+                                      <div
+                                        className={`border rounded-full size-8 flex justify-center items-center group-hover:border-white border-[#dedede]`}
+                                      >
+                                        <svg
+                                          id="Group_2"
+                                          data-name="Group 2"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          width="18"
+                                          height="18"
+                                          viewBox="0 0 18 18"
+                                          className="group-hover:fill-white fill-black"
+                                        >
+                                          <g id="Group_1" data-name="Group 1">
+                                            <rect
+                                              id="Rectangle_1"
+                                              data-name="Rectangle 1"
+                                              width="18"
+                                              height="18"
+                                              transform="translate(18 18) rotate(180)"
+                                              opacity="0"
+                                            />
+                                            <path
+                                              id="Path_1"
+                                              data-name="Path 1"
+                                              d="M15.25,9.25h-4.5V4.75a.75.75,0,0,0-1.5,0v4.5H4.75a.75.75,0,0,0,0,1.5h4.5v4.5a.75.75,0,0,0,1.5,0v-4.5h4.5a.75.75,0,0,0,0-1.5Z"
+                                              transform="translate(-1 -1)"
+                                            />
+                                          </g>
+                                        </svg>
+                                      </div>
+
+                                      <span className="">Add new color</span>
+                                    </span>
+                                  </>
+                                </div>
+                              </Listbox.Options>
+                            </Transition>
+                          </div>
+                        </Listbox>
                       </div>
                     </>
-                  ) : formik.values.buttonType === "link" ? (
+                  ) : formik.values.type === "link" ? (
                     <></>
                   ) : null}
 
-                  <div className="">
+                  <div>
                     <label
-                      htmlFor="bgHex"
+                      htmlFor="border.color"
                       className="text-sm font-medium mb-1 block"
                     >
                       Text color
                     </label>
-                    <div className="border border-[#dedede] h-9 p-1 flex gap-2">
-                      <input
-                        type="color"
-                        className={`${style.color_picker} flex-[0_0_3rem] w-12 h-[26px]`}
-                        id="textHex"
-                        name="textHex"
-                        onChange={formik.handleChange}
-                        value={formik.values.textHex}
-                      />
-                      <span className="uppercase">{formik.values.textHex}</span>
-                    </div>
+                    <Listbox value={formik.values.text.color}>
+                      <div className="relative">
+                        <Listbox.Button className="relative w-full cursor-default border border-[#dedede] h-10">
+                          <span className="block truncate text-left ps-4 text-md">
+                            {formik.values.text.color}
+                          </span>
+                          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="12.828"
+                              height="7.414"
+                              viewBox="0 0 12.828 7.414"
+                            >
+                              <path
+                                id="Path_1"
+                                data-name="Path 1"
+                                d="M1,1,6,6l5-5"
+                                transform="translate(0.414 0.414)"
+                                fill="none"
+                                stroke="#000"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                              />
+                            </svg>
+                          </span>
+                        </Listbox.Button>
+                        <Transition
+                          as={Fragment}
+                          leave="transition ease-in duration-100"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
+                        >
+                          <Listbox.Options className="absolute mt-1 max-h-56 w-full overflow-auto bg-white border border-[#dedede] outline-none p-3 no-scrollbar z-[2]">
+                            {colorData.map((color, colorIdx) => (
+                              <Fragment key={colorIdx}>
+                                <Listbox.Option
+                                  onClick={() =>
+                                    formik.setFieldValue(
+                                      `text.color`,
+                                      color?.name
+                                    )
+                                  }
+                                  className={({ active, selected }) =>
+                                    `relative select-none px-3 py-2 cursor-pointer mb-1 ${
+                                      active
+                                        ? "bg-[#21df4b] text-white"
+                                        : "text-gray-900"
+                                    } ${
+                                      selected
+                                        ? "bg-[#21df4b] text-white"
+                                        : "text-gray-900"
+                                    }`
+                                  }
+                                  value={color}
+                                >
+                                  {({ active, selected }) => (
+                                    <>
+                                      <span
+                                        className={`flex justify-between items-center truncate ${
+                                          selected
+                                            ? "font-medium"
+                                            : "font-normal"
+                                        }`}
+                                      >
+                                        <span className="">{color.name}</span>
+                                        <span
+                                          className={`text-sm ${
+                                            active
+                                              ? "!text-white"
+                                              : "text-[#bbbbbb]"
+                                          } ${
+                                            selected
+                                              ? "!text-white"
+                                              : "text-[#bbbbbb]"
+                                          }`}
+                                        >
+                                          {color.hex}
+                                        </span>
+                                      </span>
+                                    </>
+                                  )}
+                                </Listbox.Option>
+                                {color?.variants?.map((item, itemIdx) => {
+                                  return (
+                                    <Listbox.Option
+                                      key={itemIdx}
+                                      onClick={() =>
+                                        formik.setFieldValue(
+                                          `text.color`,
+                                          color?.name + "-" + item?.variant
+                                        )
+                                      }
+                                      className={({ active, selected }) =>
+                                        `relative select-none px-3 py-2 cursor-pointer mb-1 ${
+                                          active
+                                            ? "bg-[#21df4b] text-white"
+                                            : "text-gray-900"
+                                        } ${
+                                          selected
+                                            ? "bg-[#21df4b] text-white"
+                                            : "text-gray-900"
+                                        }`
+                                      }
+                                      value={item}
+                                    >
+                                      {({ active, selected }) => (
+                                        <>
+                                          <span
+                                            className={`flex justify-between items-center truncate ${
+                                              selected
+                                                ? "font-medium"
+                                                : "font-normal"
+                                            }`}
+                                          >
+                                            <span className="">
+                                              {color?.name}-{item?.variant}
+                                            </span>
+                                            <span
+                                              className={`text-sm ${
+                                                active
+                                                  ? "!text-white"
+                                                  : "text-[#bbbbbb]"
+                                              } ${
+                                                selected
+                                                  ? "!text-white"
+                                                  : "text-[#bbbbbb]"
+                                              }`}
+                                            >
+                                              {item.color}
+                                            </span>
+                                          </span>
+                                        </>
+                                      )}
+                                    </Listbox.Option>
+                                  );
+                                })}
+                              </Fragment>
+                            ))}
+                            <div
+                              className={`group relative select-none px-3 py-2 cursor-pointer mb-1 hover:bg-[#21df4b] hover:text-white`}
+                              onClick={openAddColorModal}
+                            >
+                              <>
+                                <span
+                                  className={`flex items-center truncate gap-2`}
+                                >
+                                  <div
+                                    className={`border rounded-full size-8 flex justify-center items-center group-hover:border-white border-[#dedede]`}
+                                  >
+                                    <svg
+                                      id="Group_2"
+                                      data-name="Group 2"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="18"
+                                      height="18"
+                                      viewBox="0 0 18 18"
+                                      className="group-hover:fill-white fill-black"
+                                    >
+                                      <g id="Group_1" data-name="Group 1">
+                                        <rect
+                                          id="Rectangle_1"
+                                          data-name="Rectangle 1"
+                                          width="18"
+                                          height="18"
+                                          transform="translate(18 18) rotate(180)"
+                                          opacity="0"
+                                        />
+                                        <path
+                                          id="Path_1"
+                                          data-name="Path 1"
+                                          d="M15.25,9.25h-4.5V4.75a.75.75,0,0,0-1.5,0v4.5H4.75a.75.75,0,0,0,0,1.5h4.5v4.5a.75.75,0,0,0,1.5,0v-4.5h4.5a.75.75,0,0,0,0-1.5Z"
+                                          transform="translate(-1 -1)"
+                                        />
+                                      </g>
+                                    </svg>
+                                  </div>
+
+                                  <span className="">Add new color</span>
+                                </span>
+                              </>
+                            </div>
+                          </Listbox.Options>
+                        </Transition>
+                      </div>
+                    </Listbox>
                   </div>
 
                   <div
@@ -377,79 +1165,131 @@ const EditButtonModal = ({
                     <div className="w-64 h-36 relative">
                       <div
                         className={`bg-[#fdffb2] border border-black absolute inset-0 ${
-                          formik.values.buttonType === "link"
-                            ? "brightness-50"
-                            : ""
+                          formik.values.type === "link" ? "brightness-50" : ""
                         }`}
                       >
+                        <>
+                          <input
+                            type="number"
+                            name="radius.top_left"
+                            id="radius.top_left"
+                            onChange={formik.handleChange}
+                            value={
+                              formik.values.type !== "link"
+                                ? formik?.values?.radius?.top_left
+                                : ""
+                            }
+                            placeholder="-"
+                            className="padding-top text-sm w-7 h-5 absolute top-0 left-0 -translate-x-full -translate-y-full bg-[#00000000] text-center placeholder:text-black"
+                          />
+                          <input
+                            type="number"
+                            name="radius.top_right"
+                            id="radius.top_right"
+                            onChange={formik.handleChange}
+                            value={
+                              formik.values.type !== "link"
+                                ? formik?.values?.radius?.top_right
+                                : ""
+                            }
+                            placeholder="-"
+                            className="padding-top text-sm w-7 h-5 absolute top-0 right-0 translate-x-full -translate-y-full bg-[#00000000] text-center placeholder:text-black"
+                          />
+                          <input
+                            type="number"
+                            name="radius.bottom_right"
+                            id="radius.bottom_right"
+                            onChange={formik.handleChange}
+                            value={
+                              formik.values.type !== "link"
+                                ? formik?.values?.radius?.bottom_right
+                                : ""
+                            }
+                            placeholder="-"
+                            className="padding-top text-sm w-7 h-5 absolute bottom-0 right-0 translate-x-full translate-y-full bg-[#00000000] text-center placeholder:text-black"
+                          />
+                          <input
+                            type="number"
+                            name="radius.bottom_left"
+                            id="radius.bottom_left"
+                            onChange={formik.handleChange}
+                            value={
+                              formik.values.type !== "link"
+                                ? formik?.values?.radius?.bottom_left
+                                : ""
+                            }
+                            placeholder="-"
+                            className="padding-top text-sm w-7 h-5 absolute bottom-0 left-0 -translate-x-full translate-y-full bg-[#00000000] text-center placeholder:text-black"
+                          />
+                        </>
                         <input
                           type="number"
-                          name="buttonBorder.top"
-                          id="buttonBorderTop"
+                          name="border.width.top"
+                          id="border.width.top"
                           onChange={formik.handleChange}
-                          value={formik.values.buttonBorder.top}
+                          value={formik?.values?.border?.width?.top}
                           className="padding-top text-sm w-7 h-5 absolute top-1 left-1/2 -translate-x-1/2 bg-[#00000000] text-center"
-                          disabled={formik.values.buttonType === "link"}
+                          disabled={formik?.values?.type === "link"}
                         />
                         <input
                           type="number"
-                          name="buttonBorder.bottom"
-                          id="buttonBorderBottom"
+                          name="border.width.bottom"
+                          id="border.width.bottom"
                           onChange={formik.handleChange}
-                          value={formik.values.buttonBorder.bottom}
+                          value={formik?.values?.border?.width?.bottom}
                           className="padding-bottom text-sm w-7 h-5 absolute bottom-1 left-1/2 -translate-x-1/2 bg-[#00000000] text-center"
-                          disabled={formik.values.buttonType === "link"}
+                          disabled={formik?.values?.type === "link"}
                         />
                         <input
                           type="number"
-                          name="buttonBorder.left"
-                          id="buttonBorderLeft"
+                          name="border.width.left"
+                          id="border.width.left"
                           onChange={formik.handleChange}
-                          value={formik.values.buttonBorder.left}
+                          value={formik?.values?.border?.width?.left}
                           className="padding-left text-sm w-7 h-5 absolute top-1/2 left-1 -translate-y-1/2 bg-[#00000000] text-center"
-                          disabled={formik.values.buttonType === "link"}
+                          disabled={formik?.values?.type === "link"}
                         />
                         <input
                           type="number"
-                          name="buttonBorder.right"
-                          id="buttonBorderRight"
+                          name="border.width.right"
+                          id="border.width.right"
                           onChange={formik.handleChange}
-                          value={formik.values.buttonBorder.right}
+                          value={formik?.values?.border?.width?.right}
                           className="padding-right text-sm w-7 h-5 absolute top-1/2 right-1 -translate-y-1/2 bg-[#00000000] text-center"
-                          disabled={formik.values.buttonType === "link"}
+                          disabled={formik?.values?.type === "link"}
                         />
                       </div>
                       <div className="bg-[#a3f0b7] border border-dashed border-black inset-x-9 inset-y-7 absolute">
                         <input
                           type="number"
-                          name="buttonPadding.top"
-                          id="buttonPaddingTop"
+                          name="padding.top"
+                          id="padding.top"
                           onChange={formik.handleChange}
-                          value={formik.values.buttonPadding.top}
+                          value={formik?.values?.padding?.top}
                           className="padding-top text-sm w-7 h-5 absolute top-1 left-1/2 -translate-x-1/2 bg-[#00000000] text-center"
                         />
                         <input
                           type="number"
-                          name="buttonPadding.bottom"
-                          id=""
+                          name="padding.bottom"
+                          id="padding.bottom"
                           onChange={formik.handleChange}
-                          value={formik.values.buttonPadding.bottom}
+                          value={formik?.values?.padding?.bottom}
                           className="padding-bottom text-sm w-7 h-5 absolute bottom-1 left-1/2 -translate-x-1/2 bg-[#00000000] text-center"
                         />
                         <input
                           type="number"
-                          name="buttonPadding.left"
-                          id=""
+                          name="padding.left"
+                          id="padding.left"
                           onChange={formik.handleChange}
-                          value={formik.values.buttonPadding.left}
+                          value={formik?.values?.padding?.left}
                           className="padding-left text-sm w-7 h-5 absolute top-1/2 left-1 -translate-y-1/2 bg-[#00000000] text-center"
                         />
                         <input
                           type="number"
-                          name="buttonPadding.right"
-                          id=""
+                          name="padding.right"
+                          id="padding.right"
                           onChange={formik.handleChange}
-                          value={formik.values.buttonPadding.right}
+                          value={formik?.values?.padding?.right}
                           className="padding-right text-sm w-7 h-5 absolute top-1/2 right-1 -translate-y-1/2 bg-[#00000000] text-center"
                         />
                       </div>
@@ -458,6 +1298,7 @@ const EditButtonModal = ({
                       </div>
                     </div>
                   </div>
+
                   <button
                     type="submit"
                     className="mt-4 col-span-2 w-full h-10 bg-[#21df4b] text-white border border-[#21df4b]"

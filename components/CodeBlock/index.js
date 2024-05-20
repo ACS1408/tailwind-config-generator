@@ -358,64 +358,18 @@ ${colorData
   ${buttonData
     ?.map((button) => {
       return `.btn-${
-        button?.buttonType === "filled"
+        button?.type === "filled"
           ? button?.name.toLowerCase().split(" ").join("-")
-          : button?.buttonType === "outline"
+          : button?.type === "outline"
           ? "outline-" + button?.name.toLowerCase().split(" ").join("-")
-          : button?.buttonType === "link"
+          : button?.type === "link"
           ? "link-" + button?.name.toLowerCase().split(" ").join("-")
           : ""
       } {
-    @apply ${
-      button?.bgColor
-        ? colorData?.findIndex(
-            (color) =>
-              color.hex?.toLowerCase() === button?.bgColor?.toLowerCase()
-          ) > -1
-          ? `bg-${
-              colorData[
-                colorData?.findIndex(
-                  (color) =>
-                    color.hex?.toLowerCase() === button?.bgColor?.toLowerCase()
-                )
-              ]?.name
-            }`
-          : `bg-[${button?.bgColor}]`
-        : ""
-    } ${button?.border ? borderCheck(button?.border) : ""} ${
-        button?.borderColor
-          ? colorData?.findIndex(
-              (color) =>
-                color.hex?.toLowerCase() === button?.borderColor?.toLowerCase()
-            ) > -1
-            ? `border-${
-                colorData[
-                  colorData?.findIndex(
-                    (color) =>
-                      color.hex?.toLowerCase() ===
-                      button?.borderColor?.toLowerCase()
-                  )
-                ]?.name
-              }`
-            : `border-[${button?.borderColor}]`
-          : ""
-      } ${
-        button?.textColor
-          ? colorData?.findIndex(
-              (color) =>
-                color.hex?.toLowerCase() === button?.textColor?.toLowerCase()
-            ) > -1
-            ? `text-${
-                colorData[
-                  colorData?.findIndex(
-                    (color) =>
-                      color.hex?.toLowerCase() ===
-                      button?.textColor?.toLowerCase()
-                  )
-                ]?.name
-              }`
-            : `text-[${button?.textColor}]`
-          : ""
+    @apply ${button?.bg ? `bg-${button?.bg}` : ""} ${
+        button?.border ? borderCheck(button?.border?.width) : ""
+      } ${button?.border.color ? `border-${button?.border.color}` : ""} ${
+        button?.text.color ? `text-${button?.text.color}` : ""
       } ${button?.padding ? paddingCheck(button?.padding) : ""};
   }
   `;
