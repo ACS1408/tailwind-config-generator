@@ -3,9 +3,11 @@ export const hexToRGBA = (hex) => {
     g = 0,
     b = 0,
     alpha = 1.0;
-
+  if (hex.startsWith("transparent")) {
+    (r = 0), (g = 0), (b = 0), (alpha = 0);
+  }
   // 3 digits shorthand check
-  if (hex.length === 4 || hex.length === 5) {
+  else if (hex.length === 4 || hex.length === 5) {
     r = parseInt(hex[1] + hex[1], 16);
     g = parseInt(hex[2] + hex[2], 16);
     b = parseInt(hex[3] + hex[3], 16);
@@ -29,7 +31,7 @@ export const hexToRGBA = (hex) => {
     r = parseInt(hex.slice(2, 4), 16);
     g = parseInt(hex.slice(4, 6), 16);
     b = parseInt(hex.slice(6, 8), 16);
-    alpha = parseInt(hex.slice(0, 2), 16) / 255;
+    alpha = parseInt(hex.slice(7, 8), 16) / 255;
   } else {
     // Handle invalid hex color code
     throw new Error("Invalid hex color code");
