@@ -6,6 +6,9 @@ import { useRecoilState } from "recoil";
 import { buttonState } from "@/atoms/buttonState";
 import AddColorModal from "../AddColorModal";
 import { colorState } from "@/atoms/colorState";
+import { fontWeightState } from "@/atoms/fontWeightState";
+import { pxToRem } from "../utils/pxToRem";
+import AddFontWeightModal from "../AddFontWeightModal";
 
 const CreateButtonModal = ({
   isCreateButtonModalOpen,
@@ -13,7 +16,9 @@ const CreateButtonModal = ({
 }) => {
   const [buttonData, setButtonData] = useRecoilState(buttonState);
   const [colorData, setColorData] = useRecoilState(colorState);
+  const [fontWeightData, setFontWeightData] = useRecoilState(fontWeightState);
   const [isAddColorModalOpen, setIsAddColorModalOpen] = useState(false);
+  const [isAddWeightModalOpen, setIsAddWeightModalOpen] = useState(false);
 
   const openAddColorModal = () => {
     setIsAddColorModalOpen(true);
@@ -21,6 +26,14 @@ const CreateButtonModal = ({
 
   const closeAddColorModal = () => {
     setIsAddColorModalOpen(false);
+  };
+
+  const openAddWeightModal = () => {
+    setIsAddWeightModalOpen(true);
+  };
+
+  const closeAddWeightModal = () => {
+    setIsAddWeightModalOpen(false);
   };
 
   const formik = useFormik({
@@ -159,6 +172,8 @@ const CreateButtonModal = ({
                       type="button"
                       className="capitalize"
                       style={{
+                        fontSize: `${pxToRem(formik.values.text.size)}rem`,
+                        fontWeight: formik.values.text.weight,
                         borderRadius: `${formik.values.radius.top_left}px ${formik.values.radius.top_right}px ${formik.values.radius.bottom_right}px ${formik.values.radius.bottom_left}px`,
                         backgroundColor:
                           formik?.values?.type === "filled"
@@ -1167,6 +1182,171 @@ const CreateButtonModal = ({
                       </Listbox>
                     </div>
 
+                    <div className="">
+                      <label
+                        htmlFor="size"
+                        className="text-sm font-medium mb-1 block"
+                      >
+                        Font size (px)
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="number"
+                          placeholder="Enter button font size"
+                          className="border border-[#dedede] text-[#131313] w-full h-10 px-4 placeholder:text-base placeholder:text-[#cccccc]"
+                          id="text.size"
+                          name="text.size"
+                          onChange={formik.handleChange}
+                          value={formik.values.text.size}
+                        />
+                        <span className="text-sm text-[#bbbbbb] absolute top-1/2 right-10 -translate-y-1/2">{`${pxToRem(
+                          formik.values.text.size
+                        )}rem`}</span>
+                      </div>
+                    </div>
+                    <div className="">
+                      <label
+                        htmlFor="weight"
+                        className="text-sm font-medium mb-1 block"
+                      >
+                        Font weight
+                      </label>
+                      <Listbox value={formik.values.text.weight}>
+                        <div className="relative">
+                          <Listbox.Button className="relative w-full cursor-default border border-[#dedede] h-10">
+                            <span className="block truncate text-left ps-4 text-md">
+                              {formik.values.text.weight}
+                            </span>
+                            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="12.828"
+                                height="7.414"
+                                viewBox="0 0 12.828 7.414"
+                              >
+                                <path
+                                  id="Path_1"
+                                  data-name="Path 1"
+                                  d="M1,1,6,6l5-5"
+                                  transform="translate(0.414 0.414)"
+                                  fill="none"
+                                  stroke="#000"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                />
+                              </svg>
+                            </span>
+                          </Listbox.Button>
+                          <Transition
+                            as={Fragment}
+                            leave="transition ease-in duration-100"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                          >
+                            <Listbox.Options className="absolute mt-1 max-h-56 w-full overflow-auto bg-white border border-[#dedede] outline-none p-3 no-scrollbar z-[2]">
+                              {fontWeightData.map((weight, weightIdx) => (
+                                <Fragment key={weightIdx}>
+                                  <Listbox.Option
+                                    onClick={() =>
+                                      formik.setFieldValue(
+                                        `text.weight`,
+                                        weight?.value
+                                      )
+                                    }
+                                    className={({ active, selected }) =>
+                                      `relative select-none px-3 py-2 cursor-pointer mb-1 ${
+                                        active
+                                          ? "bg-[#21df4b] text-white"
+                                          : "text-gray-900"
+                                      } ${
+                                        selected
+                                          ? "bg-[#21df4b] text-white"
+                                          : "text-gray-900"
+                                      }`
+                                    }
+                                    value={weight}
+                                  >
+                                    {({ active, selected }) => (
+                                      <>
+                                        <span
+                                          className={`flex justify-between items-center truncate ${
+                                            selected
+                                              ? "font-medium"
+                                              : "font-normal"
+                                          }`}
+                                        >
+                                          <span className="">
+                                            {weight.name}
+                                          </span>
+                                          <span
+                                            className={`text-sm ${
+                                              active
+                                                ? "!text-white"
+                                                : "text-[#bbbbbb]"
+                                            } ${
+                                              selected
+                                                ? "!text-white"
+                                                : "text-[#bbbbbb]"
+                                            }`}
+                                          >
+                                            {weight.value}
+                                          </span>
+                                        </span>
+                                      </>
+                                    )}
+                                  </Listbox.Option>
+                                </Fragment>
+                              ))}
+                              <div
+                                className={`group relative select-none px-3 py-2 cursor-pointer mb-1 hover:bg-[#21df4b] hover:text-white`}
+                                onClick={openAddWeightModal}
+                              >
+                                <>
+                                  <span
+                                    className={`flex items-center truncate gap-2`}
+                                  >
+                                    <div
+                                      className={`border rounded-full size-8 flex justify-center items-center group-hover:border-white border-[#dedede]`}
+                                    >
+                                      <svg
+                                        id="Group_2"
+                                        data-name="Group 2"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 18 18"
+                                        className="group-hover:fill-white fill-black"
+                                      >
+                                        <g id="Group_1" data-name="Group 1">
+                                          <rect
+                                            id="Rectangle_1"
+                                            data-name="Rectangle 1"
+                                            width="18"
+                                            height="18"
+                                            transform="translate(18 18) rotate(180)"
+                                            opacity="0"
+                                          />
+                                          <path
+                                            id="Path_1"
+                                            data-name="Path 1"
+                                            d="M15.25,9.25h-4.5V4.75a.75.75,0,0,0-1.5,0v4.5H4.75a.75.75,0,0,0,0,1.5h4.5v4.5a.75.75,0,0,0,1.5,0v-4.5h4.5a.75.75,0,0,0,0-1.5Z"
+                                            transform="translate(-1 -1)"
+                                          />
+                                        </g>
+                                      </svg>
+                                    </div>
+
+                                    <span className="">Add new weight</span>
+                                  </span>
+                                </>
+                              </div>
+                            </Listbox.Options>
+                          </Transition>
+                        </div>
+                      </Listbox>
+                    </div>
+
                     <div
                       className={`${style.box_model} flex flex-col justify-center items-center my-2 col-span-2`}
                     >
@@ -1352,6 +1532,10 @@ const CreateButtonModal = ({
       <AddColorModal
         isOpen={isAddColorModalOpen}
         closeModal={closeAddColorModal}
+      />
+      <AddFontWeightModal
+        isOpen={isAddWeightModalOpen}
+        closeModal={closeAddWeightModal}
       />
     </>
   );
