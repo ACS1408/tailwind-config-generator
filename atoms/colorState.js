@@ -17,6 +17,12 @@ export const colorState = atom({
       id: 2,
       name: "black",
       hex: "#000000",
+      dark_theme_hex: "#000000",
+    },
+    {
+      id: 3,
+      name: "dark",
+      hex: "#263251",
       dark_theme_hex: "#333333",
       variants: [
         {
@@ -46,29 +52,28 @@ export const colorState = atom({
       ],
     },
     {
-      id: 3,
+      id: 4,
       name: "white",
       hex: "#FFFFFF",
-    },
-    {
-      id: 4,
-      name: "dark",
-      hex: "#263251",
+      dark_theme_hex: "#FFFFFF",
     },
     {
       id: 5,
       name: "error",
       hex: "#FF0000",
+      dark_theme_hex: "#FF0000",
     },
     {
       id: 6,
       name: "warning",
       hex: "#FFD500",
+      dark_theme_hex: "#FFD500",
     },
     {
       id: 7,
       name: "success",
       hex: "#00FF00",
+      dark_theme_hex: "#00FF00",
     },
     {
       id: 8,
@@ -79,6 +84,12 @@ export const colorState = atom({
       id: 9,
       name: "shadow-md",
       hex: "#00000033",
+    },
+    {
+      id: 10,
+      name: "transparent",
+      hex: "#00000000",
+      dark_theme_hex: "#00000000",
     },
   ],
 });

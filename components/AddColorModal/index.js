@@ -47,7 +47,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
     },
     onSubmit: (values, { resetForm }) => {
       const newData = {
-        id: Math.floor(Math.random() * 9994 + 8),
+        id: Math.floor(Math.random() * 9990 + 11),
         name: values.colorName,
         hex: values.colorHex.replace("transparent", "#000000"),
         dark_theme_hex: settings?.dark_theme
