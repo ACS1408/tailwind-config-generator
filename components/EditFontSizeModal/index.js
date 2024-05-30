@@ -110,7 +110,7 @@ const EditFontSizeModal = ({ isOpen, closeModal, id, name, size }) => {
                     htmlFor="fontSizeSize"
                     className="text-[15px] text-[#131313] font-medium"
                   >
-                    Font size name
+                    Font size
                   </label>
                   <input
                     type="text"

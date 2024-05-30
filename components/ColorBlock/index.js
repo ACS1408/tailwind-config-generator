@@ -66,7 +66,7 @@ const ColorBlock = ({
         <div className="flex justify-between mt-2">
           <div className="color-details">
             <div className="color-name text-[15px] font-medium capitalize mb-1">
-              {name}
+              {name?.replaceAll(/[_-]/g, " ")}
             </div>
             <div className="color-code text-[13px] text-[#52595f]">
               {settings?.dark_theme && !darkThemeHex ? (
