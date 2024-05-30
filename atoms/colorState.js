@@ -7,11 +7,13 @@ export const colorState = atom({
       id: 0,
       name: "primary",
       hex: "#8060f6",
+      dark_theme_hex: "#8060f6",
     },
     {
       id: 1,
       name: "secondary",
       hex: "#b093fb",
+      dark_theme_hex: "#b093fb",
     },
     {
       id: 2,
@@ -79,11 +81,13 @@ export const colorState = atom({
       id: 8,
       name: "shadow-sm",
       hex: "#0000001A",
+      dark_theme_hex: "#0000001A",
     },
     {
       id: 9,
       name: "shadow-md",
       hex: "#00000033",
+      dark_theme_hex: "#00000033",
     },
     {
       id: 10,

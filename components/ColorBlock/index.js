@@ -72,7 +72,9 @@ const ColorBlock = ({
               {settings?.dark_theme && !darkThemeHex ? (
                 <span className="">Not set</span>
               ) : (
-                <span className="uppercase">{hex}</span>
+                <span className="uppercase">
+                  {settings?.dark_theme ? darkThemeHex : hex}
+                </span>
               )}
             </div>
           </div>

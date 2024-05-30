@@ -153,7 +153,7 @@ const EditColorModal = ({
                             <div className="relative w-full h-20">
                               <button
                                 type="button"
-                                className="w-full rounded-lg h-full"
+                                className="w-full rounded-lg h-full border border-[#ededed] flex justify-center items-center"
                                 style={{
                                   backgroundColor: hexToRGBA(
                                     formik.values.colorHex
@@ -270,7 +270,7 @@ const EditColorModal = ({
                         <div className="relative w-full max-h-44 h-full">
                           <button
                             type="button"
-                            className="w-full rounded-lg h-full"
+                            className="w-full rounded-lg h-full border border-[#ededed]"
                             style={{
                               backgroundColor: hexToRGBA(
                                 formik.values.colorHex
