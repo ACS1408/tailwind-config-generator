@@ -70,5 +70,15 @@ export const colorState = atom({
       name: "success",
       hex: "#00FF00",
     },
+    {
+      id: 8,
+      name: "shadow-sm",
+      hex: "#0000001A",
+    },
+    {
+      id: 9,
+      name: "shadow-md",
+      hex: "#00000033",
+    },
   ],
 });
