@@ -7,13 +7,18 @@ import ColorWidget from "@/widgets/ColorWidget";
 import FontSizeWidget from "@/widgets/FontSizeWidget";
 import FontWeightWidget from "@/widgets/FontWeightWidget";
 import SpacingWidget from "@/widgets/SpacingWidget";
+import { useState } from "react";
 import { RecoilRoot } from "recoil";
 
 export default function Home() {
+  const [saveProgress, setSaveProgress] = useState();
   return (
     <>
       <RecoilRoot>
-        <MainHeader />
+        <MainHeader
+          saveProgress={saveProgress}
+          setSaveProgress={setSaveProgress}
+        />
         <div className="pt-20 pb-24">
           <ColorWidget />
           <SpacingWidget />
@@ -22,7 +27,10 @@ export default function Home() {
           <BoxShadowWidget />
           <ButtonsWidget />
         </div>
-        <FloatingMenuBar />
+        <FloatingMenuBar
+          saveProgress={saveProgress}
+          setSaveProgress={setSaveProgress}
+        />
       </RecoilRoot>
     </>
   );

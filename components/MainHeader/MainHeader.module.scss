@@ -1,0 +1,12 @@
+.save_changes_info {
+  animation: animateSave 1s linear infinite forwards;
+}
+
+@keyframes animateSave {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
