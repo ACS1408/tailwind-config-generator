@@ -57,8 +57,10 @@ const EditColorModal = ({
       const newData = {
         id: values.id,
         name: values.colorName,
-        hex: values.colorHex,
-        dark_theme_hex: values.colorDarkHex,
+        hex: values.colorHex.replace("transparent", "#000000"),
+        dark_theme_hex: settings?.dark_theme
+          ? values.colorDarkHex.replace("transparent", "#000000")
+          : "",
         variants: values.fields,
       };
       setColorData((prev) =>

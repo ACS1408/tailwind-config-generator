@@ -49,8 +49,10 @@ const AddColorModal = ({ isOpen, closeModal }) => {
       const newData = {
         id: Math.floor(Math.random() * 9994 + 8),
         name: values.colorName,
-        hex: values.colorHex,
-        dark_theme_hex: settings?.dark_theme ? values.colorDarkHex : "",
+        hex: values.colorHex.replace("transparent", "#000000"),
+        dark_theme_hex: settings?.dark_theme
+          ? values.colorDarkHex.replace("transparent", "#000000")
+          : "",
         variants: values.fields,
       };
       setColorData((prev) => [...prev, newData]);
