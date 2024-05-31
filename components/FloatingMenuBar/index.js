@@ -24,6 +24,7 @@ const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   const openModal = () => {
     setIsOpen(true);
@@ -62,8 +63,16 @@ const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
   };
 
   useEffect(() => {
-    console.log("save");
-    settings?.autosave ? handleSaveData() : "";
+    if (!isFirstLoad) {
+      settings?.autosave ? handleSaveData() : "";
+    } else {
+      setTimeout(() => {
+        setIsFirstLoad(false);
+      }, 1000);
+    }
+    return () => {
+      setIsFirstLoad(true);
+    };
   }, [
     colorData,
     spacingData,

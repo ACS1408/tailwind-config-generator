@@ -164,9 +164,9 @@ const MainHeader = ({ saveProgress, setSaveProgress }) => {
                       d="M16.44,8.9c3.6.31,5.07,2.16,5.07,6.21v.13c0,4.47-1.79,6.26-6.26,6.26H8.74c-4.47,0-6.26-1.79-6.26-6.26v-.13c0-4.02,1.45-5.87,4.99-6.2"
                       fill="none"
                       stroke="#ffffff"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
                     />
                     <path
                       id="Path_6"
@@ -174,9 +174,9 @@ const MainHeader = ({ saveProgress, setSaveProgress }) => {
                       d="M12,15V3.62"
                       fill="none"
                       stroke="#ffffff"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
                     />
                     <path
                       id="Path_7"
@@ -184,9 +184,9 @@ const MainHeader = ({ saveProgress, setSaveProgress }) => {
                       d="M15.35,5.85,12,2.5,8.65,5.85"
                       fill="none"
                       stroke="#ffffff"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
                     />
                   </g>
                 </svg>
