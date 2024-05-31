@@ -128,3 +128,9 @@ html[style*="padding-right: 17px"] {
     padding-right: 17px;
   }
 }
+
+.cm-scroller {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

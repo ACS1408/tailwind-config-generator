@@ -2,9 +2,7 @@ import { colorState } from "@/atoms/colorState";
 import { extendState } from "@/atoms/extendState";
 import { settingState } from "@/atoms/settingState";
 import React from "react";
-import { CopyBlock, dracula } from "react-code-blocks";
 import { useRecoilState } from "recoil";
-import Container from "../utils/Container";
 import { spacingState } from "@/atoms/spacingState";
 import { pxToRem } from "../utils/pxToRem";
 import { fontWeightState } from "@/atoms/fontWeightState";
@@ -12,6 +10,10 @@ import { fontSizeState } from "@/atoms/fontSizeState";
 import { boxShadowState } from "@/atoms/boxShadowState";
 import { Tab } from "@headlessui/react";
 import { buttonState } from "@/atoms/buttonState";
+import CodeMirror from "@uiw/react-codemirror";
+import { javascript } from "@codemirror/lang-javascript";
+import { sass } from "@codemirror/lang-sass";
+import { sublime } from "@uiw/codemirror-theme-sublime";
 
 const CodeBlock = () => {
   const [colorData, setColorData] = useRecoilState(colorState);
@@ -30,21 +32,21 @@ const CodeBlock = () => {
         (value) => value === Object.values(padding)[0]
       )
     ) {
-      return `p-[${pxToRem(Object.values(padding)[0])}rem]`;
+      return ` p-[${pxToRem(Object.values(padding)[0])}rem]`;
     } else {
       if (top === bottom && left === right) {
-        return `px-[${pxToRem(left)}rem] py-[${pxToRem(top)}rem]`;
+        return ` px-[${pxToRem(left)}rem] py-[${pxToRem(top)}rem]`;
       } else if (top === bottom && left !== right) {
-        return `py-[${pxToRem(top)}rem] ps-[${pxToRem(left)}rem] pe-[${pxToRem(
+        return ` py-[${pxToRem(top)}rem] ps-[${pxToRem(left)}rem] pe-[${pxToRem(
           right
         )}rem]`;
       }
       if (left === right && top !== bottom) {
-        return `px-[${pxToRem(left)}rem] pt-[${pxToRem(top)}rem] pb-[${pxToRem(
+        return ` px-[${pxToRem(left)}rem] pt-[${pxToRem(top)}rem] pb-[${pxToRem(
           right
         )}rem]`;
       } else {
-        return `ps-[${pxToRem(left)}rem] pe-[${pxToRem(
+        return ` ps-[${pxToRem(left)}rem] pe-[${pxToRem(
           right
         )}rem] pt-[${pxToRem(top)}rem] pb-[${pxToRem(bottom)}rem]`;
       }
@@ -55,30 +57,30 @@ const CodeBlock = () => {
     if (
       Object.values(border).every((value) => value === Object.values(border)[0])
     ) {
-      return `border ${
+      return ` border${
         Object.values(border)[0] !== 1
-          ? `border-[${Object.values(border)[0]}px]`
+          ? ` border-[${Object.values(border)[0]}px]`
           : ""
       }`;
     } else {
       if (top === bottom && left === right) {
-        return `border ${left !== 1 ? `border-x-[${left}px]` : ""} ${
-          top !== 1 ? `border-y-[${top}px]` : ""
+        return ` border ${left !== 1 ? ` border-x-[${left}px]` : ""}${
+          top !== 1 ? ` border-y-[${top}px]` : ""
         }`;
       } else if (top === bottom && left !== right) {
-        return `border ${top !== 1 ? `border-y-[${top}px]` : ""} ${
-          left !== 1 ? `border-s-[${left}px]` : ""
-        } ${right !== 1 ? `border-e-[${right}px]` : ""}`;
+        return ` border${top !== 1 ? ` border-y-[${top}px]` : ""}${
+          left !== 1 ? ` border-s-[${left}px]` : ""
+        }${right !== 1 ? ` border-e-[${right}px]` : ""}`;
       }
       if (left === right && top !== bottom) {
-        return `border ${left !== 1 ? `border-x-[${left}px]` : ""} ${
-          top !== 1 ? `border-t-[${top}px]` : ""
-        } ${bottom !== 1 ? `border-b-[${bottom}px]` : ""}`;
+        return ` border${left !== 1 ? ` border-x-[${left}px]` : ""}${
+          top !== 1 ? ` border-t-[${top}px]` : ""
+        }${bottom !== 1 ? ` border-b-[${bottom}px]` : ""}`;
       } else {
-        return `border ${left !== 1 ? `border-s-[${left}px]` : ""} ${
-          right !== 1 ? `border-e-[${right}px]` : ""
-        } ${top !== 1 ? `border-t-[${top}px]` : ""} ${
-          bottom !== 1 ? `border-b-[${bottom}px]` : ""
+        return ` border${left !== 1 ? ` border-s-[${left}px]` : ""}${
+          right !== 1 ? ` border-e-[${right}px]` : ""
+        }${top !== 1 ? ` border-t-[${top}px]` : ""} ${
+          bottom !== 1 ? ` border-b-[${bottom}px]` : ""
         }`;
       }
     }
@@ -294,9 +296,7 @@ ${colorData
     })
     .join("  ")}}`
     : ""
-}
-
-@layer base {
+} @layer base {
   h1,
   .h1 {
     &:not(.ttl) {
@@ -354,7 +354,7 @@ ${colorData
     xxl:max-w-[1260px] xxxl:max-w-[1403px];
   }
   
-  ${buttonData?.length > 0 ? "//Buttons" : ""}
+  ${buttonData?.length > 0 ? "//buttons" : ""}
   ${buttonData
     ?.map((button) => {
       return `.btn-${
@@ -366,11 +366,11 @@ ${colorData
           ? "link-" + button?.name.toLowerCase().split(" ").join("-")
           : ""
       } {
-    @apply ${button?.bg ? `bg-${button?.bg}` : ""} ${
+    @apply ${button?.bg ? `bg-${button?.bg}` : ""}${
         button?.border ? borderCheck(button?.border?.width) : ""
-      } ${button?.border.color ? `border-${button?.border.color}` : ""} ${
-        button?.text.color ? `text-${button?.text.color}` : ""
-      } ${button?.padding ? paddingCheck(button?.padding) : ""};
+      }${button?.border.color ? ` border-${button?.border.color}` : ""}${
+        button?.text.color ? ` text-${button?.text.color}` : ""
+      }${button?.padding ? paddingCheck(button?.padding) : ""};
   }
   `;
     })
@@ -382,11 +382,11 @@ ${colorData
   let categories = {
     "tailwind.config.js": {
       text: tailwindConfig,
-      language: "javascript",
+      language: javascript({ jsx: false }),
     },
     "main.scss": {
       text: mainCSS,
-      language: "scss",
+      language: sass(),
     },
   };
 
@@ -397,7 +397,14 @@ ${colorData
   return (
     <div className="code-block">
       <Tab.Group>
-        <Tab.List className="flex bg-[#282a36] rounded-t-md">
+        <Tab.List
+          className="flex rounded-t-md"
+          style={{
+            backgroundColor: sublime[0][1].value.rules[0].match(
+              /#[0-9A-Fa-f]{6}|#[0-9A-Fa-f]{3}/g
+            )[0],
+          }}
+        >
           {Object.keys(categories).map((category) => (
             <Tab
               key={category}
@@ -413,15 +420,22 @@ ${colorData
             </Tab>
           ))}
         </Tab.List>
-        <Tab.Panels className="py-4 bg-[#282a36] rounded-b-md h-[calc(100vh_-_154px)] overflow-auto no-scrollbar">
+        <Tab.Panels
+          className="py-2 border-none rounded-b-md h-[calc(100vh_-138px)] overflow-auto no-scrollbar px-3"
+          style={{
+            backgroundColor: sublime[0][1].value.rules[0].match(
+              /#[0-9A-Fa-f]{6}|#[0-9A-Fa-f]{3}/g
+            )[0],
+          }}
+        >
           {Object.values(categories).map((posts, idx) => (
             <Tab.Panel key={idx}>
-              <CopyBlock
-                text={posts.text}
-                language={posts.language}
-                theme={dracula}
-                showLineNumbers
-                wrapLines
+              <CodeMirror
+                value={posts.text}
+                height="auto"
+                theme={sublime}
+                editable={false}
+                extensions={[posts.language]}
               />
             </Tab.Panel>
           ))}

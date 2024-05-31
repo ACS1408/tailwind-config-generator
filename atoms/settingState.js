@@ -5,5 +5,6 @@ export const settingState = atom({
   default: {
     variable_prefix: "wac-",
     dark_theme: false,
+    autosave: false,
   },
 });

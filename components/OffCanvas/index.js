@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import CodeBlock from "../CodeBlock";
+import { sublime } from "@uiw/codemirror-theme-sublime";
 
 const OffCanvas = ({ isOffcanvasOpen, closeOffcanvas }) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -23,7 +24,15 @@ const OffCanvas = ({ isOffcanvasOpen, closeOffcanvas }) => {
           <div
             className={`${
               isOffcanvasOpen ? "translate-x-0" : "translate-x-full"
-            } offcanvas-body bg-white border border-[#ededed] p-4 fixed top-0 right-0 max-w-[575px] w-full transition-transform duration-300 ease-in-out z-[11]`}
+            } offcanvas-body border fixed top-0 right-0 max-w-[575px] w-full transition-transform duration-300 ease-in-out z-[11]`}
+            style={{
+              backgroundColor: sublime[0][1].value.rules[0].match(
+                /#[0-9A-Fa-f]{6}|#[0-9A-Fa-f]{3}/g
+              )[0],
+              borderColor: sublime[0][1].value.rules[0].match(
+                /#[0-9A-Fa-f]{6}|#[0-9A-Fa-f]{3}/g
+              )[0],
+            }}
           >
             <button
               className="size-8 rounded-full flex justify-center items-center text-2xl absolute top-8 right-5"
@@ -36,6 +45,7 @@ const OffCanvas = ({ isOffcanvasOpen, closeOffcanvas }) => {
                   id="close"
                   width={24}
                   height={24}
+                  fill="#fff"
                 >
                   <g>
                     <path d="m13.41 12 4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
@@ -43,7 +53,9 @@ const OffCanvas = ({ isOffcanvasOpen, closeOffcanvas }) => {
                 </svg>
               </span>
             </button>
-            <h2 className="ttl text-3xl font-semibold mb-6 pt-4">Code</h2>
+            <h2 className="ttl text-3xl font-semibold mb-6 pt-8 text-white px-5">
+              Code
+            </h2>
             <CodeBlock />
           </div>
         </>,

@@ -48,7 +48,32 @@ const SettingsWidget = () => {
           />
         </Switch>
         <label htmlFor="colorName" className="text-sm font-semibold mb-1 block">
-          Enable Dark Theme?
+          Dark Theme Support
+        </label>
+      </div>
+      <div className="flex items-center gap-3 mt-4">
+        <Switch
+          checked={settings.autosave}
+          onChange={() =>
+            setSettings((prev) => ({
+              ...prev,
+              autosave: !prev.autosave,
+            }))
+          }
+          className={`${settings.autosave ? "bg-[#21DF4B]" : "bg-[#6d7c71]"}
+            relative inline-flex h-[30px] w-[56px] shrink-0 cursor-pointer rounded-full border-2 border-[transparent] transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
+        >
+          <span className="sr-only">Use setting</span>
+          <span
+            aria-hidden="true"
+            className={`${
+              settings.autosave ? "translate-x-[26px]" : "translate-x-0"
+            }
+              pointer-events-none inline-block h-[26px] w-[26px] transform rounded-full bg-white transition duration-200 ease-in-out`}
+          />
+        </Switch>
+        <label htmlFor="colorName" className="text-sm font-semibold mb-1 block">
+          Enable AutoSave
         </label>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import SettingsWidget from "@/widgets/SettingsWidget";
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import OffCanvas from "../OffCanvas";
 import { useRecoilState } from "recoil";
 import { colorState } from "@/atoms/colorState";
@@ -60,6 +60,20 @@ const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
       }, 5000);
     }, 1000);
   };
+
+  useEffect(() => {
+    console.log("save");
+    settings?.autosave ? handleSaveData() : "";
+  }, [
+    colorData,
+    spacingData,
+    fontWeightData,
+    fontSizeData,
+    boxShadowData,
+    buttonData,
+    settings,
+    isExtend,
+  ]);
 
   return (
     <div className="floating-menu-bar-wrap fixed bottom-5 left-0 w-full flex justify-center pointer-events-none">
