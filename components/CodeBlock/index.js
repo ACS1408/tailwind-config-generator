@@ -93,15 +93,20 @@ const colors = {
     .map((item) => {
       if (item.variants) {
         return `${item.name}: {
-    DEFAULT: "var(--${settings?.variable_prefix}${
-          item.name
-        })", \n    ${item?.variants
+    DEFAULT: "var(--${settings?.variable_prefix}${item.name.replaceAll(
+          "-",
+          "_"
+        )})", \n    ${item?.variants
           ?.map((variant) => {
-            return `${variant.variant}: "var(--${settings?.variable_prefix}${item.name}-${variant.variant})",\n\t`;
+            return `${variant.variant}: "var(--${
+              settings?.variable_prefix
+            }${item.name.replaceAll("-", "_")}-${variant.variant})",\n\t`;
           })
           .join("  ")}},\n`;
       } else {
-        return `${item.name}: "var(--${settings?.variable_prefix}${item.name})",\n`;
+        return `${item.name.replaceAll("-", "_")}: "var(--${
+          settings?.variable_prefix
+        }${item.name.replaceAll("-", "_")})",\n`;
       }
     })
     .join("  ")}};
@@ -234,7 +239,9 @@ module.exports = {
           return `${item?.horizontal}px ${item?.vertical}px ${item?.blur}px ${
             item?.spread
           }px ${
-            colorData?.filter((color) => color?.name === item.color)[0]?.hex ??
+            colorData?.filter(
+              (color) => color?.name?.replaceAll("_", "-") === item.color
+            )[0]?.hex ??
             colorData
               ?.filter((color) => color?.name === colorMain)[0]
               ?.variants?.filter(
@@ -371,10 +378,9 @@ ${colorData
       }${button?.border.color ? ` border-${button?.border.color}` : ""}${
         button?.text.color ? ` text-${button?.text.color}` : ""
       }${button?.padding ? paddingCheck(button?.padding) : ""};
-  }
-  `;
+  }`;
     })
-    .join("")}
+    .join("\n  ")}
 }
 
 @layer utilities {

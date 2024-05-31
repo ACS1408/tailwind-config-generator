@@ -3,17 +3,20 @@
 const colors = {
   primary: "var(--wac-primary)",
   secondary: "var(--wac-secondary)",
-  black: {
-    DEFAULT: "var(--wac-black)",
-    900: "var(--wac-black-900)",
-    800: "var(--wac-black-800)",
-    700: "var(--wac-black-700)",
+  black: "var(--wac-black)",
+  dark: {
+    DEFAULT: "var(--wac-dark)",
+    900: "var(--wac-dark-900)",
+    800: "var(--wac-dark-800)",
+    700: "var(--wac-dark-700)",
   },
   white: "var(--wac-white)",
-  dark: "var(--wac-dark)",
   error: "var(--wac-error)",
   warning: "var(--wac-warning)",
   success: "var(--wac-success)",
+  shadow_sm: "var(--wac-shadow_sm)",
+  shadow_md: "var(--wac-shadow_md)",
+  transparent: "var(--wac-transparent)",
 };
 
 const spacing = {
