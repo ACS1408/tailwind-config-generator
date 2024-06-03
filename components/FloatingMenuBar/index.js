@@ -68,7 +68,7 @@ const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
     } else {
       setTimeout(() => {
         setIsFirstLoad(false);
-      }, 1000);
+      }, 500);
     }
     return () => {
       setIsFirstLoad(true);
