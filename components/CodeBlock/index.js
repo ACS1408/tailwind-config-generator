@@ -91,22 +91,17 @@ const CodeBlock = () => {
 const colors = {
   ${colorData
     .map((item) => {
-      if (item.variants) {
-        return `${item.name}: {
-    DEFAULT: "var(--${settings?.variable_prefix}${item.name.replaceAll(
-          "-",
-          "_"
-        )})", \n    ${item?.variants
+      if (item?.variants?.length) {
+        return `${item?.name}: {
+    DEFAULT: "var(--${settings?.variable_prefix}${
+          item?.name
+        })", \n    ${item?.variants
           ?.map((variant) => {
-            return `${variant.variant}: "var(--${
-              settings?.variable_prefix
-            }${item.name.replaceAll("-", "_")}-${variant.variant})",\n\t`;
+            return `${variant?.variant}: "var(--${settings?.variable_prefix}${item?.name}-${variant?.variant})",\n\t`;
           })
           .join("  ")}},\n`;
       } else {
-        return `${item.name.replaceAll("-", "_")}: "var(--${
-          settings?.variable_prefix
-        }${item.name.replaceAll("-", "_")})",\n`;
+        return `${item?.name}: "var(--${settings?.variable_prefix}${item?.name})",\n`;
       }
     })
     .join("  ")}};
@@ -239,9 +234,7 @@ module.exports = {
           return `${item?.horizontal}px ${item?.vertical}px ${item?.blur}px ${
             item?.spread
           }px ${
-            colorData?.filter(
-              (color) => color?.name?.replaceAll("_", "-") === item.color
-            )[0]?.hex ??
+            colorData?.filter((color) => color?.name === item.color)[0]?.hex ??
             colorData
               ?.filter((color) => color?.name === colorMain)[0]
               ?.variants?.filter(
@@ -396,10 +389,10 @@ ${colorData
     },
   };
 
-const handleCopyCode = (textToCopy) => {
-  navigator.clipboard.writeText(textToCopy)
-}
-  
+  const handleCopyCode = (textToCopy) => {
+    navigator.clipboard.writeText(textToCopy);
+  };
+
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
@@ -440,7 +433,10 @@ const handleCopyCode = (textToCopy) => {
         >
           {Object.values(categories).map((posts, idx) => (
             <Tab.Panel key={idx}>
-              <button className="fixed bottom-6 right-6 z-10 bg-[#1a2734] size-12 rounded-full grid place-items-center hover:scale-110 transition-transform duration-300 ease-in-out outline-none" onClick={() => handleCopyCode(posts.text)}>
+              <button
+                className="fixed bottom-6 right-6 z-10 bg-[#1a2734] size-12 rounded-full grid place-items-center hover:scale-110 transition-transform duration-300 ease-in-out outline-none"
+                onClick={() => handleCopyCode(posts.text)}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"

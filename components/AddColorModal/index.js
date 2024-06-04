@@ -2,6 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useState } from "react";
 import style from "./AddColorModal.module.scss";
 import { useFormik } from "formik";
+import * as Yup from "yup";
 import { useRecoilState } from "recoil";
 import { colorState } from "@/atoms/colorState";
 import { settingState } from "@/atoms/settingState";
@@ -45,6 +46,28 @@ const AddColorModal = ({ isOpen, closeModal }) => {
       colorName: "",
       fields: [],
     },
+    validationSchema: Yup.object({
+      colorName: Yup.string()
+        .trim("Field should not have leading or trailing spaces")
+        .required("Color name is required")
+        .strict(true)
+        .matches(
+          /^[^-\s]+$/,
+          "Color name cannot contain hyphens (-) or spaces"
+        ),
+      fields: Yup.array().of(
+        Yup.object().shape({
+          variant: Yup.string()
+            .trim("Field should not have leading or trailing spaces")
+            .required("Variant name is required")
+            .strict(true)
+            .matches(
+              /^[^-\s]+$/,
+              "Color name cannot contain hyphens (-) or spaces"
+            ),
+        })
+      ),
+    }),
     onSubmit: (values, { resetForm }) => {
       const newData = {
         id: Math.floor(Math.random() * 9990 + 11),
@@ -284,6 +307,12 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                         onChange={formik.handleChange}
                         value={formik.values.colorName}
                       />
+                      {formik.touched?.colorName &&
+                        formik?.errors?.colorName && (
+                          <span className="form-error">
+                            {formik?.errors?.colorName}
+                          </span>
+                        )}
                       {formik.values?.fields?.length === 0 ? (
                         <button
                           type="button"
@@ -392,6 +421,12 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                                     }
                                     value={formik.values.fields[i]?.variant}
                                   />
+                                  {/* {formik.touched?.fields[i]?.variant &&
+                                    formik?.errors?.fields[i]?.variant && (
+                                      <span className="form-error">
+                                        {formik?.errors?.fields[i]?.variant}
+                                      </span>
+                                    )} */}
                                 </div>
                               </div>
                               {settings?.dark_theme ? (

@@ -20,7 +20,8 @@
     "react-color": "^2.19.3",
     "react-dom": "^18",
     "recoil": "^0.7.7",
-    "sass": "^1.74.1"
+    "sass": "^1.74.1",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",

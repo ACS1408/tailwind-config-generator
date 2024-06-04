@@ -4,6 +4,7 @@ import style from "./EditColorModal.module.scss";
 import { colorState } from "@/atoms/colorState";
 import { useRecoilState } from "recoil";
 import { useFormik } from "formik";
+import * as Yup from "yup";
 import { settingState } from "@/atoms/settingState";
 import { SketchPicker } from "react-color";
 import { decimalToHex } from "../utils/decimalToHex";
@@ -53,6 +54,28 @@ const EditColorModal = ({
       colorName: defaultName ?? "",
       fields: variants ?? [],
     },
+    validationSchema: Yup.object({
+      colorName: Yup.string()
+        .trim("Field should not have leading or trailing spaces")
+        .required("Color name is required")
+        .strict(true)
+        .matches(
+          /^[^-\s]+$/,
+          "Color name cannot contain hyphens (-) or spaces"
+        ),
+      fields: Yup.array().of(
+        Yup.object().shape({
+          variant: Yup.string()
+            .trim("Field should not have leading or trailing spaces")
+            .required("Variant name is required")
+            .strict(true)
+            .matches(
+              /^[^-\s]+$/,
+              "Color name cannot contain hyphens (-) or spaces"
+            ),
+        })
+      ),
+    }),
     onSubmit: (values) => {
       const newData = {
         id: values.id,
@@ -112,7 +135,7 @@ const EditColorModal = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle transition-all relative">
+              <Dialog.Panel className="w-full max-w-lg transform rounded-2xl bg-white p-6 text-left align-middle transition-all relative">
                 <button
                   className="size-7 flex justify-center items-center absolute top-3 right-3"
                   onClick={closeModal}
@@ -323,6 +346,12 @@ const EditColorModal = ({
                         onChange={formik.handleChange}
                         value={formik.values.colorName}
                       />
+                      {formik.touched?.colorName &&
+                        formik?.errors?.colorName && (
+                          <span className="form-error">
+                            {formik?.errors?.colorName}
+                          </span>
+                        )}
                       {formik.values?.fields?.length === 0 ? (
                         <button
                           type="button"
@@ -432,6 +461,12 @@ const EditColorModal = ({
                                     }
                                     value={formik.values.fields[i]?.variant}
                                   />
+                                  {/* {formik.touched?.fields[i]?.variant &&
+                                    formik?.errors?.fields[i]?.variant && (
+                                      <span className="form-error">
+                                        {formik?.errors?.fields[i]?.variant}
+                                      </span>
+                                    )} */}
                                 </div>
                               </div>
                               {settings?.dark_theme ? (

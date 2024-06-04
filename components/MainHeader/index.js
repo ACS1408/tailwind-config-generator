@@ -80,7 +80,7 @@ const MainHeader = ({ saveProgress, setSaveProgress }) => {
   return (
     <>
       <header className="main-header fixed py-3 w-full h-20 flex items-center bg-white border-b border-b-[#ededed] z-10">
-        <Container className="max-w-[1600px]">
+        <Container className="xxxl:max-w-[1600px] max-w-[1400px]">
           <div className="flex justify-between">
             <Link href="/">
               <figure className="max-w-48">
