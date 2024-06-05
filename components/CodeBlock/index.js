@@ -251,27 +251,27 @@ module.exports = {
 ${
   settings?.dark_theme
     ? `[data-theme='dark'] {
-${colorData
-  .map((item) => {
-    if (item?.dark_theme_hex) {
-      if (item.variants) {
-        return `  --${settings?.variable_prefix}${
-          item.name
-        }: ${item?.dark_theme_hex?.toUpperCase()}; \n  ${item?.variants
-          ?.map((variant) => {
-            return `--${settings?.variable_prefix}${item.name}-${
-              variant.variant
-            }: ${variant?.dark_theme_color?.toUpperCase()};\n`;
-          })
-          .join("  ")}`;
-      } else {
-        return `--${settings?.variable_prefix}${
-          item.name
-        }: ${item?.dark_theme_hex?.toUpperCase()};\n`;
+  ${colorData
+    .map((item) => {
+      if (item?.dark_theme_hex) {
+        if (item.variants) {
+          return ` --${settings?.variable_prefix}${
+            item.name
+          }: ${item?.dark_theme_hex?.toUpperCase()}; \n  ${item?.variants
+            ?.map((variant) => {
+              return `--${settings?.variable_prefix}${item.name}-${
+                variant.variant
+              }: ${variant?.dark_theme_color?.toUpperCase()};\n `;
+            })
+            .join(" ")}`;
+        } else {
+          return ` --${settings?.variable_prefix}${
+            item.name
+          }: ${item?.dark_theme_hex?.toUpperCase()};\n`;
+        }
       }
-    }
-  })
-  .join("")}
+    })
+    .join(" ")}
   ${boxShadowData
     .map((item) => {
       return `--${settings?.variable_prefix}shadow-${item.name.replace(
@@ -296,7 +296,9 @@ ${colorData
     })
     .join("  ")}}`
     : ""
-} @layer base {
+} 
+
+@layer base {
   h1,
   .h1 {
     &:not(.ttl) {

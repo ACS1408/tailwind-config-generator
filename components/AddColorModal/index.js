@@ -25,17 +25,28 @@ const AddColorModal = ({ isOpen, closeModal }) => {
 
   const handleAddField = () => {
     const newKey = `new-variant-${Math.floor(Math.random() * 10000) + 1}`;
-    formik.setFieldValue(
-      "fields",
-      formik.values.fields.concat({
-        id: newKey,
-        color: formik.values.colorHex,
-        dark_theme_color: formik.values.colorDarkHex,
-        variant: "",
-        picker: false,
-        dark_picker: false,
-      })
-    );
+    settings?.dark_theme
+      ? formik.setFieldValue(
+          "fields",
+          formik.values.fields.concat({
+            id: newKey,
+            color: formik.values.colorHex,
+            dark_theme_color: formik.values.colorDarkHex,
+            variant: "",
+            picker: false,
+            dark_picker: false,
+          })
+        )
+        : formik.setFieldValue(
+          "fields",
+          formik.values.fields.concat({
+            id: newKey,
+            color: formik.values.colorHex,
+            variant: "",
+            picker: false,
+            dark_picker: false,
+          })
+        );
   };
 
   const formik = useFormik({
@@ -356,7 +367,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                                   <div className="relative flex-[0_0_3rem] w-full h-[26px]">
                                     <button
                                       type="button"
-                                      className="w-full h-full absolute inset-0"
+                                      className="w-full h-full absolute inset-0 border border-[#dedede]"
                                       style={{
                                         backgroundColor: hexToRGBA(
                                           formik.values.fields[i].color
@@ -445,7 +456,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                                       <div className="relative flex-[0_0_3rem] w-full h-[26px]">
                                         <button
                                           type="button"
-                                          className="w-full h-full absolute inset-0"
+                                          className="w-full h-full absolute inset-0 border border-[#dedede]"
                                           style={{
                                             backgroundColor: hexToRGBA(
                                               formik.values.fields[i]

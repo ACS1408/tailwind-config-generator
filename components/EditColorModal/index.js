@@ -33,17 +33,28 @@ const EditColorModal = ({
 
   const handleAddField = () => {
     const newKey = `new-variant-${Math.floor(Math.random() * 10000) + 1}`;
-    formik.setFieldValue(
-      "fields",
-      formik.values.fields.concat({
-        id: newKey,
-        color: formik.values.colorHex,
-        dark_theme_color: formik.values.colorDarkHex,
-        variant: "",
-        picker: false,
-        dark_picker: false,
-      })
-    );
+    settings?.dark_theme
+      ? formik.setFieldValue(
+          "fields",
+          formik.values.fields.concat({
+            id: newKey,
+            color: formik.values.colorHex,
+            dark_theme_color: formik.values.colorDarkHex,
+            variant: "",
+            picker: false,
+            dark_picker: false,
+          })
+        )
+      : formik.setFieldValue(
+          "fields",
+          formik.values.fields.concat({
+            id: newKey,
+            color: formik.values.colorHex,
+            variant: "",
+            picker: false,
+            dark_picker: false,
+          })
+        );
   };
 
   const formik = useFormik({
@@ -395,7 +406,7 @@ const EditColorModal = ({
                                   <div className="relative flex-[0_0_3rem] w-full h-[26px]">
                                     <button
                                       type="button"
-                                      className="w-full h-full absolute inset-0"
+                                      className="w-full h-full absolute inset-0 border border-[#dedede]"
                                       style={{
                                         backgroundColor: hexToRGBA(
                                           formik.values.fields[i].color
@@ -478,12 +489,16 @@ const EditColorModal = ({
                                     <div className="relative flex-[0_0_3rem] w-full h-[26px]">
                                       <button
                                         type="button"
-                                        className="w-full h-full absolute inset-0"
+                                        className="w-full h-full absolute inset-0 border border-[#dedede]"
                                         style={{
-                                          backgroundColor: hexToRGBA(
-                                            formik.values.fields[i]
-                                              .dark_theme_color
-                                          ),
+                                          backgroundColor: formik.values.fields[
+                                            i
+                                          ].dark_theme_color
+                                            ? hexToRGBA(
+                                                formik.values.fields[i]
+                                                  .dark_theme_color
+                                              )
+                                            : "",
                                         }}
                                         onFocus={() =>
                                           formik.setFieldValue(
@@ -498,6 +513,23 @@ const EditColorModal = ({
                                           )
                                         }
                                       >
+                                        {!formik.values.fields[i]
+                                          .dark_theme_color ? (
+                                          <div className="size-full flex items-center justify-center">
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              viewBox="0 0 16 16"
+                                              id="block"
+                                              width={16}
+                                              height={16}
+                                              fill="#ff0000"
+                                            >
+                                              <path d="M8,0c-4.41113,0 -8,3.58887 -8,8c0,4.41113 3.58887,8 8,8c4.41113,0 8,-3.58887 8,-8c0,-4.41113 -3.58887,-8 -8,-8Zm-6,8c0,-1.29382 0.415771,-2.49005 1.11487,-3.47107l8.3562,8.3562c-0.981018,0.699097 -2.17725,1.11487 -3.47107,1.11487c-3.30859,0 -6,-2.69141 -6,-6Zm10.8851,3.47107l-8.3562,-8.3562c0.981018,-0.699097 2.17725,-1.11487 3.47107,-1.11487c3.30859,0 6,2.69141 6,6c0,1.29382 -0.415771,2.49005 -1.11487,3.47107Z" />
+                                            </svg>
+                                          </div>
+                                        ) : (
+                                          ""
+                                        )}
                                         <Transition
                                           appear
                                           show={

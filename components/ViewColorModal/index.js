@@ -78,8 +78,25 @@ const ViewColorModal = ({
                     {settings?.dark_theme ? (
                       <div
                         className="size-full"
-                        style={{ backgroundColor: darkThemeHex }}
-                      />
+                        style={{ backgroundColor: darkThemeHex ?? "" }}
+                      >
+                        {!darkThemeHex ? (
+                          <span className="flex flex-col items-center justify-center size-full gap-1">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 16 16"
+                              id="block"
+                              width={16}
+                              height={16}
+                              fill="#ff0000"
+                            >
+                              <path d="M8,0c-4.41113,0 -8,3.58887 -8,8c0,4.41113 3.58887,8 8,8c4.41113,0 8,-3.58887 8,-8c0,-4.41113 -3.58887,-8 -8,-8Zm-6,8c0,-1.29382 0.415771,-2.49005 1.11487,-3.47107l8.3562,8.3562c-0.981018,0.699097 -2.17725,1.11487 -3.47107,1.11487c-3.30859,0 -6,-2.69141 -6,-6Zm10.8851,3.47107l-8.3562,-8.3562c0.981018,-0.699097 2.17725,-1.11487 3.47107,-1.11487c3.30859,0 6,2.69141 6,6c0,1.29382 -0.415771,2.49005 -1.11487,3.47107Z" />
+                            </svg>
+                          </span>
+                        ) : (
+                          ""
+                        )}
+                      </div>
                     ) : null}
                   </div>
                   <div className="">
@@ -90,9 +107,25 @@ const ViewColorModal = ({
                       <b>Hex: </b> <span className="uppercase">{hex}</span>
                     </div>
                     {settings?.dark_theme ? (
-                      <div className="text-base">
-                        <b>Hex (dark): </b>{" "}
-                        <span className="uppercase">{darkThemeHex}</span>
+                      <div className="text-base flex items-center gap-1">
+                        <b>Hex (dark): </b>
+                        {darkThemeHex ? (
+                          <span className="uppercase">{darkThemeHex}</span>
+                        ) : (
+                          <span className="flex items-center gap-1">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 16 16"
+                              id="block"
+                              width={16}
+                              height={16}
+                              fill="#ff0000"
+                            >
+                              <path d="M8,0c-4.41113,0 -8,3.58887 -8,8c0,4.41113 3.58887,8 8,8c4.41113,0 8,-3.58887 8,-8c0,-4.41113 -3.58887,-8 -8,-8Zm-6,8c0,-1.29382 0.415771,-2.49005 1.11487,-3.47107l8.3562,8.3562c-0.981018,0.699097 -2.17725,1.11487 -3.47107,1.11487c-3.30859,0 -6,-2.69141 -6,-6Zm10.8851,3.47107l-8.3562,-8.3562c0.981018,-0.699097 2.17725,-1.11487 3.47107,-1.11487c3.30859,0 6,2.69141 6,6c0,1.29382 -0.415771,2.49005 -1.11487,3.47107Z" />
+                            </svg>
+                            <div>Not set</div>
+                          </span>
+                        )}
                       </div>
                     ) : null}
                     <div className="text-base">
@@ -152,11 +185,33 @@ const ViewColorModal = ({
                           <div className="pe-1">
                             <b>{item?.variant}:</b>
                           </div>
-                          <div
-                            className="w-10 h-5"
-                            style={{ backgroundColor: item?.dark_theme_color }}
-                          />
-                          <div>{item?.dark_theme_color}</div>
+                          {item?.dark_theme_color ? (
+                            <>
+                              <div
+                                className="w-10 h-5 border border-[#dedede]"
+                                style={{
+                                  backgroundColor: item?.dark_theme_color,
+                                }}
+                              />
+                              <div>{item?.dark_theme_color}</div>
+                            </>
+                          ) : (
+                            <>
+                              <div className="flex items-center justify-center">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 16 16"
+                                  id="block"
+                                  width={16}
+                                  height={16}
+                                  fill="#ff0000"
+                                >
+                                  <path d="M8,0c-4.41113,0 -8,3.58887 -8,8c0,4.41113 3.58887,8 8,8c4.41113,0 8,-3.58887 8,-8c0,-4.41113 -3.58887,-8 -8,-8Zm-6,8c0,-1.29382 0.415771,-2.49005 1.11487,-3.47107l8.3562,8.3562c-0.981018,0.699097 -2.17725,1.11487 -3.47107,1.11487c-3.30859,0 -6,-2.69141 -6,-6Zm10.8851,3.47107l-8.3562,-8.3562c0.981018,-0.699097 2.17725,-1.11487 3.47107,-1.11487c3.30859,0 6,2.69141 6,6c0,1.29382 -0.415771,2.49005 -1.11487,3.47107Z" />
+                                </svg>
+                              </div>
+                              <div>Not set</div>
+                            </>
+                          )}
                           <div className="ps-5 flex-1 text-right">
                             --{settings?.variable_prefix}
                             {name}-{item?.variant}

@@ -7,7 +7,6 @@ import { useRecoilState } from "recoil";
 import { colorState } from "@/atoms/colorState";
 import { Switch } from "@headlessui/react";
 import { extendState } from "@/atoms/extendState";
-import Image from "next/image";
 import NoDataPlaceholder from "@/components/NoDataPlaceholder";
 
 const ColorWidget = () => {
