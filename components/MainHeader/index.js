@@ -143,6 +143,30 @@ const MainHeader = ({ saveProgress, setSaveProgress }) => {
                     </svg>
                     <span>Changes saved</span>
                   </>
+                ) : saveProgress === "no_changes" ? (
+                  <>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                    >
+                      <g
+                        id="Group_2"
+                        data-name="Group 2"
+                        transform="translate(-5.859 -958.222)"
+                      >
+                        <path
+                          id="Path_11"
+                          data-name="Path 11"
+                          d="M13.857,958.222a8,8,0,0,0-8,8,.544.544,0,1,0,1.087,0,6.908,6.908,0,0,1,12.392-4.2H17.091a.544.544,0,1,0,0,1.087h3.427a.544.544,0,0,0,.544-.544v-3.427a.544.544,0,1,0-1.087,0v1.931a8,8,0,0,0-6.117-2.843ZM21.3,965.67a.544.544,0,0,0-.532.549,6.912,6.912,0,0,1-12.4,4.208h2.254a.544.544,0,1,0,0-1.087H7.145a.544.544,0,0,0-.493.544v3.426a.544.544,0,1,0,1.087,0v-1.937a8,8,0,0,0,14.12-5.154.544.544,0,0,0-.555-.549Z"
+                          transform="translate(0 0)"
+                          fill="#ababab"
+                        />
+                      </g>
+                    </svg>
+                    <span>No changes to save</span>
+                  </>
                 ) : (
                   ""
                 )}

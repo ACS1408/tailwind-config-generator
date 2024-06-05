@@ -24,7 +24,6 @@ const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   const openModal = () => {
     setIsOpen(true);
@@ -41,7 +40,6 @@ const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
   };
 
   const handleSaveData = () => {
-    setSaveProgress("progress");
     const optionsData = {
       colors: colorData,
       spacings: spacingData,
@@ -53,26 +51,44 @@ const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
       extends: isExtend,
     };
     const jsonData = JSON.stringify(optionsData);
-    localStorage.setItem("options", jsonData);
-    setTimeout(() => {
-      setSaveProgress("completed");
+    const localJson = localStorage.getItem("options");
+
+    const handleRevertStatus = () => {
       setTimeout(() => {
         setSaveProgress("");
-      }, 5000);
-    }, 1000);
+      }, 3000);
+    };
+
+    const handleSaveCompleted = () => {
+      setSaveProgress("progress");
+      localStorage.setItem("options", jsonData);
+      setTimeout(() => {
+        setSaveProgress("completed");
+        handleRevertStatus();
+      }, 500);
+    };
+
+    const handleNoSaveCompleted = () => {
+      setSaveProgress("progress");
+      setTimeout(() => {
+        setSaveProgress("no_changes");
+        handleRevertStatus();
+      }, 500);
+    };
+
+    if (localJson !== null) {
+      if (jsonData === localJson) {
+        handleNoSaveCompleted();
+      } else {
+        handleSaveCompleted();
+      }
+    } else {
+      handleSaveCompleted();
+    }
   };
 
   useEffect(() => {
-    if (!isFirstLoad) {
-      settings?.autosave ? handleSaveData() : "";
-    } else {
-      setTimeout(() => {
-        setIsFirstLoad(false);
-      }, 500);
-    }
-    return () => {
-      setIsFirstLoad(true);
-    };
+    settings?.autosave ? handleSaveData() : "";
   }, [
     colorData,
     spacingData,
