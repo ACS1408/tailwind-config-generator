@@ -22,6 +22,17 @@ const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
   const [settings, setSettings] = useRecoilState(settingState);
   const [isExtend, setIsExtend] = useRecoilState(extendState);
 
+  const [defaultColorData, setDefaultColorData] = useState(colorData);
+  const [defaultSpacingData, setDefaultSpacingData] = useState(spacingData);
+  const [defaultFontWeightData, setDefaultFontWeightData] =
+    useState(fontWeightData);
+  const [defaultFontSizeData, setDefaultFontSizeData] = useState(fontSizeData);
+  const [defaultBoxShadowData, setDefaultBoxShadowData] =
+    useState(boxShadowData);
+  const [defaultButtonData, setDefaultButtonData] = useState(buttonData);
+  const [defaultSettings, setDefaultSettings] = useState(settings);
+  const [defaultIsExtend, setDefaultIsExtend] = useState(isExtend);
+
   const [isOpen, setIsOpen] = useState(false);
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
 
@@ -39,6 +50,27 @@ const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
     setIsOffcanvasOpen(false);
   };
 
+  const handleRevertStatus = () => {
+    setTimeout(() => {
+      setSaveProgress("");
+    }, 3000);
+  };
+  const handleSaveCompleted = (data) => {
+    setSaveProgress("save_progress");
+    localStorage.setItem("options", data);
+    setTimeout(() => {
+      setSaveProgress("save_completed");
+      handleRevertStatus();
+    }, 500);
+  };
+  const handleNoSaveCompleted = () => {
+    setSaveProgress("save_progress");
+    setTimeout(() => {
+      setSaveProgress("no_changes");
+      handleRevertStatus();
+    }, 500);
+  };
+
   const handleSaveData = () => {
     const optionsData = {
       colors: colorData,
@@ -53,38 +85,32 @@ const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
     const jsonData = JSON.stringify(optionsData);
     const localJson = localStorage.getItem("options");
 
-    const handleRevertStatus = () => {
-      setTimeout(() => {
-        setSaveProgress("");
-      }, 3000);
-    };
-
-    const handleSaveCompleted = () => {
-      setSaveProgress("progress");
-      localStorage.setItem("options", jsonData);
-      setTimeout(() => {
-        setSaveProgress("completed");
-        handleRevertStatus();
-      }, 500);
-    };
-
-    const handleNoSaveCompleted = () => {
-      setSaveProgress("progress");
-      setTimeout(() => {
-        setSaveProgress("no_changes");
-        handleRevertStatus();
-      }, 500);
-    };
-
     if (localJson !== null) {
       if (jsonData === localJson) {
         handleNoSaveCompleted();
       } else {
-        handleSaveCompleted();
+        handleSaveCompleted(jsonData);
       }
     } else {
-      handleSaveCompleted();
+      handleSaveCompleted(jsonData);
     }
+  };
+
+  const handleResetLocal = () => {
+    setSaveProgress("reset_progress");
+    localStorage.setItem("options", "");
+    setColorData(defaultColorData);
+    setSpacingData(defaultSpacingData);
+    setFontWeightData(defaultFontWeightData);
+    setFontSizeData(defaultFontSizeData);
+    setBoxShadowData(defaultBoxShadowData);
+    setButtonData(defaultButtonData);
+    setSettings(defaultSettings);
+    setIsExtend(defaultIsExtend);
+    setTimeout(() => {
+      setSaveProgress("reset_completed");
+      handleRevertStatus();
+    }, 500);
   };
 
   useEffect(() => {
@@ -165,6 +191,29 @@ const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
               d="M0,0H32V32H0Z"
               fill="none"
             />
+          </svg>
+        </button>
+        <button className="btn-reset" onClick={handleResetLocal}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="26"
+            height="25.347"
+            viewBox="0 0 26 25.347"
+          >
+            <g id="noun-reset-3324723" transform="translate(-7.497 -7.5)">
+              <g
+                id="Group_1"
+                data-name="Group 1"
+                transform="translate(7.497 7.5)"
+              >
+                <path
+                  id="Path_1"
+                  data-name="Path 1"
+                  d="M33.488,12.218a1.035,1.035,0,0,1-1.025.9,1.057,1.057,0,0,1-.137-.009l-1.8-.238A12.673,12.673,0,1,1,20.176,7.5a1.035,1.035,0,1,1,0,2.07,10.618,10.618,0,1,0,8.663,4.493l-.1,2.28a1.035,1.035,0,0,1-1.033.99h-.045a1.035,1.035,0,0,1-.989-1.078l.208-4.819c0-.015.005-.029.006-.044s0-.021,0-.031,0-.01,0-.016h0c0-.021.01-.041.014-.062s.013-.061.021-.091.007-.032.012-.048.017-.037.025-.056.023-.055.037-.081.014-.032.023-.048.026-.035.039-.054.03-.044.047-.064l.015-.02c.007-.009.012-.019.02-.028s.034-.03.051-.047.032-.03.048-.045.031-.03.048-.043.044-.028.066-.042l.046-.028c.02-.011.038-.025.059-.035s.048-.019.072-.029l.053-.019c.021-.007.042-.017.064-.023s.047-.008.07-.013l.07-.011c.02,0,.039-.008.059-.009s.043,0,.064,0,.031,0,.048,0,.03.005.045.007h.05l4.544.6a1.034,1.034,0,0,1,.89,1.162Z"
+                  transform="translate(-7.497 -7.5)"
+                />
+              </g>
+            </g>
           </svg>
         </button>
       </div>
