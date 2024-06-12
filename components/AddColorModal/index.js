@@ -37,7 +37,7 @@ const AddColorModal = ({ isOpen, closeModal }) => {
             dark_picker: false,
           })
         )
-        : formik.setFieldValue(
+      : formik.setFieldValue(
           "fields",
           formik.values.fields.concat({
             id: newKey,
@@ -421,7 +421,6 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                                   <input
                                     type="text"
                                     className="w-full"
-                                    required
                                     name={`fields[${i}].variant`}
                                     placeholder="Variant name"
                                     onChange={(e) =>
@@ -432,14 +431,16 @@ const AddColorModal = ({ isOpen, closeModal }) => {
                                     }
                                     value={formik.values.fields[i]?.variant}
                                   />
-                                  {/* {formik.touched?.fields[i]?.variant &&
-                                    formik?.errors?.fields[i]?.variant && (
-                                      <span className="form-error">
-                                        {formik?.errors?.fields[i]?.variant}
-                                      </span>
-                                    )} */}
                                 </div>
                               </div>
+                              {formik?.touched?.fields &&
+                                formik?.touched?.fields[i]?.variant &&
+                                formik?.errors?.fields &&
+                                formik?.errors?.fields[i]?.variant && (
+                                  <span className="form-error">
+                                    {formik?.errors?.fields[i]?.variant}
+                                  </span>
+                                )}
                               {settings?.dark_theme ? (
                                 <>
                                   <label
