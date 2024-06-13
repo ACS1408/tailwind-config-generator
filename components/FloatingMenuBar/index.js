@@ -1,130 +1,27 @@
 import SettingsWidget from "@/widgets/SettingsWidget";
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment } from "react";
 import OffCanvas from "../OffCanvas";
-import { useRecoilState } from "recoil";
-import { colorState } from "@/atoms/colorState";
-import { spacingState } from "@/atoms/spacingState";
-import { fontWeightState } from "@/atoms/fontWeightState";
-import { fontSizeState } from "@/atoms/fontSizeState";
-import { boxShadowState } from "@/atoms/boxShadowState";
-import { buttonState } from "@/atoms/buttonState";
-import { settingState } from "@/atoms/settingState";
-import { extendState } from "@/atoms/extendState";
+import useFloatingMenuBar from "./useFloatingMenuBar";
 
 const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
-  const [colorData, setColorData] = useRecoilState(colorState);
-  const [spacingData, setSpacingData] = useRecoilState(spacingState);
-  const [fontWeightData, setFontWeightData] = useRecoilState(fontWeightState);
-  const [fontSizeData, setFontSizeData] = useRecoilState(fontSizeState);
-  const [boxShadowData, setBoxShadowData] = useRecoilState(boxShadowState);
-  const [buttonData, setButtonData] = useRecoilState(buttonState);
-  const [settings, setSettings] = useRecoilState(settingState);
-  const [isExtend, setIsExtend] = useRecoilState(extendState);
+  const {
+    handleSaveData,
+    handleResetLocal,
+    // handleKeyPress, // TODO: (UI_VAR_TODO_001): Function imported for use.
+    isOpen,
+    isOffcanvasOpen,
+    openModal,
+    closeModal,
+    openOffcanvas,
+    closeOffcanvas,
+  } = useFloatingMenuBar({ saveProgress, setSaveProgress });
 
-  const [defaultColorData, setDefaultColorData] = useState(colorData);
-  const [defaultSpacingData, setDefaultSpacingData] = useState(spacingData);
-  const [defaultFontWeightData, setDefaultFontWeightData] =
-    useState(fontWeightData);
-  const [defaultFontSizeData, setDefaultFontSizeData] = useState(fontSizeData);
-  const [defaultBoxShadowData, setDefaultBoxShadowData] =
-    useState(boxShadowData);
-  const [defaultButtonData, setDefaultButtonData] = useState(buttonData);
-  const [defaultSettings, setDefaultSettings] = useState(settings);
-  const [defaultIsExtend, setDefaultIsExtend] = useState(isExtend);
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
-  const openOffcanvas = () => {
-    setIsOffcanvasOpen(true);
-  };
-  const closeOffcanvas = () => {
-    setIsOffcanvasOpen(false);
-  };
-
-  const handleRevertStatus = () => {
-    setTimeout(() => {
-      setSaveProgress("");
-    }, 3000);
-  };
-  const handleSaveCompleted = (data) => {
-    setSaveProgress("save_progress");
-    localStorage.setItem("options", data);
-    setTimeout(() => {
-      setSaveProgress("save_completed");
-      handleRevertStatus();
-    }, 500);
-  };
-  const handleNoSaveCompleted = () => {
-    setSaveProgress("save_progress");
-    setTimeout(() => {
-      setSaveProgress("no_changes");
-      handleRevertStatus();
-    }, 500);
-  };
-
-  const handleSaveData = () => {
-    const optionsData = {
-      colors: colorData,
-      spacings: spacingData,
-      font_weights: fontWeightData,
-      font_sizes: fontSizeData,
-      box_shadows: boxShadowData,
-      buttons: buttonData,
-      settings: settings,
-      extends: isExtend,
-    };
-    const jsonData = JSON.stringify(optionsData);
-    const localJson = localStorage.getItem("options");
-
-    if (localJson !== null) {
-      if (jsonData === localJson) {
-        handleNoSaveCompleted();
-      } else {
-        handleSaveCompleted(jsonData);
-      }
-    } else {
-      handleSaveCompleted(jsonData);
-    }
-  };
-
-  const handleResetLocal = () => {
-    setSaveProgress("reset_progress");
-    localStorage.setItem("options", "");
-    setColorData(defaultColorData);
-    setSpacingData(defaultSpacingData);
-    setFontWeightData(defaultFontWeightData);
-    setFontSizeData(defaultFontSizeData);
-    setBoxShadowData(defaultBoxShadowData);
-    setButtonData(defaultButtonData);
-    setSettings(defaultSettings);
-    setIsExtend(defaultIsExtend);
-    setTimeout(() => {
-      setSaveProgress("reset_completed");
-      handleRevertStatus();
-    }, 500);
-  };
-
-  useEffect(() => {
-    settings?.autosave ? handleSaveData() : "";
-  }, [
-    colorData,
-    spacingData,
-    fontWeightData,
-    fontSizeData,
-    boxShadowData,
-    buttonData,
-    settings,
-    isExtend,
-  ]);
+  // TODO: (UI_VAR_TODO_001) This effect is for triggering manual actions using keyboard shortcuts. Import useEffect when uncommented.
+  // useEffect(() => {
+  //   document.addEventListener("keydown", handleKeyPress);
+  //   return () => document.removeEventListener("keydown", handleKeyPress);
+  // }, []);
 
   return (
     <div className="floating-menu-bar-wrap fixed bottom-5 left-0 w-full flex justify-center pointer-events-none">
