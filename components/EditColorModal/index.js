@@ -472,14 +472,16 @@ const EditColorModal = ({
                                     }
                                     value={formik.values.fields[i]?.variant}
                                   />
-                                  {/* {formik.touched?.fields[i]?.variant &&
-                                    formik?.errors?.fields[i]?.variant && (
-                                      <span className="form-error">
-                                        {formik?.errors?.fields[i]?.variant}
-                                      </span>
-                                    )} */}
                                 </div>
                               </div>
+                              {formik?.touched?.fields &&
+                                formik?.touched?.fields[i]?.variant &&
+                                formik?.errors?.fields &&
+                                formik?.errors?.fields[i]?.variant && (
+                                  <span className="form-error">
+                                    {formik?.errors?.fields[i]?.variant}
+                                  </span>
+                                )}
                               {settings?.dark_theme ? (
                                 <div
                                   className="flex items-center gap-2 mt-4"
