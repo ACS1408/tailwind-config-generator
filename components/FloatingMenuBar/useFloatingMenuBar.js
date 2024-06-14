@@ -118,6 +118,14 @@ const useFloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
     }
   };
 
+  // !FIXME: (UI_VAR_FIXME_001) This function is for triggering manual actions using keyboard shortcuts.
+  // const handleKeyPress = (e) => {
+  //   if (e.ctrlKey && e.key === "s") {
+  //     e.preventDefault();
+  //     handleSaveData();
+  //   }
+  // };
+
   useEffect(() => {
     settings?.autosave ? handleSaveData() : "";
   }, [
@@ -131,19 +139,10 @@ const useFloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
     isExtend,
   ]);
 
-  // TODO: (UI_VAR_TODO_001) This function is for triggering manual actions using keyboard shortcuts.
-  //   const handleKeyPress = (e) => {
-  //     if (e.ctrlKey && e.key === "s") {
-  //       console.log(e);
-  //       e.preventDefault();
-  //       handleSaveData();
-  //     }
-  //   };
-
   return {
     handleSaveData,
     handleResetLocal,
-    // handleKeyPress, // TODO: (UI_VAR_TODO_001) Exported the function for use.
+    // handleKeyPress, // !FIXME: (UI_VAR_FIXME_001) Exported the function for use.
     isOpen,
     isOffcanvasOpen,
     openModal,
