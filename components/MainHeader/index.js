@@ -11,10 +11,13 @@ const MainHeader = ({ saveProgress, setSaveProgress }) => {
   const { isOpen, openModal, closeModal, handleExportJSON, handleImportJSON } =
     useMainHeader();
 
+  // HOTKEY: Import JSON
   useHotkeys("ctrl+i", (e) => {
     e.preventDefault();
     openModal();
   });
+
+  // HOTKEY: Export JSON
   useHotkeys("ctrl+e", (e) => {
     e.preventDefault();
     handleExportJSON();

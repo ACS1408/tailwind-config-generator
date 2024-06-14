@@ -17,10 +17,13 @@ const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
     closeOffcanvas,
   } = useFloatingMenuBar({ saveProgress, setSaveProgress });
 
+  // HOTKEY: Save data to localStorage
   useHotkeys("ctrl+s", (e) => {
     e.preventDefault();
     handleSaveData();
   });
+
+  // HOTKEY: Reset localStorage data
   useHotkeys("ctrl+alt+r", (e) => {
     e.preventDefault();
     handleResetLocal();
