@@ -5,10 +5,20 @@ import Image from "next/image";
 import ImportDataModal from "../ImportDataModal";
 import style from "./MainHeader.module.scss";
 import useMainHeader from "./useMainHeader";
+import { useHotkeys } from "react-hotkeys-hook";
 
 const MainHeader = ({ saveProgress, setSaveProgress }) => {
   const { isOpen, openModal, closeModal, handleExportJSON, handleImportJSON } =
     useMainHeader();
+
+  useHotkeys("ctrl+i", (e) => {
+    e.preventDefault();
+    openModal();
+  });
+  useHotkeys("ctrl+e", (e) => {
+    e.preventDefault();
+    handleExportJSON();
+  });
 
   useEffect(() => {
     const storedData = localStorage.getItem("options");

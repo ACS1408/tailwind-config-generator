@@ -1,14 +1,14 @@
 import SettingsWidget from "@/widgets/SettingsWidget";
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import OffCanvas from "../OffCanvas";
 import useFloatingMenuBar from "./useFloatingMenuBar";
+import { useHotkeys } from "react-hotkeys-hook";
 
 const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
   const {
     handleSaveData,
     handleResetLocal,
-    // handleKeyPress, // !FIXME: (UI_VAR_FIXME_001): Function imported for use.
     isOpen,
     isOffcanvasOpen,
     openModal,
@@ -17,11 +17,14 @@ const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
     closeOffcanvas,
   } = useFloatingMenuBar({ saveProgress, setSaveProgress });
 
-  // !FIXME: (UI_VAR_FIXME_001) This effect is for triggering manual actions using keyboard shortcuts. Import useEffect when uncommented.
-  // useEffect(() => {
-  //   document.addEventListener("keydown", handleKeyPress);
-  //   return () => document.removeEventListener("keydown", handleKeyPress);
-  // }, []);
+  useHotkeys("ctrl+s", (e) => {
+    e.preventDefault();
+    handleSaveData();
+  });
+  useHotkeys("ctrl+alt+r", (e) => {
+    e.preventDefault();
+    handleResetLocal();
+  });
 
   return (
     <div className="floating-menu-bar-wrap fixed bottom-5 left-0 w-full flex justify-center pointer-events-none">

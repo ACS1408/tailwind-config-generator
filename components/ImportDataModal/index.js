@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import Image from "next/image";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 const ImportDataModal = ({ isOpen, closeModal, handleImportJSON }) => {
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -11,8 +11,8 @@ const ImportDataModal = ({ isOpen, closeModal, handleImportJSON }) => {
     if (selectedFile && selectedFile.type === "application/json") {
       setUploadedFile(selectedFile);
     } else {
-      alert("Please select a JSON file");
       setUploadedFile(null);
+      alert("Please select a JSON file"); // TODO: (UI_VAR_TODO_001) Replace with  toast.
     }
   };
 
@@ -22,16 +22,20 @@ const ImportDataModal = ({ isOpen, closeModal, handleImportJSON }) => {
       const reader = new FileReader();
       reader.onload = () => {
         const fileContent = reader.result;
-        // Process the JSON data as needed
         const data = JSON.parse(fileContent);
         handleImportJSON(data);
         closeModal();
       };
       reader.readAsText(uploadedFile);
     } else {
-      alert("Please select a file to upload");
+      alert("Please select a file to upload"); // TODO: (UI_VAR_TODO_001) Replace with  toast.
     }
   };
+
+  useEffect(() => {
+    !isOpen && setUploadedFile(null);
+  }, [isOpen]);
+
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
