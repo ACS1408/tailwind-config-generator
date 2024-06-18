@@ -1,35 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Container from "../utils/Container";
 import Link from "next/link";
 import Image from "next/image";
 import ImportDataModal from "../ImportDataModal";
 import style from "./MainHeader.module.scss";
 import useMainHeader from "./useMainHeader";
-import { useHotkeys } from "react-hotkeys-hook";
 
 const MainHeader = ({ saveProgress, setSaveProgress }) => {
   const { isOpen, openModal, closeModal, handleExportJSON, handleImportJSON } =
     useMainHeader();
-
-  // HOTKEY: Import JSON
-  useHotkeys("ctrl+i", (e) => {
-    e.preventDefault();
-    openModal();
-  });
-
-  // HOTKEY: Export JSON
-  useHotkeys("ctrl+e", (e) => {
-    e.preventDefault();
-    handleExportJSON();
-  });
-
-  useEffect(() => {
-    const storedData = localStorage.getItem("options");
-    if (storedData) {
-      const retrievedData = JSON.parse(storedData);
-      handleImportJSON(retrievedData);
-    }
-  }, []);
 
   return (
     <>

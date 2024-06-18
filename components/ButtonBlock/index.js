@@ -21,7 +21,7 @@ const ButtonBlock = ({ button }) => {
       <button
         key={button?.id}
         type="button"
-        className="btn capitalize"
+        className="btn capitalize h-max"
         onClick={openEditButtonModal}
         style={{
           borderRadius: `${button.radius.top_left}px ${button.radius.top_right}px ${button.radius.bottom_right}px ${button.radius.bottom_left}px`,

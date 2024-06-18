@@ -3,31 +3,22 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
 import OffCanvas from "../OffCanvas";
 import useFloatingMenuBar from "./useFloatingMenuBar";
-import { useHotkeys } from "react-hotkeys-hook";
+import KeyboardShortcutsWidget from "@/widgets/KeyboardShortcutsWidget";
 
 const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
   const {
     handleSaveData,
     handleResetLocal,
     isOpen,
+    isShortcutsOpen,
     isOffcanvasOpen,
     openModal,
     closeModal,
+    openShortcutsModal,
+    closeShortcutsModal,
     openOffcanvas,
     closeOffcanvas,
   } = useFloatingMenuBar({ saveProgress, setSaveProgress });
-
-  // HOTKEY: Save data to localStorage
-  useHotkeys("ctrl+s", (e) => {
-    e.preventDefault();
-    handleSaveData();
-  });
-
-  // HOTKEY: Reset localStorage data
-  useHotkeys("ctrl+alt+r", (e) => {
-    e.preventDefault();
-    handleResetLocal();
-  });
 
   return (
     <div className="floating-menu-bar-wrap fixed bottom-5 left-0 w-full flex justify-center pointer-events-none">
@@ -51,7 +42,11 @@ const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
           </svg>
           Generate Code
         </button>
-        <button className="btn-save-changes" onClick={handleSaveData}>
+        <button
+          className="btn-save-changes"
+          onClick={handleSaveData}
+          title="Save changes"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -67,7 +62,11 @@ const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
             />
           </svg>
         </button>
-        <button className="btn-settings" onClick={openModal}>
+        <button
+          className="btn-settings"
+          onClick={openModal}
+          title="Open settings"
+        >
           <svg
             id="Group_1"
             data-name="Group 1"
@@ -96,7 +95,11 @@ const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
             />
           </svg>
         </button>
-        <button className="btn-reset" onClick={handleResetLocal}>
+        <button
+          className="btn-reset"
+          onClick={handleResetLocal}
+          title="Reset local"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="26"
@@ -114,6 +117,29 @@ const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
                   data-name="Path 1"
                   d="M33.488,12.218a1.035,1.035,0,0,1-1.025.9,1.057,1.057,0,0,1-.137-.009l-1.8-.238A12.673,12.673,0,1,1,20.176,7.5a1.035,1.035,0,1,1,0,2.07,10.618,10.618,0,1,0,8.663,4.493l-.1,2.28a1.035,1.035,0,0,1-1.033.99h-.045a1.035,1.035,0,0,1-.989-1.078l.208-4.819c0-.015.005-.029.006-.044s0-.021,0-.031,0-.01,0-.016h0c0-.021.01-.041.014-.062s.013-.061.021-.091.007-.032.012-.048.017-.037.025-.056.023-.055.037-.081.014-.032.023-.048.026-.035.039-.054.03-.044.047-.064l.015-.02c.007-.009.012-.019.02-.028s.034-.03.051-.047.032-.03.048-.045.031-.03.048-.043.044-.028.066-.042l.046-.028c.02-.011.038-.025.059-.035s.048-.019.072-.029l.053-.019c.021-.007.042-.017.064-.023s.047-.008.07-.013l.07-.011c.02,0,.039-.008.059-.009s.043,0,.064,0,.031,0,.048,0,.03.005.045.007h.05l4.544.6a1.034,1.034,0,0,1,.89,1.162Z"
                   transform="translate(-7.497 -7.5)"
+                />
+              </g>
+            </g>
+          </svg>
+        </button>
+        <button
+          className="btn-shortcuts"
+          onClick={openShortcutsModal}
+          title="Keyboard shortcuts"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="26"
+            height="26"
+            viewBox="0 0 26 26"
+          >
+            <g id="noun-command-602262" transform="translate(-8 -8)">
+              <g id="Group_1" data-name="Group 1" transform="translate(8 8)">
+                <path
+                  id="Path_2"
+                  data-name="Path 2"
+                  d="M12.643,8a4.643,4.643,0,1,0,0,9.286h2.786v7.429H12.643a4.643,4.643,0,1,0,4.643,4.643V26.571h7.429v2.786a4.643,4.643,0,1,0,4.643-4.643H26.571V17.286h2.786a4.643,4.643,0,1,0-4.643-4.643v2.786H17.286V12.643A4.657,4.657,0,0,0,12.643,8Zm0,1.857a2.772,2.772,0,0,1,2.786,2.786v2.786H12.643a2.786,2.786,0,1,1,0-5.571Zm16.714,0a2.786,2.786,0,1,1,0,5.571H26.571V12.643A2.772,2.772,0,0,1,29.357,9.857ZM17.286,17.286h7.429v7.429H17.286Zm-4.643,9.286h2.786v2.786a2.786,2.786,0,1,1-2.786-2.786Zm13.929,0h2.786a2.786,2.786,0,1,1-2.786,2.786Z"
+                  transform="translate(-8 -8)"
                 />
               </g>
             </g>
@@ -173,6 +199,65 @@ const FloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
                     Settings
                   </Dialog.Title>
                   <SettingsWidget />
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+      <Transition appear show={isShortcutsOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          onClose={() => false && closeShortcutsModal()}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-[#00000090]" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-sm transform rounded-2xl bg-white p-6 text-left align-middle transition-all relative">
+                  <button
+                    className="size-7 flex justify-center items-center absolute top-3 right-3"
+                    onClick={closeShortcutsModal}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      id="close"
+                      width={24}
+                      height={24}
+                    >
+                      <g>
+                        <path d="m13.41 12 4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
+                      </g>
+                    </svg>
+                  </button>
+                  <Dialog.Title
+                    as="h3"
+                    className="ttl text-2xl mb-5 font-medium leading-6 text-gray-900"
+                  >
+                    Keyboard Shortcuts
+                  </Dialog.Title>
+                  <KeyboardShortcutsWidget />
                 </Dialog.Panel>
               </Transition.Child>
             </div>

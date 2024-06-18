@@ -6,7 +6,8 @@ import { fontSizeState } from "@/atoms/fontSizeState";
 import { fontWeightState } from "@/atoms/fontWeightState";
 import { settingState } from "@/atoms/settingState";
 import { spacingState } from "@/atoms/spacingState";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import { useRecoilState } from "recoil";
 
 const useMainHeader = () => {
@@ -63,6 +64,26 @@ const useMainHeader = () => {
     setSettings(data?.settings);
     setIsExtend(data?.extends);
   };
+
+  useEffect(() => {
+    const storedData = localStorage.getItem("options");
+    if (storedData) {
+      const retrievedData = JSON.parse(storedData);
+      handleImportJSON(retrievedData);
+    }
+  }, []);
+
+  // HOTKEY: Import JSON
+  useHotkeys("ctrl+i", (e) => {
+    e.preventDefault();
+    openModal();
+  });
+
+  // HOTKEY: Export JSON
+  useHotkeys("ctrl+e", (e) => {
+    e.preventDefault();
+    handleExportJSON();
+  });
 
   return { isOpen, openModal, closeModal, handleExportJSON, handleImportJSON };
 };

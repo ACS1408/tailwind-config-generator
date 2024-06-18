@@ -7,6 +7,7 @@ import { fontWeightState } from "@/atoms/fontWeightState";
 import { settingState } from "@/atoms/settingState";
 import { spacingState } from "@/atoms/spacingState";
 import { useEffect, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import { useRecoilState } from "recoil";
 
 const useFloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
@@ -31,6 +32,7 @@ const useFloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
   const [defaultIsExtend, setDefaultIsExtend] = useState(isExtend);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
 
   const openModal = () => {
@@ -38,6 +40,13 @@ const useFloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
   };
   const closeModal = () => {
     setIsOpen(false);
+  };
+
+  const openShortcutsModal = () => {
+    setIsShortcutsOpen(true);
+  };
+  const closeShortcutsModal = () => {
+    setIsShortcutsOpen(false);
   };
 
   const openOffcanvas = () => {
@@ -131,13 +140,54 @@ const useFloatingMenuBar = ({ saveProgress, setSaveProgress }) => {
     isExtend,
   ]);
 
+  // HOTKEY: Save data to localStorage
+  useHotkeys("ctrl+s", (e) => {
+    e.preventDefault();
+    handleSaveData();
+  });
+
+  // HOTKEY: Reset localStorage data
+  useHotkeys("ctrl+r", (e) => {
+    e.preventDefault();
+    handleResetLocal();
+  });
+
+  // HOTKEY: Open settings
+  useHotkeys("ctrl+p", (e) => {
+    e.preventDefault();
+    openModal();
+  });
+
+  // HOTKEY: Open keyboard shortcuts
+  useHotkeys("ctrl+k", (e) => {
+    e.preventDefault();
+    openShortcutsModal();
+  });
+
+  // HOTKEY: Open Code
+  useHotkeys("ctrl+enter", (e) => {
+    e.preventDefault();
+    openOffcanvas();
+  });
+
+  // HOTKEY: close popups
+  useHotkeys("esc", (e) => {
+    e.preventDefault();
+    if (isOffcanvasOpen) closeOffcanvas();
+    if (isOpen) closeModal();
+    if (isShortcutsOpen) closeShortcutsModal();
+  });
+
   return {
     handleSaveData,
     handleResetLocal,
     isOpen,
+    isShortcutsOpen,
     isOffcanvasOpen,
     openModal,
+    openShortcutsModal,
     closeModal,
+    closeShortcutsModal,
     openOffcanvas,
     closeOffcanvas,
   };
