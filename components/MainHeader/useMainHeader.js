@@ -85,6 +85,12 @@ const useMainHeader = () => {
     handleExportJSON();
   });
 
+  // HOTKEY: close popups
+  useHotkeys("esc", (e) => {
+    e.preventDefault();
+    if (isOpen) closeModal();
+  });
+
   return { isOpen, openModal, closeModal, handleExportJSON, handleImportJSON };
 };
 
